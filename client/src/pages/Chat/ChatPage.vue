@@ -1,16 +1,18 @@
 <script setup>
+import SidebarElement from '@/components/chat/Sidebar/SidebarElement.vue';
+
 
 </script>
 
 <template>
-	<section class="chat">
-		<section class="chat__sidebar">
-			sidebar
-		</section>
+	<main class="chat">
+		<SidebarElement/>
 		<section class="chat__messages">
 			messages
 		</section>
-	</section>
+	</main>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "./ChatPage.scss";
+</style>

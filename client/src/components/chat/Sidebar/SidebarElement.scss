@@ -1,0 +1,66 @@
+@import '@/assets/styles/variables';
+
+.sidebar {
+
+  padding: 3rem;
+  font-size: 1.4rem;
+
+}
+
+.sidebar__header {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem 3rem;
+  border-bottom: 1px solid $message_border_grey;
+  
+}
+
+
+.sidebar__logo {
+
+  background-color: $message_background_violet;
+  fill: $main_text-color_white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.sidebar__actions {
+
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sidebar__action-button {
+
+  background: none;
+  border: none;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & svg {
+    fill: $main_text-color_grey
+  }
+
+}
+
+
+.project-info {
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+
+}
