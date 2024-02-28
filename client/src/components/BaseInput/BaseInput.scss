@@ -1,0 +1,9 @@
+@import "@/assets/styles/mixins";
+@import "@/assets/styles/variables";
+
+.base-input {
+	@include myTextInput($main_text-color_white, $main_background_grey);
+	fill: $main_text-color_grey;
+	height: 40px;
+	gap: 10px;
+}

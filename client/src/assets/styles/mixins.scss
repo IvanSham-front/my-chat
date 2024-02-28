@@ -1,0 +1,58 @@
+@mixin myTextInput($textColor, $backgroundColor) {
+	display: flex;
+	position: relative;
+	background-color: $backgroundColor;
+	border-radius: 10px;
+
+	& input {
+		background-color: transparent;
+		border: none;
+		outline: none;
+		color: $textColor;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	& input[type="text"]::-webkit-input-placeholder,
+	& input[type="password"]::-webkit-input-placeholder {
+		color: $textColor;
+	}
+
+	& input[type="password"]::-moz-placeholder,
+	input[type="text"]::-moz-placeholder {
+		color: $textColor;
+	}
+
+	& input:-webkit-autofill,
+	& input:-webkit-autofill:hover,
+	& input:-webkit-autofill:focus,
+	& input:-webkit-autofill:active {
+		box-shadow: inset 0 0 0 100px $backgroundColor;
+		/* цвет вашего фона */
+		-webkit-text-fill-color: $textColor;
+		/* цвет текста */
+	}
+
+	& input[type="text"]::-ms-clear {
+		display: none;
+	}
+
+	/* удаление иконки отображения пароля в IE */
+	& input[type="password"]::-ms-reveal {
+		display: none;
+	}
+
+	& input::-webkit-credentials-auto-fill-button {
+		// Удаление иконки профиля при  автозаполнении в Safari
+		visibility: hidden;
+		position: absolute;
+		right: 0;
+	}
+}
+
+@mixin myFlex($justify: space-between) {
+	display: flex;
+	align-items: center;
+	justify-content: $justify;
+}

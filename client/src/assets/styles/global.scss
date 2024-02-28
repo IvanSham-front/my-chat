@@ -1,9 +1,8 @@
 :root {
 	font-family: "SF Pro Display", "Roboto", sans-serif;
-	line-height: 1.5;
+	line-height: 1.3;
 	font-weight: 400;
 	font-size: 16px;
-
 
 	color-scheme: light dark;
 	color: $main_text-color_white;
@@ -15,20 +14,16 @@
 	-moz-osx-font-smoothing: grayscale;
 
 	@media (max-width: 1440px) {
-    font-size: 12px;
-  }
-  @media (max-width: 768px) {
-    font-size: 8px;
-  }
-	
+		font-size: 12px;
+	}
+	@media (max-width: 768px) {
+		font-size: 8px;
+	}
 }
 
-
-
 body {
-
 	min-width: 320px;
-
+	box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: light) {

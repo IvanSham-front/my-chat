@@ -1,0 +1,15 @@
+@import "@/assets/styles/mixins";
+
+.chat-list {
+}
+
+.chat-list__search-field {
+	margin-bottom: 1rem;
+}
+
+.chat-list__items {
+	@include myFlex();
+	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
+}
