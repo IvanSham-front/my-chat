@@ -1,6 +1,6 @@
 <script setup>
 import UserBlock from '@/components/UserBlock/UserBlock.vue';
-import ChatList from '@/components/chat/chats/ChatList/ChatList.vue';
+import ChatList from '@/components/chats/ChatList/ChatList.vue';
 
 import ChatLogo from '@/assets/images/ChatLogo.vue';
 import PlusIcon from '@/assets/images/PlusIcon.vue';
@@ -56,4 +56,9 @@ const userObject = {
 	</section>
 </template>
 
-<style lang="scss" scoped>@import "./SidebarElement.scss";</style>
+<style
+	lang="scss"
+	scoped
+>
+@import "./SidebarElement.scss";
+</style>

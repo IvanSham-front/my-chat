@@ -1,11 +1,13 @@
 <script setup>
-import SidebarElement from '@/components/chat/Sidebar/SidebarElement.vue';
+import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
+import MessagesSection from '@/components/Messages/MessagesSection.vue';
+
 </script>
 
 <template>
 	<main class="chat">
 		<SidebarElement />
-		<section class="chat__messages">messages</section>
+		<MessagesSection />
 	</main>
 </template>
 

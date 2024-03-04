@@ -1,5 +1,6 @@
 @mixin myTextInput($textColor, $backgroundColor) {
 	display: flex;
+	align-items: center;
 	position: relative;
 	background-color: $backgroundColor;
 	border-radius: 10px;
@@ -57,7 +58,7 @@
 	justify-content: $justify;
 }
 
-@mixin myIconButton() {
+@mixin myIconButton($size) {
 
 	background: none;
 	border: none;
@@ -65,6 +66,9 @@
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
+	width: $size;
+	height: $size;
+
 	& svg {
 		fill: $main_text-color_grey;
 	}

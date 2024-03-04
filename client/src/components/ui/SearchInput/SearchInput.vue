@@ -12,8 +12,10 @@ defineProps({
 </script>
 
 <template>
-	<div class="base-input">
-		<SearchIcon />
+	<div class="search-input">
+		<div class="search-input__icon">
+			<SearchIcon />
+		</div>
 		<input
 			:type="type"
 			:placeholder="placeholder"

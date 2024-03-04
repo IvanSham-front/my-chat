@@ -1,0 +1,23 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.messages {
+	background-color: $main_background_grey;
+	padding: 1.9rem 2rem 1.5rem;
+}
+
+.messages__header {
+	@include myFlex();
+
+	border-bottom: 1px solid $main_background_dark-grey;
+	margin-bottom: 2rem;
+}
+
+.message__actions {
+	@include myFlex();
+	gap: 3rem;
+}
+
+.messages__action-button {
+	@include myIconButton(20px);
+}

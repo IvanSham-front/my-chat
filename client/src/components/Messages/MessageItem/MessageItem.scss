@@ -1,0 +1,40 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.message-item {
+	font-size: 1.3rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: start;
+	gap: 0.3rem;
+	&_from-me {
+		text-align: end;
+		align-items: flex-end;
+	}
+}
+
+.message-item__content {
+	@include myFlex();
+	flex-direction: column;
+
+	padding: 0.5rem;
+	max-width: 60%;
+
+	border: 1px solid $message_border_grey;
+	border-radius: 6px;
+	background: $main_background_dark-grey;
+
+	&_from-me {
+		background: $message_background_violet;
+		align-self: flex-end;
+	}
+}
+
+
+
+.message-item__date {
+	font-size: .9rem;
+	color: $main_text-color_grey;
+	padding: 0 .4rem;
+}

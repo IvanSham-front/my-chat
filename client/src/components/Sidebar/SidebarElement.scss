@@ -38,9 +38,7 @@
 }
 
 .sidebar__action-button {
-	@include myIconButton();
-	width: 20px;
-	height: 20px;
+	@include myIconButton(20px);
 }
 
 .sidebar__chat-list {
@@ -57,9 +55,7 @@
 }
 
 .sidebar__settings-button {
-	@include myIconButton();
-	width: 20px;
-	height: 20px;
+	@include myIconButton(20px);
 }
 
 .project-info {

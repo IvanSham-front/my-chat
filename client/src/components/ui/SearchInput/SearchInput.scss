@@ -1,9 +1,14 @@
 @import '@/assets/styles/mixins';
 @import '@/assets/styles/variables';
 
-.base-input {
+.search-input {
 	@include myTextInput($main_text-color_white, $main_background_grey);
+	padding: .4rem 1rem;
 	fill: $main_text-color_grey;
 	height: 40px;
 	gap: 10px;
+}
+
+.search-input__icon {
+	@include myIconButton(1.5rem);
 }
