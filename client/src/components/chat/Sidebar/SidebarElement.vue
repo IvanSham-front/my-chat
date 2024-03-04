@@ -1,7 +1,22 @@
 <script setup>
-import ChatList from "@/components/chat/chats/ChatList/ChatList.vue";
-import ChatLogo from "@/assets/images/ChatLogo.vue";
-import PlusIcon from "@/assets/images/PlusIcon.vue";
+import UserBlock from '@/components/UserBlock/UserBlock.vue';
+import ChatList from '@/components/chat/chats/ChatList/ChatList.vue';
+
+import ChatLogo from '@/assets/images/ChatLogo.vue';
+import PlusIcon from '@/assets/images/PlusIcon.vue';
+import SettingsIcon from '@/assets/images/SettingsIcon.vue';
+
+const userObject = {
+
+	id: 1,
+	login: '@ivan00v',
+	name: 'Ivan',
+	surName: 'Shamenkov',
+	status: 'My life my rules',
+	avatarUrl: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
+	isOnline: false,
+
+};
 
 </script>
 
@@ -27,10 +42,18 @@ import PlusIcon from "@/assets/images/PlusIcon.vue";
 
 		<ChatList class="sidebar__chat-list"></ChatList>
 
-		
+		<div class="sidebar__footer">
+			<UserBlock
+				class="sidebar__user-block"
+				:user="userObject"
+			/>
+
+			<button class="sidebar__settings-button">
+				<SettingsIcon />
+			</button>
+		</div>
+
 	</section>
 </template>
 
-<style lang="scss" scoped>
-@import "./SidebarElement.scss";
-</style>
+<style lang="scss" scoped>@import "./SidebarElement.scss";</style>

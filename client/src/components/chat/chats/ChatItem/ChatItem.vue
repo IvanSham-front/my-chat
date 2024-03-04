@@ -1,30 +1,26 @@
 <script setup>
-
 defineProps({
 	isActive: {
 		type: Boolean,
-		default: true
-	} 
+		default: true,
+	},
 });
 
 function lastMessageSmall(string) {
-
 	if (string.length > 30) {
-		return string.slice(0, 30) + "...";
+		return string.slice(0, 30) + '...';
 	}
 	return string;
-
 }
 
 const chatItem = {
-	avatar: "https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg",
-	name: "Ivan Ivanov",
+	avatar: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
+	name: 'Ivan Ivanov',
 	lastMessage: {
-		text: "Hello, my friend! How do you do? I am fine bla bla bla bla bla ",
+		text: 'Hello, my friend! How do you do? I am fine bla bla bla bla bla ',
 	},
 	isOnline: false,
 };
-
 </script>
 
 <template>
@@ -53,6 +49,4 @@ const chatItem = {
 	</div>
 </template>
 
-<style lang="scss" scoped>
-@import "./ChatItem";
-</style>
+<style lang="scss" scoped>@import './ChatItem';</style>

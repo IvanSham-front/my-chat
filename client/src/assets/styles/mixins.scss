@@ -14,13 +14,13 @@
 		line-height: 24px;
 	}
 
-	& input[type="text"]::-webkit-input-placeholder,
-	& input[type="password"]::-webkit-input-placeholder {
+	& input[type='text']::-webkit-input-placeholder,
+	& input[type='password']::-webkit-input-placeholder {
 		color: $textColor;
 	}
 
-	& input[type="password"]::-moz-placeholder,
-	input[type="text"]::-moz-placeholder {
+	& input[type='password']::-moz-placeholder,
+	input[type='text']::-moz-placeholder {
 		color: $textColor;
 	}
 
@@ -34,12 +34,12 @@
 		/* цвет текста */
 	}
 
-	& input[type="text"]::-ms-clear {
+	& input[type='text']::-ms-clear {
 		display: none;
 	}
 
 	/* удаление иконки отображения пароля в IE */
-	& input[type="password"]::-ms-reveal {
+	& input[type='password']::-ms-reveal {
 		display: none;
 	}
 
@@ -55,4 +55,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: $justify;
+}
+
+@mixin myIconButton() {
+
+	background: none;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	& svg {
+		fill: $main_text-color_grey;
+	}
+
 }

@@ -1,5 +1,5 @@
 <script setup>
-import SidebarElement from "@/components/chat/Sidebar/SidebarElement.vue";
+import SidebarElement from '@/components/chat/Sidebar/SidebarElement.vue';
 </script>
 
 <template>
@@ -9,6 +9,9 @@ import SidebarElement from "@/components/chat/Sidebar/SidebarElement.vue";
 	</main>
 </template>
 
-<style lang="scss" scoped>
-	@import "./ChatPage.scss";
+<style
+	lang="scss"
+	scoped
+>
+@import './ChatPage.scss';
 </style>

@@ -1,5 +1,5 @@
-import ChatPage from "@/pages/Chat/ChatPage.vue";
+import ChatPage from '@/pages/Chat/ChatPage.vue';
 
-const routes = [{ path: "/", component: ChatPage }];
+const routes = [{ path: '/', component: ChatPage }];
 
 export default routes;

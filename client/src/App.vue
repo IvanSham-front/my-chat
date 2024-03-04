@@ -1,5 +1,5 @@
 <script setup>
-	import "@/assets/styles/styles.scss";
+	import '@/assets/styles/styles.scss';
 </script>
 
 <template>
