@@ -1,9 +1,9 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, onMounted, watch } from 'vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
 import MessageItem from '../MessageItem/MessageItem.vue';
 
-defineProps({
+const props = defineProps({
 	messages: {
 		type: Array,
 		default: () => []
@@ -12,6 +12,33 @@ defineProps({
 
 const messageListRef = inject('messageListRef', null);
 
+function onScrollList(behavior) {
+
+	const scrollList = document.getElementById('scrollList');
+	const height = scrollList.scrollHeight;
+
+	setTimeout(() => {
+
+		scrollList.scrollBy({
+			left: 0,
+			top: height,
+			behavior
+		});
+
+	});
+
+
+}
+
+onMounted(() => {
+	onScrollList('auto');
+});
+
+watch(props.messages, () => {
+
+	onScrollList('smooth');
+
+});
 
 </script>
 
@@ -20,7 +47,10 @@ const messageListRef = inject('messageListRef', null);
 		ref="messageListRef"
 		class="message-list"
 	>
-		<UiScroll class="message-list__scroll">
+		<UiScroll
+			id="scrollList"
+			class="message-list__scroll"
+		>
 			<MessageItem
 				v-for="message in messages"
 				:key="message.id"
@@ -30,6 +60,9 @@ const messageListRef = inject('messageListRef', null);
 	</div>
 </template>
 
-<style scoped lang="scss">
+<style
+	scoped
+	lang="scss"
+>
 @import './MessageList';
 </style>

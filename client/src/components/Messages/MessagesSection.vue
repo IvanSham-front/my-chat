@@ -19,8 +19,13 @@ const userObject = {
 
 };
 
+const messagesList = ref(messages);
+
 const messageListRef = ref(null);
 const messageInputRef = ref(null);
+
+provide('messageListRef', messageListRef);
+provide('messageInputRef', messageInputRef);
 
 const adjustContentMessagesHeight = () => {
 	const newHeight = messageInputRef.value.scrollHeight - 45;
@@ -32,8 +37,9 @@ const adjustContentMessagesHeight = () => {
 	}
 };
 
-provide('messageListRef', messageListRef);
-provide('messageInputRef', messageInputRef);
+const onSendMessage = (messageObject) => {
+	messagesList.value.push(messageObject);
+};
 
 </script>
 
@@ -46,6 +52,7 @@ provide('messageInputRef', messageInputRef);
 				<button class="messages__action-button">
 					<SearchIcon />
 				</button>
+			
 				<button class="messages__action-button">
 					<WarningIcon />
 				</button>
@@ -56,13 +63,14 @@ provide('messageInputRef', messageInputRef);
 			<MessageList
 				:messageListRef="messageListRef"
 				class="messages__list"
-				:messages="messages"
+				:messages="messagesList"
 			/>
 
 			<MessageInput
 				:messageInputRef="messageInputRef"
 				class="messages__new-text"
 				@input="adjustContentMessagesHeight"
+				@on-send-message="onSendMessage"
 			/>
 		</div>
 	</section>

@@ -3,14 +3,19 @@ import { ref, inject } from 'vue';
 import EmojiPicker from '../EmojiPickerInput/EmojiPicker.vue';
 import { getCursorPosition, adjustCursorToEnd, setCursorPosition } from '@/mixins/withCursorFunctions';
 import UiScroll from '../scroll/UiScroll.vue';
+import SendMessageIcon from '@/assets/images/SendMessageIcon.vue';
+import moment from 'moment';
 
 const messageInputRef = inject('messageInputRef', null);
 const textFieldRef = ref(null);
 const messageText = ref('');
 
+const emit = defineEmits(['on-send-message']);
+
 const addEmojiOnMessage = (value) => {
+
 	const position = getCursorPosition(textFieldRef.value);
-	
+
 	if (position === textFieldRef.value.length) {
 
 		messageText.value = messageText.value + ' ' + value;
@@ -18,9 +23,9 @@ const addEmojiOnMessage = (value) => {
 		adjustCursorToEnd(textFieldRef.value);
 
 	} else {
-		messageText.value = 
-			messageText.value.substring(0, position) 
-			+ ` ${value} ` 
+		messageText.value =
+			messageText.value.substring(0, position)
+			+ ` ${value} `
 			+ messageText.value.substring(position, messageText.value.length);
 
 		textFieldRef.value.innerHTML = messageText.value;
@@ -31,6 +36,21 @@ const addEmojiOnMessage = (value) => {
 
 const setMessageText = (e) => {
 	messageText.value = e.target.innerText;
+};
+
+const onSendMessage = () => {
+
+	textFieldRef.value.innerHTML = '';
+	const message = {
+		id: Math.random(10000000),
+		text: messageText.value,
+		sellerId: 1,
+		isRead: true,
+		date: moment().format('HH:mm')
+	};
+
+	emit('on-send-message', message);
+	messageText.value = '';
 };
 
 </script>
@@ -48,8 +68,16 @@ const setMessageText = (e) => {
 				class="message-input__text-editor"
 				contenteditable="true"
 				@input="setMessageText"
+				@keyup.enter="onSendMessage"
 			></div>
 		</UiScroll>
+
+		<button
+			class="message-input__button-send"
+			@click="onSendMessage"
+		>
+			<SendMessageIcon />
+		</button>
 	</div>
 </template>
 
