@@ -23,8 +23,8 @@ defineProps({
 				v-if="message.attachment"
 			></div>
 			<p class="message-item__text">{{ message.text }}</p>
+			<span class="message-item__date">{{ message.date }}</span>
 		</div>
-		<span class="message-item__date">{{ message.date }}</span>
 	</div>
 </template>
 

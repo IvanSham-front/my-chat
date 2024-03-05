@@ -2,8 +2,11 @@
 @import '@/assets/styles/variables';
 
 .messages {
+	display: flex;
+	flex-direction: column;
 	background-color: $main_background_grey;
 	padding: 1.9rem 2rem 1.5rem;
+	height: 100%
 }
 
 .messages__header {
@@ -20,4 +23,20 @@
 
 .messages__action-button {
 	@include myIconButton(20px);
+}
+
+.messages__content {
+	@include myFlex();
+	flex-direction: column;
+	height: 100%;
+}
+
+.messages__list {
+	margin-bottom: 1rem;
+	flex: 1;
+}
+
+.messages__new-text {
+	position: relative;
+	bottom: 0;
 }

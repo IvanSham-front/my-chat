@@ -1,0 +1,17 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.emoji-picker {
+	position: relative;
+}
+
+.emoji-picker__toggler {
+	@include myIconButton(20px);
+}
+
+.emoji-picker__content {
+	position: absolute;
+	bottom: 1rem;
+	left: -11px;
+	height: 350px;
+}
