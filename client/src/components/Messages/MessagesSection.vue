@@ -2,7 +2,7 @@
 import { ref, provide } from 'vue';
 import UserBlock from '../UserBlock/UserBlock.vue';
 import SearchIcon from '@/assets/images/SearchIcon.vue';
-import WarningIcon from '@/assets/images/WarningIcon.vue';
+import OptionIcon from '@/assets/images/OptionIcon.vue';
 import MessageList from './MessageList/MessageList.vue';
 import MessageInput from '../ui/MessageInput/MessageInput.vue';
 import messages from './messages';
@@ -54,7 +54,7 @@ const onSendMessage = (messageObject) => {
 				</button>
 			
 				<button class="messages__action-button">
-					<WarningIcon />
+					<OptionIcon />
 				</button>
 			</div>
 		</div>

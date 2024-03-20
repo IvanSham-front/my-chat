@@ -5,8 +5,8 @@
 	display: flex;
 	flex-direction: column;
 	background-color: $main_background_grey;
-	padding: 1.9rem 2rem 1.5rem;
-	height: 100%
+	padding: 0.5rem 2rem 1.5rem;
+	height: 100%;
 }
 
 .messages__header {
@@ -14,6 +14,7 @@
 
 	border-bottom: 1px solid $main_background_dark-grey;
 	margin-bottom: 2rem;
+	padding-bottom: 0.5rem;
 }
 
 .message__actions {

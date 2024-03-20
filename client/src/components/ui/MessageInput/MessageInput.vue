@@ -43,12 +43,13 @@ const onSendMessage = () => {
 	textFieldRef.value.innerHTML = '';
 	const message = {
 		id: Math.random(10000000),
-		text: messageText.value,
+		text: messageText.value.trim(),
 		sellerId: 1,
 		isRead: true,
 		date: moment().format('HH:mm')
 	};
 
+	emit('input');
 	emit('on-send-message', message);
 	messageText.value = '';
 };
@@ -68,7 +69,7 @@ const onSendMessage = () => {
 				class="message-input__text-editor"
 				contenteditable="true"
 				@input="setMessageText"
-				@keyup.enter="onSendMessage"
+				@keyup.exact.enter="onSendMessage"
 			></div>
 		</UiScroll>
 
