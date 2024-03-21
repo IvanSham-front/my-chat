@@ -2,9 +2,13 @@
 @import '@/assets/styles/variables';
 
 .messages {
+	background-color: $main_background_grey;
+	height: 100%;
+}
+
+.messages__inner {
 	display: flex;
 	flex-direction: column;
-	background-color: $main_background_grey;
 	padding: 0.5rem 2rem 1.5rem;
 	height: 100%;
 }

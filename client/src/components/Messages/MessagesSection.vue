@@ -41,7 +41,7 @@ const onSendMessage = (messageObject) => {
 
 <template>
 	<section class="messages">
-		<div v-if="currentChat">
+		<div class="messages__inner" v-if="currentChat">
 			<div class="messages__header">
 				<UserBlock :user="companion" />
 

@@ -1,3 +1,9 @@
+const colors = ['#FFADAD', '#FFD6A5', '#FFD6A5', '#f2cc8f', '#06d6a0', '#9BF6FF', '#A0C4FF', '#BDB2FF', '#FFC6FF'];
+
+const randomColor = () => {
+	return colors[Math.floor(Math.random() * colors.length)];
+};
+
 const users = [
 	{
 		id: 1,
@@ -6,6 +12,7 @@ const users = [
 		surName: 'Shamenkov',
 		status: '',
 		avatarUrl: '',
+		color: randomColor(),
 		isOnline: true,
 	},
 	{
@@ -15,6 +22,7 @@ const users = [
 		surName: 'Shamenkova',
 		status: 'My life my rules',
 		avatarUrl: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
+		color: randomColor(),
 		isOnline: false,
 	},
 	{
@@ -24,6 +32,7 @@ const users = [
 		surName: 'Posdnyakov',
 		status: '',
 		avatarUrl: '',
+		color: randomColor(),
 		isOnline: false,
 	},
 	{
@@ -33,7 +42,8 @@ const users = [
 		surName: 'Onuchin',
 		status: '',
 		avatarUrl: '',
-		isOnline: false,
+		color: randomColor(),
+		isOnline: true,
 	},
 	{
 		id: 5,
@@ -42,6 +52,7 @@ const users = [
 		surName: 'Creator',
 		status: '',
 		avatarUrl: '',
+		color: randomColor(),
 		isOnline: false,
 	},
 	{
@@ -51,6 +62,7 @@ const users = [
 		surName: 'Khoroshev',
 		status: '',
 		avatarUrl: '',
+		color: randomColor(),
 		isOnline: false,
 	},
 ];

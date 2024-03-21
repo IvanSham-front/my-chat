@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
 
 const store = useStore();
 
@@ -46,16 +47,10 @@ const selectCurrentChat = (chat) => {
 		:class="{ 'chat-item_active': isActive }"
 		@click="selectCurrentChat(chatItem)"
 	>
-		<div class="chat-item__avatar">
-			<img
-				class="chat-item__avatar-img"
-				v-if="companion.avatarUrl"
-				:src="companion.avatarUrl"
-				:alt="companionFullName"
-			/>
-			<div v-else class="chat-item__avatar-circle"></div>
-			<div class="chat-item__online-status"></div>
-		</div>
+		<UiAvatar
+			class="chat-item__avatar"
+			:user="companion"
+		/>
 
 		<div class="chat-item__description">
 			<h4 class="chat-item__name">

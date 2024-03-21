@@ -1,4 +1,6 @@
 <script setup>
+import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
+
 defineProps({
 	user: {
 		type: Object,
@@ -12,18 +14,11 @@ function getFullUserName(user) {
 
 <template>
 	<div class="user-block">
-		<div class="user-block__avatar">
-			<img
-				class="user-block__avatar-img"
-				:src="user.avatarUrl"
-				:alt="user.name"
-			/>
-			<div
-				v-if="user.isOnline"
-				class="user-block__online-status"
-			></div>
-		</div>
-		
+		<UiAvatar
+			class="user-block__avatar"
+			:user="user"
+		/>
+
 		<div class="user-block__info">
 			<h4 class="user-block__name">
 				{{ getFullUserName(user) }}
