@@ -1,8 +1,13 @@
 <script setup>
-defineProps({
-	isActive: {
-		type: Boolean,
-		default: true,
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+const props = defineProps({
+	chatItem: {
+		type: Object,
+		required: true
 	},
 });
 
@@ -13,33 +18,48 @@ function lastMessageSmall(string) {
 	return string;
 }
 
-const chatItem = {
-	avatar: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
-	name: 'Ivan Ivanov',
-	lastMessage: {
-		text: 'Hello, my friend! How do you do? I am fine bla bla bla bla bla ',
-	},
-	isOnline: false,
+const currentChat = computed(() => store.getters.currentChat);
+
+const isActive = computed(() => {
+	if (!currentChat.value) {
+		return false;
+	}
+	return currentChat.value.id === props.chatItem.id;
+});
+
+const companion = computed(() => {
+	const companionId = props.chatItem.members.find((item) => item !== 1);
+	return store.getters.getUserById(companionId);
+});
+
+const companionFullName = companion.value ? `${companion.value.name} ${companion.value.surName}` : '';
+
+const selectCurrentChat = (chat) => {
+	store.dispatch('selectCurrentChat', chat);
 };
+
 </script>
 
 <template>
 	<div
 		class="chat-item"
 		:class="{ 'chat-item_active': isActive }"
+		@click="selectCurrentChat(chatItem)"
 	>
 		<div class="chat-item__avatar">
 			<img
 				class="chat-item__avatar-img"
-				:src="chatItem.avatar"
-				:alt="chatItem.name"
+				v-if="companion.avatarUrl"
+				:src="companion.avatarUrl"
+				:alt="companionFullName"
 			/>
+			<div v-else class="chat-item__avatar-circle"></div>
 			<div class="chat-item__online-status"></div>
 		</div>
 
 		<div class="chat-item__description">
 			<h4 class="chat-item__name">
-				{{ chatItem.name }}
+				{{ companionFullName }}
 			</h4>
 
 			<span class="chat-item__last-message">
@@ -49,4 +69,9 @@ const chatItem = {
 	</div>
 </template>
 
-<style lang="scss" scoped>@import './ChatItem';</style>
+<style
+	lang="scss"
+	scoped
+>
+@import './ChatItem';
+</style>

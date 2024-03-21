@@ -1,25 +1,21 @@
 <script setup>
-import { ref, provide } from 'vue';
+import { ref, provide, computed } from 'vue';
+import { useStore } from 'vuex';
 import UserBlock from '../UserBlock/UserBlock.vue';
 import SearchIcon from '@/assets/images/SearchIcon.vue';
 import OptionIcon from '@/assets/images/OptionIcon.vue';
 import MessageList from './MessageList/MessageList.vue';
 import MessageInput from '../ui/MessageInput/MessageInput.vue';
-import messages from './messages';
 
-const userObject = {
+const store = useStore();
 
-	id: 2,
-	login: '@anna_sham',
-	name: 'Anna',
-	surName: 'Shamenkova',
-	status: 'My life my rules',
-	avatarUrl: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
-	isOnline: false,
+const messagesList = computed(() => store.getters.messagesList);
+const currentChat = computed(() => store.getters.currentChat);
 
-};
-
-const messagesList = ref(messages);
+const companion = computed(() => {
+	const companionId = currentChat.value.members.find((item) => item !== 1);
+	return store.getters.getUserById(companionId);
+});
 
 const messageListRef = ref(null);
 const messageInputRef = ref(null);
@@ -31,7 +27,7 @@ const adjustContentMessagesHeight = () => {
 	const newHeight = messageInputRef.value.scrollHeight - 45;
 
 	if (newHeight > 3) {
-		messageListRef.value.style.maxHeight = `calc(100vh - 16rem - ${ newHeight }px)`;
+		messageListRef.value.style.maxHeight = `calc(100vh - 16rem - ${newHeight}px)`;
 	} else {
 		messageListRef.value.style.maxHeight = 'calc(100vh - 16rem)';
 	}
@@ -45,38 +41,43 @@ const onSendMessage = (messageObject) => {
 
 <template>
 	<section class="messages">
-		<div class="messages__header">
-			<UserBlock :user="userObject" />
+		<div v-if="currentChat">
+			<div class="messages__header">
+				<UserBlock :user="companion" />
 
-			<div class="message__actions">
-				<button class="messages__action-button">
-					<SearchIcon />
-				</button>
-			
-				<button class="messages__action-button">
-					<OptionIcon />
-				</button>
+				<div class="message__actions">
+					<button class="messages__action-button">
+						<SearchIcon />
+					</button>
+
+					<button class="messages__action-button">
+						<OptionIcon />
+					</button>
+				</div>
 			</div>
-		</div>
 
-		<div class="messages__content">
-			<MessageList
-				:messageListRef="messageListRef"
-				class="messages__list"
-				:messages="messagesList"
-			/>
+			<div class="messages__content">
+				<MessageList
+					:messageListRef="messageListRef"
+					class="messages__list"
+					:messages="messagesList"
+				/>
 
-			<MessageInput
-				:messageInputRef="messageInputRef"
-				class="messages__new-text"
-				@input="adjustContentMessagesHeight"
-				@on-send-message="onSendMessage"
-			/>
+				<MessageInput
+					:messageInputRef="messageInputRef"
+					class="messages__new-text"
+					@input="adjustContentMessagesHeight"
+					@on-send-message="onSendMessage"
+				/>
+			</div>
 		</div>
 	</section>
 
 </template>
 
-<style lang="scss" scoped >
+<style
+	lang="scss"
+	scoped
+>
 @import './MessagesSection';
 </style>

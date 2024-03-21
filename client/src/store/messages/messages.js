@@ -1,12 +1,3 @@
-// const messageObject = {
-
-// 	text: 'loremIpsum',
-// 	sellerId: 1,
-// 	isRead: true,
-// 	// attachments: '',
-
-// };
-
 const messages = [
 	{
 		id: '12',
@@ -74,5 +65,23 @@ const messages = [
 	},
 ];
 
-
-export default messages;
+export default {
+	state: {
+		list: messages,
+	},
+	mutations: {
+		set_list(state, payload) {
+			state.list = payload;
+		},
+	},
+	actions: {
+		setList(context, payload) {
+			context.commit('set_list', payload);
+		},
+	},
+	getters: {
+		messagesList(state) {
+			return state.list;
+		},
+	},
+};

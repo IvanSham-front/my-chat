@@ -1,8 +1,13 @@
 import { createStore } from 'vuex';
+import chatModule from './chats/chats';
+import users from './users/users';
+import messages from './messages/messages';
 
 const store = createStore({
 	modules: {
-		// тут будут все модули
+		chats: chatModule,
+		users,
+		messages
 	},
 });
 
