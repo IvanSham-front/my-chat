@@ -33,7 +33,7 @@ const companion = computed(() => {
 	return store.getters.getUserById(companionId);
 });
 
-const companionFullName = companion.value ? `${companion.value.name} ${companion.value.surName}` : '';
+const companionFullName = computed(() => companion.value ? `${companion.value.name} ${companion.value.surName}` : '');
 
 const selectCurrentChat = (chat) => {
 	store.dispatch('selectCurrentChat', chat);
