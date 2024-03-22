@@ -3,6 +3,7 @@ import chatModule from './chats/chats';
 import users from './users/users';
 import messages from './messages/messages';
 import colors from './colors/colors';
+import sidebar from './sidebar/sidebar';
 
 const store = createStore({
 	modules: {
@@ -10,6 +11,7 @@ const store = createStore({
 		users,
 		messages,
 		colors,
+		sidebar
 	},
 });
 

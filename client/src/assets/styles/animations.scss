@@ -1,0 +1,41 @@
+@keyframes shrink {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(0.7);
+	}
+}
+
+@keyframes slideFromLeft {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-100vw);
+	}
+}
+
+.animation-shrink {
+	animation-name: shrink;
+	animation-duration: .3s;
+}
+
+.animation-grow {
+	animation-name: shrink;
+	animation-duration: .3s;
+	animation-direction: reverse;
+}
+
+.animation-slide-left-show {
+	animation-name: slideFromLeft;
+	animation-duration: .3s;
+	animation-duration: reverse;
+}
+
+.animation-slide-left-hide {
+	animation-name: slideFromLeft;
+	animation-duration: .3s;
+}
+
