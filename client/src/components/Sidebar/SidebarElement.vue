@@ -7,22 +7,14 @@ import ChatList from '@/components/chats/ChatList/ChatList.vue';
 import ChatLogo from '@/assets/images/ChatLogo.vue';
 import PlusIcon from '@/assets/images/PlusIcon.vue';
 import SettingsIcon from '@/assets/images/SettingsIcon.vue';
+import ArrowLeftIcon from '@/assets/images/ArrowLeftIcon.vue';
+import UserSettings from '../UseSettings/UserSettings.vue';
 
 const store = useStore();
 const mainContentRef = ref(null);
 const settingsRef = ref(null);
 
-const userObject = {
-
-	id: 1,
-	login: '@ivan00v',
-	name: 'Ivan',
-	surName: 'Shamenkov',
-	status: 'My life my rules',
-	avatarUrl: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
-	isOnline: false,
-
-};
+const authUser = computed(() => store.getters.authUser);
 
 const isShowSettings = computed(() => store.getters.isShowSettings);
 
@@ -86,7 +78,7 @@ watch(isShowSettings, (newValue, oldValue) => {
 			<div class="sidebar__footer">
 				<UserBlock
 					class="sidebar__user-block"
-					:user="userObject"
+					:user="authUser"
 				/>
 
 				<button
@@ -103,9 +95,18 @@ watch(isShowSettings, (newValue, oldValue) => {
 			class="sidebar__settings"
 			ref="settingsRef"
 		>
-			<button @click="toggleShowSettings">@back</button>
+			<div class="sidebar__settings-header">
+				<button
+					@click="toggleShowSettings"
+					class="sidebar__settings-button"
+				>
+					<ArrowLeftIcon />
+				</button>
 
-			<h1>BIG SETTINGS</h1>
+				<h2>Edit profile</h2>
+			</div>
+
+			<UserSettings />
 		</div>
 
 	</section>

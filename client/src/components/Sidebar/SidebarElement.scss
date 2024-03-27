@@ -18,6 +18,8 @@
 	width: 100%;
 	position: absolute;
 	top: 0;
+	left: 0;
+	padding: 1rem 2rem 1.5rem;
 	
 	transform: translateX(-100vw);
 	transition: .3s;
@@ -73,8 +75,14 @@
 	border-top: 1px solid $message_border_grey;
 }
 
+.sidebar__settings-header {
+	@include myFlex();
+	justify-content: start;
+	gap: 1.5rem;
+}
+
 .sidebar__settings-button {
-	@include myIconButton(20px);
+	@include myIconButton(25px);
 }
 
 .project-info {

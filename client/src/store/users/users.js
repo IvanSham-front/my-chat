@@ -10,8 +10,8 @@ const users = [
 		login: '@ivan',
 		name: 'Ivan',
 		surName: 'Shamenkov',
-		status: '',
-		avatarUrl: '',
+		status: 'my life my rules',
+		avatarUrl: 'https://img.freepik.com/premium-photo/3d-cat-avatar-online-games-web-account-avatar_147351-46.jpg',
 		color: randomColor(),
 		isOnline: true,
 	},
@@ -70,21 +70,31 @@ const users = [
 export default {
 	state: {
 		list: users,
+		authUser: users[0],
 	},
 	mutations: {
 		set_list(state, payload) {
 			state.list = payload;
 		},
+		set_auth_user(state, payload) {
+			state.authUser = payload;
+		},
 	},
 	actions: {
-		setUsersList(context, payload) {
-			context.commit('set_list', payload);
+		setUsersList({ commit }, payload) {
+			commit('set_list', payload);
+		},
+		setAuthUser({ commit }, payload) {
+			commit('set_auth_user', payload);
 		},
 	},
 	getters: {
 		getUserById: (state) => (id) => {
 			const user = state.list.find((item) => item.id === id);
 			return user || null;
+		},
+		authUser(state) {
+			return state.authUser;
 		},
 	},
 };
