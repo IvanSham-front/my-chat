@@ -1,9 +1,12 @@
 <script setup>
 import { useStore } from 'vuex';
-import { computed, ref } from 'vue';
+import { computed, ref, inject } from 'vue';
 import SearchInput from '@/components/ui/SearchInput/SearchInput.vue';
 import ChatItem from '../ChatItem/ChatItem.vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
+import PlusIcon from '@/assets/images/PlusIcon.vue';
+
+const modal = inject('modal');
 
 const store = useStore();
 
@@ -46,15 +49,30 @@ const filterChatList = computed(() => {
 
 });
 
+const openModal = () => {
+
+	modal.open({
+		modalName: 'TestModal',
+		modalProps: ''
+	});
+
+};
+
 </script>
 
 <template>
 	<div class="chat-list">
-		<SearchInput
-			class="chat-list__search-field"
-			placeholder="search here..."
-			v-model="searchValue"
-		/>
+		<div class="chat-list__header">
+			<SearchInput
+				class="chat-list__search-field"
+				placeholder="search here..."
+				v-model="searchValue"
+			/>
+			<button class="chat-list__add-button" @click="openModal">
+				<PlusIcon />
+			</button>
+		</div>
+
 
 		<UiScroll class="chat-list__items">
 			<ChatItem

@@ -30,7 +30,6 @@ const handleInputChange = (e) => {
 
 const isActive = computed(() => !!props.value);
 
-
 </script>
 
 <template>

@@ -42,6 +42,7 @@ const authUser = computed(() => store.getters.authUser);
 			:id="'username'"
 			:required="true"
 		/>
+
 	</div>
 </template>
 

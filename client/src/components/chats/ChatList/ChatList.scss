@@ -1,12 +1,21 @@
+@import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
 .chat-list {
-
 }
 
-.chat-list__search-field {
+.chat-list__header {
+	@include myFlex();
+	gap: .5rem;
+	align-items: center;
 	margin-bottom: 1rem;
+
 }
+
+.chat-list__add-button {
+	@include myIconButton(20px);
+}
+
 
 .chat-list__items {
 	@include myFlex(start);

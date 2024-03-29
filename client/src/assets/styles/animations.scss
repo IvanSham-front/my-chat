@@ -1,41 +1,35 @@
-@keyframes shrink {
-	from {
-		transform: scale(1);
-	}
 
-	to {
-		transform: scale(0.7);
-	}
+.shrink-enter-active,
+.shrink-leave-active {
+	transition: all 0.3s ease;
 }
 
-@keyframes slideFromLeft {
-	from {
-		transform: translateX(0);
-	}
-	to {
-		transform: translateX(-100vw);
-	}
+.shrink-enter-from,
+.shrink-leave-to {
+	transform: scale(0.7);
+	opacity: 0;
+}
+///
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease;
 }
 
-.animation-shrink {
-	animation-name: shrink;
-	animation-duration: .3s;
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
 
-.animation-grow {
-	animation-name: shrink;
-	animation-duration: .3s;
-	animation-direction: reverse;
+///
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+	transition: all 0.3s ease;
 }
 
-.animation-slide-left-show {
-	animation-name: slideFromLeft;
-	animation-duration: .3s;
-	animation-duration: reverse;
-}
 
-.animation-slide-left-hide {
-	animation-name: slideFromLeft;
-	animation-duration: .3s;
+.slide-left-enter-from,
+.slide-left-leave-to {
+	transform: translateX(-100vw);
 }
-
