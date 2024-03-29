@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import { useStore } from 'vuex';
 import CameraIcon from '@/assets/images/CameraIcon.vue';
 
+const modal = inject('modal');
 const store = useStore();
 
 const fileInputRef = ref(null);
@@ -18,34 +19,40 @@ const onChangeFile = (e) => {
 	const fileValue = e.target.files[0];
 	const fileReader = new FileReader();
 	fileReader.onload = function () {
-		avatarSrc.value = fileReader.result;
+		modal.open({
+			modalName: 'AvatarUpdater',
+			modalProps: {
+				photo: fileReader.result
+			}
+		});
 		
 	};
 
 	fileReader.readAsDataURL(fileValue);
 };
 
+
 </script>
 
 <template>
-	<div class="avatar-updater">
+	<div class="avatar-uploader">
 		<input
 			type="file"
-			class="avatar-updater__input"
+			class="avatar-uploader__input"
 			accept="image/*"
 			ref="fileInputRef"
 			@change="onChangeFile"
 		/>
 
 		<button
-			class="avatar-updater__controller"
+			class="avatar-uploader__controller"
 			@click.prevent="openUploader"
 		>
-			<div class="avatar-updater__controller-layout">
+			<div class="avatar-uploader__controller-layout">
 				<CameraIcon />
 			</div>
 			<img
-				class="avatar-updater__img"
+				class="avatar-uploader__img"
 				:src="avatarSrc"
 			/>
 		</button>
@@ -53,5 +60,5 @@ const onChangeFile = (e) => {
 </template>
 
 <style scoped lang="scss">
-@import './AvatarUpdater.scss';
+@import './AvatarUploader.scss';
 </style>

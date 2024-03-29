@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import TextInput from '@/components/ui/TextInput/TextInput.vue';
-import AvatarUpdater from '@/components/ui/AvatarUpdater/AvatarUpdater.vue';
+import AvatarUploader from '@/components/ui/AvatarUploader/AvatarUploader.vue';
 
 const store = useStore();
 
@@ -13,7 +13,7 @@ const authUser = computed(() => store.getters.authUser);
 <template>
 	<div class="user-settings">
 
-		<AvatarUpdater />
+		<AvatarUploader />
 
 		<TextInput
 			:label-text="'First name'"

@@ -1,11 +1,11 @@
 @import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
-.avatar-updater__input {
+.avatar-uploader__input {
 	display: none;
 }
 
-.avatar-updater__controller {
+.avatar-uploader__controller {
 	width: 125px;
 	height: 125px;
 	border: none;
@@ -14,7 +14,7 @@
 	cursor: pointer;
 }
 
-.avatar-updater__controller-layout {
+.avatar-uploader__controller-layout {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -31,13 +31,13 @@
 	}
 }
 
-.avatar-updater__controller:hover {
-	.avatar-updater__controller-layout {
+.avatar-uploader__controller:hover {
+	.avatar-uploader__controller-layout {
 		opacity: .6;
 	}
 }
 
-.avatar-updater__img {
+.avatar-uploader__img {
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
