@@ -4,24 +4,14 @@ const schema = new Schema(
 	{
 		login: {
 			type: String,
-			required: true,
+			unique: true,
+			required: true
 		},
-		name: {
+		password: {
 			type: String,
-		},
-		surName: {
-			type: String,
-		},
-		status: {
-			type: String,
-		},
-		avatarUrl: {
-			type: String,
-		},
-
-		color: {
-			type: String,
-		},
+			unique: true,
+			required: true
+		}		
 	},
 	{
 		/**

@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose' );
-const models = require( '../components/models' );
+const models = require( '../models' );
 
 /**
 ** When successfully connected.
