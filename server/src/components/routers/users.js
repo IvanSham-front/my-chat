@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { Users } = require('../contollers');
 
 const colors = ['#FFADAD', '#FFD6A5', '#FFD6A5', '#f2cc8f', '#06d6a0', '#9BF6FF', '#A0C4FF', '#BDB2FF', '#FFC6FF'];
 
@@ -70,11 +71,9 @@ const users = [
 ];
 
 
-router.get('/', (req, res) => {
-
-	console.log(req)
-
-
-});
+router.post('/', Users.create);
+router.get('/', Users.find);
+router.put('/:userId', Users.update);
+router.delete('/:userId', Users.delete)
 
 module.exports = router;

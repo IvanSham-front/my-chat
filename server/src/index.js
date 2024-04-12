@@ -1,14 +1,14 @@
 const express = require('express');
-const router = require('./router');
+const router = require('./components/routers');
 const db = require('./dbo/index');
-
 
 const PORT = process.env.PORT || 3020;
 
 const app = express();
 
-db.connect();
+global.DB = db.connect();
 
+app.use( express.json() );
 
 app.listen( PORT, () => {
 	

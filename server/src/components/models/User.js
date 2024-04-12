@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const schema = new Schema(
 	{
@@ -20,8 +20,8 @@ const schema = new Schema(
 		},
 
 		color: {
-			type: String
-		}
+			type: String,
+		},
 	},
 	{
 		/**

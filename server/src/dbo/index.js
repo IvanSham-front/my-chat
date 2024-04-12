@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose' );
-const models = require( './models' );
+const models = require( '../components/models' );
 
 /**
 ** When successfully connected.
@@ -91,7 +91,5 @@ const connect = async () => {
     }
 
 }
-
-
 
 module.exports = { connect };
