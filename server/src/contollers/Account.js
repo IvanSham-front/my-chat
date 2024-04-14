@@ -118,19 +118,25 @@ module.exports = {
 
 	},
 
-	getAll: async (req, res, next) => {
+	remove: async (req, res, next) => {
 
 		try {
-			const Account = req.db.model('Account');
 
+			const { userId } = req.params;
 
-			const accounts = await Account.find();
+			const accountServices = new AccountServices(req);
 
-			return res.json({ accounts });
+			const userData = await accountServices.remove( userId );
 
+			res.json(`User ${ userData?.id } was successfully deleted`);
+
+			
 		} catch (error) {
-
+			
 			next(error);
+
 		}
-	},
+
+	}
+
 };

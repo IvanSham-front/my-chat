@@ -1,44 +1,8 @@
+const ApiError = require('../exceptions/api-error');
+
 module.exports = {
 
-	create: async (req, res) => {
-	
-		try {
-
-			const body = { ...req.body };
-
-			const User = req.db.model('User');
-
-			const existingUser = await User.findOne({
-				login: body.login,
-			});
-
-			if (existingUser) {
-				return res.status(500).json({
-					message: 'A user with this login already exists',
-				});
-			}
-
-			const user = await User.create({ ...req.body });
-
-			res.json({
-				message: 'User created successfully',
-				data: {
-					user,
-				},
-			});
-
-		} catch (error) {
-
-			return res.status(500).json({
-				name: error.name,
-				message: error.message,
-				stack: error.stack,
-			});
-
-		}
-	},
-
-	find: async (req, res) => {
+	find: async (req, res, next) => {
 
 		try {
 
@@ -46,18 +10,28 @@ module.exports = {
 
 			const User = req.db.model('User');
 
-			const users = await User.find({
-				$or: [
-					{ login: { $regex: searchString || '', $options: 'i' } },
-					{ name: { $regex: searchString || '', $options: 'i' } },
-					{ surName: { $regex: searchString || '', $options: 'i' } },
-				],
-			});
+			let users;
 
-			if (!users.length || !searchString) {
-				return res.status(404).json({
-					message: 'User not found',
+			if ( searchString ) {
+
+				users = await User.find({
+					$or: [
+						{ login: { $regex: searchString || '', $options: 'i' } },
+						{ name: { $regex: searchString || '', $options: 'i' } },
+						{ surName: { $regex: searchString || '', $options: 'i' } },
+					],
 				});
+
+				if (!users.length || !searchString) {
+
+					throw ApiError.BadRequest('User not found');
+
+				}
+
+			} else {
+
+				users = await User.find();
+
 			}
 
 			res.json({
@@ -68,16 +42,12 @@ module.exports = {
 
 		} catch (error) {
 
-			return res.status(500).json({
-				name: error.name,
-				message: error.message,
-				stack: error.stack,
-			});
+			next(error);
 			
 		}
 	},
 
-	findById: async (req, res) => {
+	findById: async (req, res, next) => {
 
 		try {
 
@@ -89,9 +59,7 @@ module.exports = {
 
 			if ( !user ) {
 
-				return res.status( 404 ).json( { 
-					message: `User [ ${ userId } ] not found.`,
-				} );
+				ApiError.BadRequest( `User [ ${ userId } ] not found.` );
 
 			}
 
@@ -103,31 +71,44 @@ module.exports = {
 
 		} catch (error) {
 
-			return res.status(500).json({
-				name: error.name,
-				message: error.message,
-				stack: error.stack,
-			});
+			next(error);
 
 		}
 
 	},
 
-	update: async (req, res) => {
+	update: async (req, res, next) => {
 
 		try {
 
+			// На этом месте тестируем
+
 			const { userId } = req.params;
+			const  account  = req.account;
 
 			const User = req.db.model('User');
+			const Account = req.db.model('Account');
 
 			const user = await User.findById(userId);
 
 			if ( !user ) {
 
-				return res.status( 404 ).json( { 
-					message: `User [ ${ userId } ] not found.`,
-				} );
+				throw ApiError.BadRequest(`User [ ${ userId } ] not found.`)
+
+			}
+
+			if ( !account || account.login !== user.login ) {
+
+				throw ApiError.BadRequest(`Cannot change another user's details`);
+
+			}
+
+			if ( Object.hasOwnProperty.call(req.body, 'login') ) {
+
+				await Account.findOneAndUpdate( 
+					{ login: account.login }, 
+					{ login: req.body.login } 
+				); 
 
 			}
 
@@ -143,45 +124,9 @@ module.exports = {
 
 		} catch (error) {
 
-			return res.status(500).json({
-				name: error.name,
-				message: error.message,
-				stack: error.stack,
-			});
+			next(error);
 
 		}
 	},
 
-	delete: async (req, res) => {
-
-		try {
-
-			const { userId } = req.params;
-
-			const User = req.db.model('User');
-
-			const user = await User.findByIdAndDelete(userId);
-			
-			if ( !user ) {
-
-				return res.status( 404 ).json( { 
-					message: `User [ ${ userId } ] not found.`,
-				} );
-
-			}
-
-			res.status( 200 ).json({
-				message: 'User remove successfully',
-			});
-
-		} catch (error) {
-
-			return res.status(500).json({
-				name: error.name,
-				message: error.message,
-				stack: error.stack,
-			});
-
-		}
-	}
 };

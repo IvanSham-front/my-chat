@@ -95,7 +95,9 @@ class AccountServices {
 		}
 
 		const tokenService = new TokenService(this.req);
-		const userData = tokenService.validateRefreshToken(refreshToken);
+
+
+		const userData = TokenService.validateRefreshToken(refreshToken);
         const tokenFromDb = await tokenService.findToken(refreshToken);
 
         if (!userData || !tokenFromDb) {
@@ -113,6 +115,51 @@ class AccountServices {
 		await tokenService.saveToken(accountDto.id, tokens.refreshToken);
         
 		return { ...tokens }
+
+	}
+
+	async remove ( userId ) {
+
+		const User = this.req.db.model('User');
+		const Token = this.req.db.model('Token');
+		const Account = this.req.db.model('Account');
+
+
+		const user = await User.findById(userId);
+
+		if (!user) {
+
+			throw ApiError.BadRequest(`User [ ${ userId } ] not found.`)
+
+		}
+
+		const account = await Account.findOne( { login: user.login } );
+
+		if (!account) {
+
+			throw ApiError.BadRequest(`Error when deleting user`);
+
+		}
+		
+		const token = await Token.findOne( { userId: account.id } );
+
+		if ( !user || !token || !account ) {
+
+			throw ApiError.BadRequest('Error when deleting user');
+
+		}
+
+		await user.deleteOne();
+
+		if (token) {
+
+			await token.deleteOne();
+
+		}
+		
+		await Account.findByIdAndDelete(account.id);
+
+		return user;
 
 	}
 

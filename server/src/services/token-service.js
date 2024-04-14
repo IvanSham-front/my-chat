@@ -56,7 +56,7 @@ class TokenService {
 
 	}
 
-	static  validateRefreshToken ( token ) {
+	static validateRefreshToken ( token ) {
 
 		try {
 
