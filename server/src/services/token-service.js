@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const TokenModel = require('../models/Token');
-
 
 class TokenService {
 	
@@ -8,13 +6,13 @@ class TokenService {
 		this.req = req;
 	}
 
-	generateToken(paylod) {
+	generateTokens(paylod) {
 
 		const accesToken = jwt.sign(paylod, process.env.JWT_ACCESS_SECRET, {
 			expiresIn: '30m'
 		});
 
-		const refreshToken = jwt.sign(paylod, process.env.JWT_REFRESH_TOKEN, {
+		const refreshToken = jwt.sign(paylod, process.env.JWT_REFRESH_SECRET, {
 			expiresIn: '30d'
 		});
 
@@ -31,20 +29,71 @@ class TokenService {
 
 		const Token = this.req.db.model('Token')
 
-		const existToken = await Token.findOne({ userId });
+		let token = await Token.findOne({ userId });
 
-		if (existToken) {
+		if (token) {
 
-			existToken.refreshToken = refreshToken;
-			return existToken.save();
+			token.refreshToken = refreshToken;
+
+		} else {
+
+			token = await Token.create({ userId, refreshToken });
+		}
+
+		await token.save();
+		return token;
+
+	}
+	
+
+	async removeToken ( refreshToken ) {
+
+		const Token = this.req.db.model('Token')
+
+		const token = await Token.deleteOne({ refreshToken });
+
+		return token;
+
+	}
+
+	static async validateRefreshToken ( token ) {
+
+		try {
+
+			const accountData = jwt.verify( token, process.env.JWT_REFRESH_SECRET );
+			return accountData;
+
+		} catch {
+
+			return null;
 
 		}
 
-		const newToken = await Token.create({userId, refreshToken});
+	}
 
-		return newToken;
+	static async validateAccessToken ( token ) {
+
+		try {
+
+			const accountData = jwt.verify( token, process.env.JWT_ACCESS_SECRET );
+			return accountData;
+
+		} catch {
+
+			return null;
+			
+		}
 
 	}
+
+	async findToken( refreshToken ) {
+
+		const Token = this.req.db.model('Token');
+    
+	    const tokenData = await Token.findOne({ refreshToken });
+    
+	    return tokenData;
+    }
 
 };
 

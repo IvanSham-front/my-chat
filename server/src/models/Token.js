@@ -3,7 +3,8 @@ const { Schema } = require('mongoose');
 const schema = new Schema({
 	userId: {
 		type: Schema.Types.ObjectId,
-		ref: 'User',
+		ref: 'Account',
+		required: true
 	},
 	refreshToken: {
 		type: String,

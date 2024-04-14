@@ -3,6 +3,7 @@ const router = require('./routers');
 const db = require('./dbo/index');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const errorMidleware = require('./middleware/error-middleware');
 
 dotenv.config();
 
@@ -22,5 +23,7 @@ app.listen( PORT, () => {
 } );
 
 app.use('/api', router);
+
+app.use(errorMidleware);
 
 module.exports = app;

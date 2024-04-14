@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "cross-env NODE_ENV=development nodemon --signal SIGTERM src/index.js",
 		"start": "cross-env NODE_ENV=production nodemon --signal SIGTERM src/index.js",
-		"inspect": "cross-env PORT=9292 nodemon --inspect --signal SIGTERM src/index.js"
+		"inspect": "cross-env NODE_ENV=inject nodemon --inspect --signal SIGTERM src/index.js"
 	},
 	"author": "Ivan Shamenkov",
 	"license": "ISC",
@@ -21,6 +21,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"moment": "^2.30.1",
 		"mongoose": "^8.2.4",
+		"pino": "^8.20.0",
 		"pm2": "^5.3.1",
 		"uuid": "^9.0.1"
 	},
