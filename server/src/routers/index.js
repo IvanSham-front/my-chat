@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
+const authMiddleware = require('../middleware/auth-middleware');
 
 router.use((req, res, next) => {
 	req.db = require('mongoose').connection;
@@ -12,13 +13,15 @@ fs.readdirSync(path.join(__dirname)).forEach((file) => {
 		try {
 			const route = require('./' + file);
 			const fileName = path.basename(file, path.extname(file));
-			router.use('/' + fileName, route);
+			if (fileName !== 'auth') {
+				router.use('/' + fileName, authMiddleware, route);
+			} else {
+				router.use('/' + fileName, route);
+			}
 		} catch (err) {
 			console.error(`Route ${file} import error!`);
 			console.error(err.name, err.message, err.stack);
 		}
-	}
-	if (file.endsWith('js')) {
 	}
 });
 

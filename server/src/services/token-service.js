@@ -56,7 +56,7 @@ class TokenService {
 
 	}
 
-	static async validateRefreshToken ( token ) {
+	static  validateRefreshToken ( token ) {
 
 		try {
 
@@ -71,7 +71,7 @@ class TokenService {
 
 	}
 
-	static async validateAccessToken ( token ) {
+	static validateAccessToken ( token ) {
 
 		try {
 
