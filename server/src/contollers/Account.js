@@ -9,9 +9,7 @@ module.exports = {
 
 			const { login, password } = req.body;
 
-			const accountServices = new AccountServices(req);
-
-			const account = await accountServices.registration({
+			const account = await AccountServices.registration({
 				login,
 				password,
 			});
@@ -47,9 +45,7 @@ module.exports = {
 
 			}
 
-			const accountServices = new AccountServices(req);
-
-			const accountData = await accountServices.login({ login, password });
+			const accountData = await AccountServices.login({ login, password });
 
 			res.cookie('refreshToken', accountData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -76,9 +72,7 @@ module.exports = {
 
             const { refreshToken } = req.cookies;
 
-			const accountServices = new AccountServices(req);
-
-			const token = await accountServices.logout(refreshToken);
+			const token = await AccountServices.logout(refreshToken);
 
 			res.clearCookie('refreshToken');
 
@@ -98,9 +92,7 @@ module.exports = {
 
             const { refreshToken } = req.cookies;
 
-			const accountServices = new AccountServices(req);
-
-			const tokens = await accountServices.refresh( refreshToken );
+			const tokens = await AccountServices.refresh( refreshToken );
 
 			res.cookie('refreshToken', tokens.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -124,9 +116,7 @@ module.exports = {
 
 			const { userId } = req.params;
 
-			const accountServices = new AccountServices(req);
-
-			const userData = await accountServices.remove( userId );
+			const userData = await AccountServices.remove( userId );
 
 			res.json(`User ${ userData?.id } was successfully deleted`);
 

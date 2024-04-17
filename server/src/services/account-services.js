@@ -3,6 +3,11 @@ const bcrypt = require('bcrypt');
 const AccountDto = require('../dto/account-dto');
 const TokenService = require('./token-service');
 const ApiError = require('../exceptions/api-error');
+const { mongoose } = require('mongoose');
+
+const User = mongoose.model('User', require('../models/User'));
+const Account = mongoose.model('Account', require('../models/Account'));
+const Token = mongoose.model('Token', require('../models/Token'));
 
 class AccountServices {
 
@@ -13,9 +18,6 @@ class AccountServices {
 	}
 	
 	async registration( { login, password } ) {
-
-		const Account = this.req.db.model('Account');
-		const User = this.req.db.model('User');
 
 		const existAccount = await Account.findOne( { login } );
 
@@ -32,9 +34,9 @@ class AccountServices {
 		const user = await User.create( { login } );
 		const accountDto = new AccountDto(account);
 
-		const tokenService = new TokenService(this.req);
-		const tokens = tokenService.generateTokens( { ...accountDto } );
-		await tokenService.saveToken(accountDto.id, tokens.refreshToken);
+		
+		const tokens = TokenService.generateTokens( { ...accountDto } );
+		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
 
 		return {
 			...tokens,
@@ -43,9 +45,6 @@ class AccountServices {
 	}
 
 	async login( { login, password } ) {
-
-		const Account = this.req.db.model('Account');
-		const User = this.req.db.model('User');
 
 		const account = await Account.findOne( { login } );
 
@@ -67,9 +66,8 @@ class AccountServices {
 
 		const accountDto = new AccountDto(account);
 
-		const tokenService = new TokenService(this.req);
-		const tokens = tokenService.generateTokens( { ...accountDto } );
-		await tokenService.saveToken(accountDto.id, tokens.refreshToken);
+		const tokens = TokenService.generateTokens( { ...accountDto } );
+		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
 
 		return {
 			...tokens,
@@ -80,8 +78,7 @@ class AccountServices {
 
 	async logout ( refreshToken ) {
 
-		const tokenService = new TokenService(this.req);
-		const token = await tokenService.removeToken(refreshToken);
+		const token = await TokenService.removeToken(refreshToken);
         return token;
 
 	}
@@ -94,11 +91,8 @@ class AccountServices {
 
 		}
 
-		const tokenService = new TokenService(this.req);
-
-
 		const userData = TokenService.validateRefreshToken(refreshToken);
-        const tokenFromDb = await tokenService.findToken(refreshToken);
+        const tokenFromDb = await TokenService.findToken(refreshToken);
 
         if (!userData || !tokenFromDb) {
 
@@ -106,24 +100,18 @@ class AccountServices {
 
         }
 
-		const Account = this.req.db.model( 'Account' );
 		const account = await Account.findById( userData.id );
 		const accountDto = new AccountDto(account);
 
-        const tokens = tokenService.generateTokens({ ...accountDto });
+        const tokens = TokenService.generateTokens({ ...accountDto });
 
-		await tokenService.saveToken(accountDto.id, tokens.refreshToken);
+		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
         
 		return { ...tokens }
 
 	}
 
 	async remove ( userId ) {
-
-		const User = this.req.db.model('User');
-		const Token = this.req.db.model('Token');
-		const Account = this.req.db.model('Account');
-
 
 		const user = await User.findById(userId);
 
@@ -165,4 +153,4 @@ class AccountServices {
 
 };
 
-module.exports = AccountServices;
+module.exports = new AccountServices();

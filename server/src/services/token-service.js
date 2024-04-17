@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
+const { mongoose } = require('mongoose');
+
+const Token = mongoose.model('Token', require('../models/Token') );
 
 class TokenService {
-	
-	constructor (req) {
-		this.req = req;
-	}
 
 	generateTokens(paylod) {
 
@@ -27,8 +26,6 @@ class TokenService {
 
 	async saveToken ( userId, refreshToken ) {
 
-		const Token = this.req.db.model('Token')
-
 		let token = await Token.findOne({ userId });
 
 		if (token) {
@@ -48,15 +45,13 @@ class TokenService {
 
 	async removeToken ( refreshToken ) {
 
-		const Token = this.req.db.model('Token')
-
 		const token = await Token.deleteOne({ refreshToken });
 
 		return token;
 
 	}
 
-	static validateRefreshToken ( token ) {
+	validateRefreshToken ( token ) {
 
 		try {
 
@@ -71,7 +66,7 @@ class TokenService {
 
 	}
 
-	static validateAccessToken ( token ) {
+	validateAccessToken ( token ) {
 
 		try {
 
@@ -87,8 +82,6 @@ class TokenService {
 	}
 
 	async findToken( refreshToken ) {
-
-		const Token = this.req.db.model('Token');
     
 	    const tokenData = await Token.findOne({ refreshToken });
     
@@ -97,4 +90,4 @@ class TokenService {
 
 };
 
-module.exports = TokenService;
+module.exports = new TokenService();
