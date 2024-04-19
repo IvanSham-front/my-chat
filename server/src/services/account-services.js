@@ -44,6 +44,28 @@ class AccountServices {
 		}
 	}
 
+	async getUserByAccount ( account ) {
+
+		if ( !account.login ) {
+
+			const accountData = await Account.findById( account.id );
+
+			account.login = accountData.login;
+
+		}
+
+		const user = await User.findOne( { login: account.login } );
+
+		if (!user) {
+
+			throw ApiError.BadRequest('Auth user not not found');
+
+		}
+
+		return user;
+
+	} 
+
 	async login( { login, password } ) {
 
 		const account = await Account.findOne( { login } );

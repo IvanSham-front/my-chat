@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Users, Account } = require('../contollers');
-const validUserIdMiddleware = require('../middleware/valid-user-id-middleware');
+const validIdMiddleware = require('../middleware/valid-id-middleware');
 
 const colors = ['#FFADAD', '#FFD6A5', '#FFD6A5', '#f2cc8f', '#06d6a0', '#9BF6FF', '#A0C4FF', '#BDB2FF', '#FFC6FF'];
 
@@ -73,8 +73,8 @@ const users = [
 
 
 router.get('/', Users.find);
-router.get('/:userId', validUserIdMiddleware, Users.findById);
-router.put('/:userId', validUserIdMiddleware, Users.update);
-router.delete('/:userId', validUserIdMiddleware, Account.remove);
+router.get('/:userId', validIdMiddleware, Users.findById);
+router.put('/:userId', validIdMiddleware, Users.update);
+router.delete('/:userId', validIdMiddleware, Account.remove);
 
 module.exports = router;

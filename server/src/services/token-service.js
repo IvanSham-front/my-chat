@@ -8,7 +8,7 @@ class TokenService {
 	generateTokens(paylod) {
 
 		const accesToken = jwt.sign(paylod, process.env.JWT_ACCESS_SECRET, {
-			expiresIn: '30m'
+			expiresIn: '2h'
 		});
 
 		const refreshToken = jwt.sign(paylod, process.env.JWT_REFRESH_SECRET, {

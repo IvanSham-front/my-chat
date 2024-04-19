@@ -1,39 +1,25 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const schema = new Schema(
 	{
 		type: {
 			type: String,
 			required: true,
-			enum: ["text", "audio", "attachment"],
+			enum: ['private', 'group'],
 		},
 
-		sellerId: {
-			type: Schema.Types.ObjectId,
-			required: true,
-		},
+		members: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'User',
+				required: true,
+				unique: true
+			},
+		],
 
-		isRead: {
-			type: Boolean,
-			default: false,
-		},
-
-		chatId: {
-
-			type: Schema.Types.ObjectId,
-			ref: 'Chat',
-			required: true
-
-		},
-
-		text: {
-
+		iconUrl: {
 			type: String,
-			required: function() {
-				return this.type === 'text';
-			}
-
-		}
+		},
 
 	},
 	{

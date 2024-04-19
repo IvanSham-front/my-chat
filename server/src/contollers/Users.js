@@ -81,8 +81,6 @@ module.exports = {
 
 		try {
 
-			// На этом месте тестируем
-
 			const { userId } = req.params;
 			const  account  = req.account;
 
