@@ -14,6 +14,12 @@ class MessageServices {
 
 		}
 
+		if (!Object.hasOwnProperty.call( message, 'type')) {
+
+			throw ApiError.BadRequest( 'Message type not specified' )
+
+		}
+
 		const chat = await Chat.findById( message.chatId );
 
 		if ( !chat ) {

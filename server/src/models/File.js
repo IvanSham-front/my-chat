@@ -1,47 +1,37 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const schema = new Schema(
 	{
 		type: {
 			type: String,
 			required: true,
-			enum: ["text", "audio", "attachment"],
+			enum: ['image', 'video', 'audio', 'other'],
 		},
 
-		sellerId: {
+		ownerId: {
 			type: Schema.Types.ObjectId,
-			required: true,
-		},
-
-		isRead: {
-			type: Boolean,
-			default: false,
-		},
-
-		chatId: {
-
-			type: Schema.Types.ObjectId,
-			ref: 'Chat',
+			ref: 'User',
 			required: true
-
 		},
 
-		text: {
+		name: {
+			type: String,
+			required: true
+		},
+
+		mimeType: {
+			type: String
+		},
+
+		size: {
+			type: Number,
+			required: true
+		},
+
+		path: {
 
 			type: String,
-			required: function() {
-				return this.type === 'text';
-			}
-
-		},
-
-		fileId: {
-
-			type: Schema.Types.ObjectId,
-			ref: 'File',
-			required: function() {
-				return this.type === 'attachment'
-			}
+			required: true
 
 		}
 

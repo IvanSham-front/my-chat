@@ -3,6 +3,7 @@ const router = require('./routers');
 const db = require('./dbo/index');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const fileUpload = require('express-fileupload');
 const errorMidleware = require('./middleware/error-middleware');
 
 dotenv.config();
@@ -11,6 +12,9 @@ const PORT = process.env.PORT || 3020;
 
 const app = express();
 app.use(cookieParser());
+
+app.use(fileUpload());
+
 // app.use(cors());
 
 global.DB = db.connect();

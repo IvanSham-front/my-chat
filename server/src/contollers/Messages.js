@@ -1,5 +1,6 @@
 const AccountServices = require('../services/account-services');
 const MessageServices = require('../services/message-services');
+const FileServices = require('../services/file-services');
 
 module.exports = {
 
@@ -12,6 +13,12 @@ module.exports = {
 			const { chatId } = req.params;
 
 			const user = await AccountServices.getUserByAccount(account);
+
+			if ( req.files ) {
+
+				const file =  await FileServices.uploadFile(req.files.file, user.id);
+				req.body.fileId = file.id;
+			}
 
 			const message = await MessageServices.send({
 				message: {
