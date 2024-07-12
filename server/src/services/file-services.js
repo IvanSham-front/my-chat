@@ -71,7 +71,7 @@ class FileServices {
 
 	}
 
-	ensureDirExists = (dir) => {
+	ensureDirExists (dir) {
 
 		if (!fs.existsSync(dir)) {
 
@@ -83,8 +83,7 @@ class FileServices {
 
 	};
 
-
-	generateUniqueFileName = (savePath) => {
+	generateUniqueFileName (savePath) {
 
 		let copyIndex = 1;
 		let newPath = savePath;
@@ -100,7 +99,67 @@ class FileServices {
 		}
 
 		return newPath;
+
 	};
+
+	async sendFileStream  (fileId, range) {
+
+		const file = await File.findById(fileId);
+
+		if (!file) {
+			throw ApiError.BadRequest(`File ${fileId} not found`);
+		}
+
+		const filePath = path.join(file.path);
+
+		try {
+
+			if (file.type === 'video' && range) {
+
+				const parts = range.replace(/bytes=/, "").split('-');
+				const start = parseInt(parts[0], 10);
+				const end = parts[i] ? parseInt(parts[1], 10) : file.size - 1;
+
+				const fileStream = fs.createReadStream(filePath, { start, end });
+
+				const head = {
+					'Content-Range': `bytes ${start}-${end}/${file.size}`,
+					'Accept-Ranges': 'bytes',
+					'Content-Length': chunksize,
+					'Content-Type': file.mimeType,
+				}
+
+				return {
+					fileStream,
+					head
+				}
+
+
+			} else {
+
+				const head = {
+					'Content-Length': file.size,
+					'Content-Type': file.mimeType,
+				};
+
+				const fileStream = fs.createReadStream(filePath)
+
+				return {
+					fileStream,
+					head
+				}
+
+			}
+
+		} catch(error) {
+
+			console.error(error);
+			
+			throw ApiError.BadRequest( 'Error with stream file' );
+
+		}
+
+	}
 
 }
 
