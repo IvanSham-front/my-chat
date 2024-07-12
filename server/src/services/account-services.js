@@ -33,7 +33,6 @@ class AccountServices {
 		const account = await Account.create( { login, password: hashPassword } );
 		const user = await User.create( { login } );
 		const accountDto = new AccountDto(account);
-
 		
 		const tokens = TokenService.generateTokens( { ...accountDto } );
 		await TokenService.saveToken(accountDto.id, tokens.refreshToken);

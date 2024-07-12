@@ -15,7 +15,6 @@ module.exports = {
 			const user = await AccountServices.getUserByAccount(account);
 
 			if ( req.files ) {
-
 				const file =  await FileServices.uploadFile(req.files.file, user.id);
 				req.body.fileId = file.id;
 			}

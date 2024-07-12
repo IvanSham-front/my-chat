@@ -1,4 +1,5 @@
 const ApiError = require('../exceptions/api-error');
+const FileServices = require('../services/file-services');
 
 module.exports = {
 
@@ -110,6 +111,29 @@ module.exports = {
 
 			}
 
+			if ( req.files ) {
+
+				if (req.files.avatar) {
+
+					const typeFile = FileServices.getFileType(req.files.avatar.mimetype);
+
+					if (typeFile !== 'image') {
+
+						throw ApiError.BadRequest('The file can only be an image');
+
+					}
+
+				}
+				
+				const file = await FileServices.uploadFile(req.files.avatar, user.id);
+
+				if (file) {
+
+					req.body.avatarUrl = `/users/avatar/${file.id}`;
+
+				}
+			}
+
 			await user.set( { ...req.body } );
 			await user.save();
 
@@ -126,5 +150,35 @@ module.exports = {
 
 		}
 	},
+
+	getAvatar: async (req, res, next) => {
+
+		try {
+
+			const  { fileId } = req.params;
+
+			const File = req.db.model('File');
+
+			const file = await File.findById(fileId);
+
+			if ( !file ) {
+
+				ApiError.BadRequest( `File [ ${ fileId } ] not found.` );
+
+			}
+
+			const { fileStream, head } = await FileServices.sendFileStream(fileId);
+
+			res.writeHead(200, head);
+
+			fileStream.pipe(res);
+			
+		} catch (error) {
+			
+			next(error);
+
+		}
+
+	}
 
 };

@@ -6,7 +6,6 @@ const schema = new Schema(
 			type: String,
 			required: true,
 			unique: true,
-
 		},
 		name: {
 			type: String,
@@ -20,7 +19,6 @@ const schema = new Schema(
 		avatarUrl: {
 			type: String,
 		},
-
 		color: {
 			type: String,
 		},

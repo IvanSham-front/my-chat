@@ -48,7 +48,7 @@ module.exports = {
 			const accountData = await AccountServices.login({ login, password });
 
 			res.cookie('refreshToken', accountData.refreshToken, {
-				maxAge: 30 * 24 * 60 * 60 * 1000,
+				maxAge: 3 * 24 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
 				secure: true,
 			});
@@ -95,7 +95,7 @@ module.exports = {
 			const tokens = await AccountServices.refresh( refreshToken );
 
 			res.cookie('refreshToken', tokens.refreshToken, {
-				maxAge: 30 * 24 * 60 * 60 * 1000,
+				maxAge: 3 * 24 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
 				secure: true,
 			});
