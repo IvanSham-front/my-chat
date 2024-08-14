@@ -1,7 +1,7 @@
 
 const bcrypt = require('bcrypt');
 const AccountDto = require('../dto/account-dto');
-const TokenService = require('./token-service');
+const TokenServices = require('./token-services');
 const ApiError = require('../exceptions/api-error');
 const { mongoose } = require('mongoose');
 
@@ -34,8 +34,8 @@ class AccountServices {
 		const user = await User.create( { login } );
 		const accountDto = new AccountDto(account);
 		
-		const tokens = TokenService.generateTokens( { ...accountDto } );
-		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
+		const tokens = TokenServices.generateTokens( { ...accountDto } );
+		await TokenServices.saveToken(accountDto.id, tokens.refreshToken);
 
 		return {
 			...tokens,
@@ -87,11 +87,11 @@ class AccountServices {
 
 		const accountDto = new AccountDto(account);
 
-		const tokens = TokenService.generateTokens( { ...accountDto } );
-		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
+		const tokens = TokenServices.generateTokens( { ...accountDto } );
+		await TokenServices.saveToken(accountDto.id, tokens.refreshToken);
 
 		return {
-			...tokens,
+			tokens,
 			user
 		}
 
@@ -99,7 +99,7 @@ class AccountServices {
 
 	async logout ( refreshToken ) {
 
-		const token = await TokenService.removeToken(refreshToken);
+		const token = await TokenServices.removeToken(refreshToken);
         return token;
 
 	}
@@ -112,8 +112,8 @@ class AccountServices {
 
 		}
 
-		const userData = TokenService.validateRefreshToken(refreshToken);
-        const tokenFromDb = await TokenService.findToken(refreshToken);
+		const userData = TokenServices.validateRefreshToken(refreshToken);
+        const tokenFromDb = await TokenServices.findToken(refreshToken);
 
         if (!userData || !tokenFromDb) {
 
@@ -124,9 +124,9 @@ class AccountServices {
 		const account = await Account.findById( userData.id );
 		const accountDto = new AccountDto(account);
 
-        const tokens = TokenService.generateTokens({ ...accountDto });
+        const tokens = TokenServices.generateTokens({ ...accountDto });
 
-		await TokenService.saveToken(accountDto.id, tokens.refreshToken);
+		await TokenServices.saveToken(accountDto.id, tokens.refreshToken);
         
 		return { ...tokens }
 

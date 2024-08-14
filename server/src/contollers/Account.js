@@ -45,17 +45,23 @@ module.exports = {
 
 			}
 
-			const accountData = await AccountServices.login({ login, password });
+			const { tokens, user } = await AccountServices.login({ login, password });
 
-			res.cookie('refreshToken', accountData.refreshToken, {
+			res.cookie('accessToken', tokens.accessToken, {
+				maxAge: 2 * 60 * 60 * 1000,
+				httpOnly: true,
+				// secure: true, Потом включить надо
+			});
+
+			res.cookie('refreshToken', tokens.refreshToken, {
 				maxAge: 3 * 24 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
-				secure: true,
+				// secure: true, Потом включить надо
 			});
 
 			return res.json({
 				data: {
-					...accountData,
+					user,
 				},
 			});
 
@@ -75,6 +81,7 @@ module.exports = {
 			const token = await AccountServices.logout(refreshToken);
 
 			res.clearCookie('refreshToken');
+			res.clearCookie('accessToken');
 
 			return res.json( token );
 
@@ -97,7 +104,6 @@ module.exports = {
 			res.cookie('refreshToken', tokens.refreshToken, {
 				maxAge: 3 * 24 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
-				secure: true,
 			});
 			
 			res.json(tokens);

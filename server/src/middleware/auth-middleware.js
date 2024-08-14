@@ -1,26 +1,32 @@
 const ApiError = require('../exceptions/api-error');
-const TokenService = require('../services/token-service');
+const TokenServices = require('../services/token-services');
+const AccountService = require('../services/account-services');
 
-module.exports = function (req, res, next) {
+module.exports = async function (req, res, next) {
 
 	try {
 
-		const authorizationHeader = req.headers.authorization;
-		
-		if (!authorizationHeader) {
-			throw ApiError.UnauthorizedError();
-		}
 
-		const accessToken = authorizationHeader.split(' ')[1];
+		const accessToken = req.headers.cookie?.split('; ').find(row => row.startsWith('accessToken='))?.split('=')[1];
+		const refreshToken = req.headers.cookie?.split('; ').find(row => row.startsWith('refreshToken='))?.split('=')[1];
+
 
 		if (!accessToken) {
 			throw ApiError.UnauthorizedError();
 		}
 
-		const accountData = TokenService.validateAccessToken(accessToken);
+		let accountData = TokenServices.validateAccessToken(accessToken);
 
 		if (!accountData) {
+			
+			accountData = await AccountService.refresh(refreshToken);
+
+		}
+
+		if (!accountData) {
+			
 			throw ApiError.UnauthorizedError();
+
 		}
 
 		req.account = accountData;

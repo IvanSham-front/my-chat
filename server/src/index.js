@@ -7,12 +7,19 @@ const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const errorMidleware = require('./middleware/error-middleware');
 const initializeSocket = require('./socket/socket.io');
+const cors = require('cors');
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3020;
 
 const app = express();
+
+app.use(cors(
+	{
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 const server = http.createServer(app);
 
@@ -21,8 +28,6 @@ const io = initializeSocket(server);
 app.use(cookieParser());
 
 app.use(fileUpload());
-
-// app.use(cors());
 
 global.DB = db.connect();
 

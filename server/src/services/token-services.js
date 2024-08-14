@@ -3,11 +3,11 @@ const { mongoose } = require('mongoose');
 
 const Token = mongoose.model('Token', require('../models/Token') );
 
-class TokenService {
+class TokenServices {
 
 	generateTokens(paylod) {
 
-		const accesToken = jwt.sign(paylod, process.env.JWT_ACCESS_SECRET, {
+		const accessToken = jwt.sign(paylod, process.env.JWT_ACCESS_SECRET, {
 			expiresIn: '2h'
 		});
 
@@ -17,7 +17,7 @@ class TokenService {
 
 		return {
 
-			accesToken,
+			accessToken,
 			refreshToken
 
 		}
@@ -90,4 +90,4 @@ class TokenService {
 
 };
 
-module.exports = new TokenService();
+module.exports = new TokenServices();

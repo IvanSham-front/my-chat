@@ -1,21 +1,25 @@
 const ApiError = require('../../exceptions/api-error');
-const TokenService = require('../../services/token-service');
+const AccountServices = require('../../services/account-services');
+const TokenServices = require('../../services/token-services');
 
-module.exports = function (socket, next) {
+
+module.exports = async function (socket, next) {
 
 	try {
 
-		const accessToken = socket.handshake.headers.authorization;
-		
-		if (!accessToken) {
-			throw ApiError.UnauthorizedError();
-		}
+		const accessToken = socket.request.headers.cookie?.split('; ').find(row => row.startsWith('accessToken'))?.split('=')[1];
+
+		const refreshToken = socket.request.headers.cookie?.split('; ').find(row => row.startsWith('refreshToken'))?.split('=')[1];
 
 		if (!accessToken) {
 			throw ApiError.UnauthorizedError();
 		}
 
-		const accountData = TokenService.validateAccessToken(accessToken);
+		let accountData = TokenServices.validateAccessToken(accessToken);
+
+		if (!accountData) {
+			accountData = await AccountServices.refresh(refreshToken);
+		}
 
 		if (!accountData) {
 			throw ApiError.UnauthorizedError();
@@ -25,9 +29,11 @@ module.exports = function (socket, next) {
 
 		next();
 
-	} catch {
-
-		return next(ApiError.UnauthorizedError())
+	} catch (error) {
+		
+		console.error('Auth');
+		// socket.disconnect();
+		next(error);
 
 	}
 
