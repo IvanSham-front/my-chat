@@ -2,7 +2,9 @@ const socketIo = require('socket.io');
 const authMiddleware = require('./middleware/auth-middleware');
 const validIdMiddleware = require('../middleware/valid-id-middleware');
 // const registerOrderHandlers = require("./handlers/example");
-const regisetChatsHandlers = require('./handlers/Chats');
+const registerChatsHandlers = require('./handlers/Chats');
+const accountServices = require('../services/account-services');
+
 
 function initializeSocket (server) {
 
@@ -16,35 +18,23 @@ function initializeSocket (server) {
 		}
 	});
 
-	io.use(authMiddleware);
+	io.use( authMiddleware );
 
 	const onConnection = (socket) => {
-		regisetChatsHandlers(io, socket);
+		registerChatsHandlers(socket);
 	}
 
-	io.on('connection', (socket) => {
+	io.on('connection', async (socket) => {
 
-		console.log(socket);
+		await accountServices.saveSocketId( socket );
 
 		onConnection(socket);
 
-		// socket.on('example', exampleCallback({ socket }))
-
-		// Здесь можно обрабатывать события от клиентов
-		socket.on('eventFromClient', (data, callback) => {
-
-			console.log(data);
-			callback({ status: 'success', data: 'Hello from Server!' });
-			
-		});
-
-		// Обработка отключения клиента
 		socket.on('disconnect', () => {
-			console.log('Client disconnected');
-		});
 
-		socket.on('message', () => {
-			socket.emit('bla', 'blalb')
+			accountServices.removeSocketId( socket );
+
+			console.log('Client disconnected');
 		});
 
 	});

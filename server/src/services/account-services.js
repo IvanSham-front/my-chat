@@ -63,7 +63,41 @@ class AccountServices {
 
 		return user;
 
-	} 
+	}
+
+	async saveSocketId( socket ) {
+
+		const user = await this.getUserByAccount( socket.account );
+
+		if ( !!user.socketIds ) {
+
+			user.socketIds = [ socket.id ];
+
+		} else {
+
+			user.socketIds.push( socket.id );
+
+		}
+
+		await user.save();
+
+	}
+
+	async removeSocketId ( socket ) {
+
+		const user = await this.getUserByAccount( socket.account );
+
+		const socketIdIndex = user.socketIds.findIndex(id => id === socket.id);
+
+		if (socketIdIndex !== -1) {
+
+			user.socketIds.splice( socketIdIndex, 1);
+
+		}
+
+		await user.save();
+
+	}
 
 	async login( { login, password } ) {
 

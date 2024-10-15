@@ -3,13 +3,11 @@ const MessageServices = require('../../services/message-services');
 const ChatServices = require('../../services/chat-services');
 const ApiError = require('../../exceptions/api-error');
 
-module.exports = (io, socket) => {
+module.exports = (socket) => {
 
-	const list = async (callback) => {
+	const list = async ( data, callback ) => {
 
 		try {
-
-			console.log(callback);
 
 			const account = socket.account;
 
@@ -17,21 +15,24 @@ module.exports = (io, socket) => {
 
 			const chats = await ChatServices.findChatsByUserId(user.id);
 
-			socket.emit( 'chats:sendToClient', {
-				data: {
-					chats
-				}
-			} );
+			callback({
+				status: 'ok',
+				data: { chats }
+			});
 			
 		} catch ( error ) {
 
-			console.log(error);
+			callback({
+				status: 'error'
+			})
+
+			console.error(error);
 			
 		}
 
 	};
 
-	const create = async () => {
+	const create = async ( data, callback ) => {
 
 		try {
 
@@ -39,9 +40,7 @@ module.exports = (io, socket) => {
 
 			const user = await AccountServices.getUserByAccount( account );
 
-			const { chat, message } = io;
-
-			console.log(chat, message);
+			const { chat, message } = data;
 
 			if ( !chat  ) {
 
@@ -63,15 +62,9 @@ module.exports = (io, socket) => {
 
 			const chatData = await ChatServices.create({ chat, message, userId: user.id });
 
-			res.json({
-				message: 'Chat created successfully',
-				data: {
-					chats: [
-						{
-							...chatData
-						}
-					]
-				}
+			callback({
+				status: 'ok',
+				data: { chatData }
 			});
 
 		} catch (error) {

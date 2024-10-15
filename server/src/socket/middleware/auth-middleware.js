@@ -32,7 +32,6 @@ module.exports = async function (socket, next) {
 	} catch (error) {
 		
 		console.error('Auth');
-		// socket.disconnect();
 		next(error);
 
 	}

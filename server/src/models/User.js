@@ -22,6 +22,11 @@ const schema = new Schema(
 		color: {
 			type: String,
 		},
+		socketIds: {
+			type: [String],
+
+		}
+		
 	},
 	{
 		/**
@@ -51,5 +56,17 @@ const schema = new Schema(
 		},
 	}
 );
+
+schema.set( 'toJSON', {
+
+  transform: function ( doc, ret, options ) {
+
+    delete ret.socketIds;
+    return ret;
+
+  }
+
+});
+
 
 module.exports = schema;
