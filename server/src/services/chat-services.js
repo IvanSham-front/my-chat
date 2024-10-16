@@ -3,6 +3,7 @@ const ApiError = require('../exceptions/api-error');
 
 const Chat = mongoose.model('Chat', require('../models/Chat'));
 const Message = mongoose.model('Message', require('../models/Message'));
+const User = mongoose.model('User', require('../models/User'));
 const MessageServices = require('./message-services');
 
 class ChatServices {
@@ -89,7 +90,36 @@ class ChatServices {
 		return {
 			chats: chat,
 		};
+	};
+
+	async notifyChatMembers(io, { chatId, emitName, data }) {
+
+		const chat = await Chat.findById(chatId);
+
+		const chatUsers = chat.members.filter( memberId => memberId === user.id )
+			.map( async (memberId) => {
+
+				const user = await User.findById( memberId );
+
+				return user;
+
+			} );
+
+		chatUsers.forEach( user => {
+
+			user.socketIds && user.socketIds.forEach(socketId => {
+
+				io.to( socketId ).emit( emitName , {
+					status: 'ok',
+					data
+				});
+									
+			});
+
+		} );
+
 	}
+	
 }
 
 module.exports = new ChatServices();

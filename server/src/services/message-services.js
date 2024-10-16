@@ -6,7 +6,7 @@ const Message = mongoose.model('Message', require('../models/Message'));
 
 class MessageServices {
 
-	async send ( { message, sellerId } ) {
+	async send ( { message, sellerId, socket } ) {
 
 		if (!Object.keys(message).length) {
 

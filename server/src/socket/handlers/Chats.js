@@ -1,17 +1,22 @@
 const AccountServices = require('../../services/account-services');
-const MessageServices = require('../../services/message-services');
 const ChatServices = require('../../services/chat-services');
 const ApiError = require('../../exceptions/api-error');
 
-module.exports = (socket) => {
+module.exports = (io, socket) => {
 
 	const list = async ( data, callback ) => {
+
+		if (typeof callback !== "function") {
+
+			return;
+			
+		}
 
 		try {
 
 			const account = socket.account;
 
-			const user = await AccountServices.getUserByAccount( account );
+			const user = await AccountServices.getUserByAccount(account);
 
 			const chats = await ChatServices.findChatsByUserId(user.id);
 
@@ -33,6 +38,12 @@ module.exports = (socket) => {
 	};
 
 	const create = async ( data, callback ) => {
+
+		if (typeof callback !== "function") {
+
+			return;
+			
+		}
 
 		try {
 
@@ -60,14 +71,27 @@ module.exports = (socket) => {
 
 			}
 
+
 			const chatData = await ChatServices.create({ chat, message, userId: user.id });
 
+			await ChatServices.notifyChatMembers(io, {
+				
+				chatId: chat.id,
+				data: { chatData },
+				emitName: 'server:chat:create'
+
+			})
+			
 			callback({
 				status: 'ok',
 				data: { chatData }
 			});
 
 		} catch (error) {
+
+			callback({
+				status: 'error'
+			});
 			
 			console.log(error);
 
@@ -75,7 +99,7 @@ module.exports = (socket) => {
 
 	};
 
-	socket.on( 'chats:list', list );
-	socket.on( 'chats:create', create );
+	socket.on( 'client:chats:list', list );
+	socket.on( 'client:chats:create', create );
 
 }

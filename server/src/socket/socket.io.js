@@ -1,8 +1,7 @@
 const socketIo = require('socket.io');
 const authMiddleware = require('./middleware/auth-middleware');
-const validIdMiddleware = require('../middleware/valid-id-middleware');
-// const registerOrderHandlers = require("./handlers/example");
 const registerChatsHandlers = require('./handlers/Chats');
+const registerMessagesHandlers = require('./handlers/Messages');
 const accountServices = require('../services/account-services');
 
 
@@ -21,7 +20,8 @@ function initializeSocket (server) {
 	io.use( authMiddleware );
 
 	const onConnection = (socket) => {
-		registerChatsHandlers(socket);
+		registerChatsHandlers(io, socket);
+		registerMessagesHandlers(io, socket);
 	}
 
 	io.on('connection', async (socket) => {

@@ -1,6 +1,7 @@
 const AccountServices = require('../services/account-services');
 const MessageServices = require('../services/message-services');
 const FileServices = require('../services/file-services');
+const ChatServices = require('../services/chat-services');
 
 module.exports = {
 
@@ -26,6 +27,11 @@ module.exports = {
 				},
 				sellerId: user.id,
 			});
+
+			await ChatServices.notifyChatMembers(req.io, {
+				chatId,
+				emitName: 'server:message:send'
+			})
 
 			res.json({
 				message: 'Message send successfully',

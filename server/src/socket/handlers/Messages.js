@@ -4,30 +4,84 @@ const ChatServices = require('../../services/chat-services');
 
 module.exports = (io, socket) => {
 
-	const getUsersChat = async () => {
+	send = async (data, callback) => {
+
+		if (typeof callback !== "function") {
+
+			return;
+			
+		}
 
 		try {
 
 			const account = socket.account;
 
-			const user = await AccountServices.getUserByAccount( account );
+			const { chatId, message } = data;
 
-			const chats = await ChatServices.findChatsByUserId(user.id);
-
-			socket.emit( 'chats:sendToClient', {
-				data: {
-					chats
-				}
-			} );
+			const user = await AccountServices.getUserByAccount(account);
 			
-		} catch ( error ) {
+			await MessageServices.send({
+				message: {
+					...message,
+					chatId
+				},
+				sellerId: user.id,
+			})
 
-			console.log(error);
+			await ChatServices.notifyChatMembers( io, { 
+				chatId, 
+				data: {
+					message,
+				},
+				emitName: 'server:message:send'
+			});
+
+			callback({
+				status: 'ok',
+				data: {
+					message
+				}
+			})
+			
+		} catch (error) {
+
+			next(error);
 			
 		}
-
 	};
 
-	socket.on('chats:list', getUsersChat);
 
-}
+	getMessagesByChatId = async (data, callback) => {
+
+		if ( typeof callback !== 'function' ) {
+
+			return;
+
+		}
+
+		try {
+
+			const { account } = socket;
+
+			const user = await AccountServices.getUserByAccount(account);
+
+			const { chatId } = data;
+
+			const messages = await MessageServices.getMessagesByChatId( { chatId, userId: user.id} );
+
+			callback({
+				status: 'ok',
+				data: { messages }
+			});
+
+		} catch(error) {
+
+			next(error);
+
+		}
+	};
+
+	socket.on( 'client:message:send', send );
+	socket.on( 'client:messages:get-list', getMessagesByChatId )
+
+};
