@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
@@ -12,7 +12,7 @@ const props = defineProps({
 	},
 });
 
-function lastMessageSmall(string) {
+function lastMessageSmall( string: String) {
 	if (string.length > 30) {
 		return string.slice(0, 30) + '...';
 	}

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
 import MessagesSection from '@/components/Messages/MessagesSection.vue';
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import 'vue3-emoji-picker/css';
 import '@/assets/styles/styles.scss';
 

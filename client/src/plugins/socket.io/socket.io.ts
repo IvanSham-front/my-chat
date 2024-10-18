@@ -1,4 +1,6 @@
 import { io } from 'socket.io-client';
+import { App } from 'vue';
+import { SocketEmitPayload } from './socket.io.types';
 
 let socket = io('http://localhost:3020', {
 	path: '/api/socket/',
@@ -6,22 +8,20 @@ let socket = io('http://localhost:3020', {
 });
 
 socket.on('connect', () => {
-	console.log(socket.id);
-
-	socket.emit('chats:list', {}, (response) => {
-		console.log(response);
-	});
-
-	// socket.emit('chats:create', {
-	// 	chat: {
-	// 		type: 'private',
-	// 		members: ['661c0349970489a352c0aadc', '661c14a5a882c87f7d3b1690'],
-	// 	},
-	// 	message: {
-	// 		text: 'Hello, friend!',
-	// 		type: 'text',
-	// 	},
+	// socket.emit('chats:list', {}, (response) => {
+	// 	console.log(response);
 	// });
+
+	socket.emit('chats:create', {
+		chat: {
+			type: 'private',
+			members: ['661c0349970489a352c0aadc', '661c14a5a882c87f7d3b1690'],
+		},
+		message: {
+			text: 'Hello, friend!',
+			type: 'text',
+		},
+	});
 });
 
 socket.on('connect_error', (error) => {
@@ -39,23 +39,13 @@ socket.on('connect_error', (error) => {
 
 // }).then(response => response.json());
 
+
+
 export default {
-	install(app, store) {
-		if (!store.hasModule('socket')) {
-			const storeModule = {
-				state: {},
-
-				mutations: {},
-
-				actions: {},
-
-				getters: {},
-			};
-
-			store.registerModule('socket', storeModule);
-		}
-
+	install(app: App, ) {
+		
 		app.config.globalProperties.$socket = {
+			
 			connect() {
 				socket = io('http://localhost:3020', {
 					// path: '/api/',
@@ -63,7 +53,7 @@ export default {
 				});
 			},
 
-			emit({ method, data, callback }) {
+			emit({ method, data, callback }: SocketEmitPayload) {
 				socket.emit(method, data, callback);
 			},
 		};

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -9,9 +9,9 @@ const props = defineProps({
 });
 
 
-const fullName = computed(() => `${props.user.name} ${props.user.surName}`);
+const fullName = computed<string>(() => `${props.user.name} ${props.user.surName}`);
 
-const initials = computed(() => props.user.name[0] + props.user.surName[0]);
+const initials = computed<string>(() => props.user.name[0] + props.user.surName[0]);
 
 </script>
 

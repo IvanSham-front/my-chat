@@ -1,4 +1,4 @@
-<script setup>
+<script setup type='ts'>
 import { ref, provide, computed } from 'vue';
 import { useStore } from 'vuex';
 import UserBlock from '../UserBlock/UserBlock.vue';
