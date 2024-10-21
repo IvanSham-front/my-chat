@@ -1,3 +1,5 @@
+import { EntityDB } from "./EntityDB"
+
 export interface Message {
 
 	type: "text" | "audio" | "attachment",
@@ -5,9 +7,12 @@ export interface Message {
 	isRead?: boolean,
 	chatId: string
 	text?: string,
-	fileId?: string
 
 }
+
+export interface MessageDB extends Message, EntityDB {
+	fileId?: string
+};
 
 export interface MessagesState {
 

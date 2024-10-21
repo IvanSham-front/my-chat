@@ -1,34 +1,52 @@
-<script setup>
+<script setup lang="ts">
 import { inject, ref } from 'vue';
-import { useStore } from 'vuex';
 import CameraIcon from '@/assets/images/CameraIcon.vue';
+import { ModalInject } from '@/plugins/modal/modal.types';
+import { useAuth } from '@/hooks/useAuth';
 
-const modal = inject('modal');
-const store = useStore();
+const modal = inject<ModalInject>('modal');
 
-const fileInputRef = ref(null);
+const { authUser } = useAuth();
 
-const avatarSrc = ref(store.getters.authUser.avatarUrl);
-
+const fileInputRef = ref<HTMLInputElement | null>(null);
 
 const openUploader = () => {
-	fileInputRef.value.click();
+
+	if ( fileInputRef.value ) {
+
+		fileInputRef.value.click();
+
+	} else {
+
+		console.error( 'file input ref is undefined' );
+		
+	}
+
 };
 
-const onChangeFile = (e) => {
-	const fileValue = e.target.files[0];
-	const fileReader = new FileReader();
-	fileReader.onload = function () {
-		modal.open({
-			modalName: 'AvatarUpdater',
-			modalProps: {
-				photo: fileReader.result
-			}
-		});
-		
-	};
+const onChangeFile = (e: Event) => {
 
-	fileReader.readAsDataURL(fileValue);
+	const target = e.target as HTMLInputElement;
+
+	if ( target.files && target.files.length && modal ) {
+
+		const fileValue = target.files[0];
+		const fileReader = new FileReader();
+
+		fileReader.onload = function () {
+			modal.open({
+				name: 'AvatarUpdater',
+				props: {
+					photo: fileReader.result
+				}
+			});
+			
+		};
+
+		fileReader.readAsDataURL(fileValue);
+		
+	}
+	
 };
 
 
@@ -53,7 +71,7 @@ const onChangeFile = (e) => {
 			</div>
 			<img
 				class="avatar-uploader__img"
-				:src="avatarSrc"
+				:src="authUser?.avatarUrl"
 			/>
 		</button>
 	</div>

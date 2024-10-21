@@ -1,29 +1,38 @@
-import { User, UserState } from "@/types/User";
+import { UserDB, UserState } from "@/types/User";
 import { defineStore } from "pinia";
 
-const useUserStore = defineStore( 'users', {
+export const useUserStore = defineStore( 'users', {
 
 	state: (): UserState => ({
 	
 		list: [],
+		authUser: null
 
 	}),
 
 	actions: {
 
-		setList( payload: User[] ) {
+		setList( payload: UserDB[] ) {
 
 			this.list = payload;
 
 		},
 
+		setAuthUser( payload: UserDB ) {
+
+			this.authUser = payload;
+
+		}
+
 	},
 
 	getters: {
 
-		getUserById: ( state ) => ( id: string  ) => {
+		getUserById: ( state ) => ( id: string  ): UserDB | null => {
+
 			const user = state.list.find((item) => item.id === id);
 			return user || null;
+
 		},
 
 	}

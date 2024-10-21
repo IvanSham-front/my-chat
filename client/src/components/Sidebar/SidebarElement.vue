@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
 
 import UserBlock from '@/components/UserBlock/UserBlock.vue';
@@ -7,17 +6,18 @@ import ChatList from '@/components/chats/ChatList/ChatList.vue';
 import SettingsIcon from '@/assets/images/SettingsIcon.vue';
 import ArrowLeftIcon from '@/assets/images/ArrowLeftIcon.vue';
 import UserSettings from '../UseSettings/UserSettings.vue';
+import { useAuth } from '@/hooks/useAuth';
+import { useSidebarStore } from '@/store/sidebar/sidebar';
 
-const store = useStore();
+const { authUser } = useAuth();
+
 const mainContentRef = ref(null);
 const settingsRef = ref(null);
 
-const authUser = computed(() => store.getters.authUser);
-
-const isShowSettings = computed(() => store.getters.isShowSettings);
+const sidebarStore  = useSidebarStore();
 
 const toggleShowSettings = () => {
-	store.dispatch('toggleShowSettings');
+	sidebarStore.toggleShowSettings();
 };
 
 </script>
@@ -31,7 +31,7 @@ const toggleShowSettings = () => {
 			<div
 				class="sidebar__main-content"
 				ref="mainContentRef"
-				v-show="!isShowSettings"
+				v-show="!sidebarStore.isShowSettings"
 			>
 
 				<ChatList class="sidebar__chat-list"></ChatList>
@@ -59,7 +59,7 @@ const toggleShowSettings = () => {
 			<div
 				class="sidebar__settings"
 				ref="settingsRef"
-				v-show="isShowSettings"
+				v-show="sidebarStore.isShowSettings"
 			>
 				<div class="sidebar__settings-header">
 					<button

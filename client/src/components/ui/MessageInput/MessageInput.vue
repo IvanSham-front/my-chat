@@ -1,48 +1,77 @@
-<script setup>
+<script setup lang="ts">
+
 import { ref, inject } from 'vue';
 import EmojiPicker from '../EmojiPickerInput/EmojiPicker.vue';
-import { getCursorPosition, adjustCursorToEnd, setCursorPosition } from '@/mixins/withCursorFunctions';
+import { useCursor } from '@/hooks/useCursor';
 import UiScroll from '../scroll/UiScroll.vue';
 import SendMessageIcon from '@/assets/images/SendMessageIcon.vue';
 import moment from 'moment';
 
 const messageInputRef = inject('messageInputRef', null);
-const textFieldRef = ref(null);
+const textFieldRef = ref<HTMLInputElement | null>(null);
 const messageText = ref('');
 
-const emit = defineEmits(['on-send-message']);
+const emit = defineEmits(['on-send-message', 'input']);
 
-const addEmojiOnMessage = (value) => {
+const { getCursorPosition, adjustCursorToEnd, setCursorPosition } = useCursor();
 
-	const position = getCursorPosition(textFieldRef.value);
+const addEmojiOnMessage = (value: string) => {
 
-	if (position === textFieldRef.value.length) {
+	if ( textFieldRef.value ) {
+		
+		const position = getCursorPosition(textFieldRef.value);
 
-		messageText.value = messageText.value + ' ' + value;
-		textFieldRef.value.innerHTML = messageText.value;
-		adjustCursorToEnd(textFieldRef.value);
+		if (position === textFieldRef.value.value.length) {
 
+			messageText.value = messageText.value + ' ' + value;
+			textFieldRef.value.innerHTML = messageText.value;
+			adjustCursorToEnd(textFieldRef.value);
+
+		} else {
+			messageText.value =
+				messageText.value.substring(0, position)
+				+ ` ${value} `
+				+ messageText.value.substring(position, messageText.value.length);
+
+			textFieldRef.value.innerHTML = messageText.value;
+			setCursorPosition(textFieldRef.value, position + 3);
+
+		}
+		
 	} else {
-		messageText.value =
-			messageText.value.substring(0, position)
-			+ ` ${value} `
-			+ messageText.value.substring(position, messageText.value.length);
 
-		textFieldRef.value.innerHTML = messageText.value;
-		setCursorPosition(textFieldRef.value, position + 3);
+		console.error( 'text input ref is undefined' );
 
 	}
+
 };
 
-const setMessageText = (e) => {
-	messageText.value = e.target.innerText;
+const setMessageText = (e: Event) => {
+
+	const target = e.target as HTMLElement;
+
+	if ( target ) {
+
+		messageText.value = target.innerText;
+
+	}
+
 };
 
 const onSendMessage = () => {
 
-	textFieldRef.value.innerHTML = '';
+	if (textFieldRef.value) {
+        textFieldRef.value.innerHTML = '';
+      }
+
+	if ( textFieldRef.value ) {
+
+		textFieldRef.value.innerHTML = '';
+
+	}
+
 	const message = {
-		id: Math.random(10000000),
+		id: Math.random(),
 		text: messageText.value.trim(),
 		sellerId: 1,
 		isRead: true,

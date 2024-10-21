@@ -1,29 +1,5 @@
-// const chatExamples = [];
-// const count = 5;
-
-
-// for (let i = 0; i < count; i++) {
-// 	const randomNumber = Math.round(Math.random());
-
-// 	const message = {
-// 		id: Date.now(),
-// 		text: 'Hello, my friend! How do you do? I am fine bla bla bla bla bla',
-// 		sellerId: randomNumber === 0 ? 1 : 2,
-// 		isRead: true,
-// 		date: '21.03.24 16:53',
-// 	};
-
-// 	const chat = {
-// 		id: i,
-// 		type: 'private',
-// 		lastMessage: message,
-// 		members: [1, i + 2],
-// 	};
-
-// 	chatExamples.push(chat);
-// }
-
-import { Chat, ChatState } from '@/types/Chat';
+import { ChatDB, ChatState } from '@/types/Chat';
+import { MessageDB } from '@/types/Message';
 import { defineStore } from 'pinia';
 
 export const useChatsStore = defineStore( 'chats', {
@@ -31,13 +7,14 @@ export const useChatsStore = defineStore( 'chats', {
 	state: (): ChatState => ({
 
 		currentChat: null,
-		list: []
+		list: [],
+		chatMap: new Map()
 	
 	}),
 
 	actions: {
 
-		selectCurrentChat( chat: Chat ) {
+		selectCurrentChat( chat: ChatDB ) {
 			this.currentChat = chat;
 		},
 
@@ -45,14 +22,34 @@ export const useChatsStore = defineStore( 'chats', {
 			this.currentChat = null;
 		},
 
-		setChatList( chatList: Chat[] ) {
+		setChatList( chatList: ChatDB[] ) {
 			this.list = chatList;
 		},
 
-		addToChatList( chat: Chat) {
+		addToChatList( chat: ChatDB ) {
 			this.list.push( chat );
 		}
 
 	},
+
+	getters: {
+
+		getMessagesCurrentChat: (state) => {
+
+			if ( state.currentChat ) {
+
+				return state.chatMap.get(state.currentChat.id);
+
+			} 
+
+			return [];
+
+		},
+
+		getMessagesByChatId : (state) => (chatId: string): MessageDB[] | undefined => {
+			return state.chatMap.get(chatId);
+		},
+
+	}
 
 } );

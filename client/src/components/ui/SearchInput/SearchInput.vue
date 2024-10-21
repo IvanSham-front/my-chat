@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SearchIcon from '@/assets/images/SearchIcon.vue';
 
 const searchValue = defineModel();
@@ -15,7 +15,7 @@ defineProps({
 			<SearchIcon />
 		</div>
 		<input
-			:type="text"
+			type="text"
 			:placeholder="placeholder"
 			v-model="searchValue"
 		/>

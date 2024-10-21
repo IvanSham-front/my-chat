@@ -1,16 +1,16 @@
 <script setup type='ts'>
 import { ref, provide, computed } from 'vue';
-import { useStore } from 'vuex';
 import UserBlock from '../UserBlock/UserBlock.vue';
 import SearchIcon from '@/assets/images/SearchIcon.vue';
 import OptionIcon from '@/assets/images/OptionIcon.vue';
 import MessageList from './MessageList/MessageList.vue';
 import MessageInput from '../ui/MessageInput/MessageInput.vue';
+import { useChatsStore } from '@/store/chats/chats';
 
-const store = useStore();
 
-const messagesList = computed(() => store.getters.messagesList);
-const currentChat = computed(() => store.getters.currentChat);
+const chatStore = useChatsStore();
+
+const messagesList = chatStore.getMessagesCurrentChat;
 
 const companion = computed(() => {
 	const companionId = currentChat.value.members.find((item) => item !== 1);
@@ -34,7 +34,7 @@ const adjustContentMessagesHeight = () => {
 };
 
 const onSendMessage = (messageObject) => {
-	messagesList.value.push(messageObject);
+	messagesList.push(messageObject);
 };
 
 </script>

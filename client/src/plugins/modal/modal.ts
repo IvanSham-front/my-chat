@@ -32,13 +32,6 @@ export const useModalStore = defineStore( 'modals', {
 		},
 	},
 
-	getters: {
-
-		isOpenModal: ( state ): boolean => state.isOpen,
-		currentModalName: ( state ): string => state.name,
-		currentModalProps: ( state ) => state.props,
-
-	},
 
 });
 

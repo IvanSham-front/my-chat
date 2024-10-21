@@ -11,6 +11,13 @@ export interface OpenModalPayload {
   props: any;
 };
 
+export interface ModalInject {
+
+	open(payload: OpenModalPayload): void;
+  	close(): void;
+
+}
+
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {

@@ -19,6 +19,6 @@ const app = createApp(App);
 app.use(router);
 app.use(pinia);
 app.use(modal);
-app.use(socketIo);
+// app.use(socketIo);
 
 app.mount('#app');

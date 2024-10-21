@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 import EmojiPicker from 'vue3-emoji-picker';
@@ -17,7 +17,7 @@ const onClosePicker = () => {
 	showPicker.value = false;
 };
 
-const selectEmoji = (emoji) => {
+const selectEmoji = (emoji: any) => {
 	emit('input', emoji.i);
 };
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -24,8 +24,12 @@ const props = defineProps({
 
 const emit = defineEmits(['input']);
 
-const handleInputChange = (e) => {
-	emit('input', e.target.value);
+const handleInputChange = (e: Event) => {
+	
+	const target = e.target as HTMLInputElement;
+
+	emit('input', target.value);
+
 };
 
 const isActive = computed(() => !!props.value);
@@ -48,7 +52,7 @@ const isActive = computed(() => !!props.value);
 
 		<label
 			class="ui-text__label"
-			:for="name"
+			:for="id"
 		>{{ labelText }}</label>
 	</div>
 </template>

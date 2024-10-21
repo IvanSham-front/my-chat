@@ -1,44 +1,52 @@
-<script setup>
-import { useStore } from 'vuex';
+<script setup lang="ts">
 import { computed, ref, inject } from 'vue';
 import SearchInput from '@/components/ui/SearchInput/SearchInput.vue';
 import ChatItem from '../ChatItem/ChatItem.vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
 import PlusIcon from '@/assets/images/PlusIcon.vue';
+import { ModalInject } from '@/plugins/modal/modal.types';
+import { useChatsStore } from '@/store/chats/chats';
+import { useUserStore } from '@/store/users/users';
 
-const modal = inject('modal');
+const modal = inject<ModalInject>('modal');
 
-const store = useStore();
+const chatStore = useChatsStore();
+const userStore = useUserStore();
 
-const searchValue = ref('');
-
-const chatList = computed(() => store.getters.chatList);
+const searchValue = ref<string>('');
 
 const filterChatList = computed(() => {
 
 	if (!searchValue.value) {
-		return chatList.value;
+		return chatStore.list;
 	}
 
-
-	const result = chatList.value.filter(chat => {
+	const result = chatStore.list.filter(chat => {
 
 		const companions = chat.members.map(
 			member => {
-				if (member !== 1) {
-					return store.getters.getUserById(member);
+				if (member !== '1') {
+					return userStore.getUserById(member);
 				}
 			}
 		).filter(item => item);
 
 		for (let companion of companions) {
 
-			if (
-				companion.name.toUpperCase().includes(searchValue.value.toUpperCase())
-				|| companion.surName.toUpperCase().includes(searchValue.value.toUpperCase()
-					|| `${companion.name} ${companion.surName}`.toUpperCase().includes(searchValue.value.toUpperCase()))) {
-				return true;
+			if (!companion) {
+
+				return false;
+
 			}
+
+			if ( 
+				companion.name?.toUpperCase().includes( searchValue.value.toUpperCase() )
+				|| companion.surName?.toUpperCase().includes( searchValue.value.toUpperCase() )
+				|| `${companion.name} ${companion.surName}`.toUpperCase().includes( searchValue.value.toUpperCase()) 
+			) {
+				return true;
+				}
+			
 		}
 
 		return false;
@@ -51,10 +59,18 @@ const filterChatList = computed(() => {
 
 const openModal = () => {
 
-	modal.open({
-		modalName: 'TestModal',
-		modalProps: ''
-	});
+	if (modal) {
+
+		modal.open({
+			name: 'TestModal',
+			props: ''
+		});
+
+	} else {
+
+		console.error( 'Modal injection failed' );
+
+	}
 
 };
 
@@ -78,7 +94,7 @@ const openModal = () => {
 			<ChatItem
 				v-for="item in filterChatList"
 				:chat-item="item"
-				:key="item.name"
+				:key="item.id"
 			/>
 		</UiScroll>
 	</div>

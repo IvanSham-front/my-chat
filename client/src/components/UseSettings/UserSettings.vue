@@ -1,12 +1,9 @@
-<script setup>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+<script setup lang="ts">
 import TextInput from '@/components/ui/TextInput/TextInput.vue';
 import AvatarUploader from '@/components/ui/AvatarUploader/AvatarUploader.vue';
+import { useAuth } from '@/hooks/useAuth';
 
-const store = useStore();
-
-const authUser = computed(() => store.getters.authUser);
+const { authUser } = useAuth()
 
 </script>
 
@@ -17,28 +14,28 @@ const authUser = computed(() => store.getters.authUser);
 
 		<TextInput
 			:label-text="'First name'"
-			:value="authUser.name"
+			:value="authUser?.name"
 			:id="'firstName'"
 			:required="true"
 		/>
 
 		<TextInput
 			:label-text="'Last name'"
-			:value="authUser.surName"
+			:value="authUser?.surName"
 			:id="'lastName'"
 			:required="true"
 		/>
 
 		<TextInput
 			:label-text="'Status'"
-			:value="authUser.status"
+			:value="authUser?.status"
 			:id="'lastName'"
 			:required="true"
 		/>
 
 		<TextInput
 			:label-text="'Username'"
-			:value="authUser.login"
+			:value="authUser?.login"
 			:id="'username'"
 			:required="true"
 		/>

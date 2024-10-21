@@ -1,14 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
+import { UserDB } from '@/types/User';
 
-defineProps({
-	user: {
-		type: Object,
-	},
-});
+defineProps<{
+	user: UserDB
+}>();
 
-function getFullUserName(user) {
-	return `${user.name} ${user.surName}`;
+function getFullUserName(user: UserDB): string {
+
+	if ( user ) {
+
+		return `${user.name} ${user.surName}`;
+
+	} else return '';
+
 }
 </script>
 
@@ -25,7 +30,7 @@ function getFullUserName(user) {
 			</h4>
 
 			<span class="user-block__login">
-				{{ user.login }}
+				{{ user?.login }}
 			</span>
 		</div>
 	</div>

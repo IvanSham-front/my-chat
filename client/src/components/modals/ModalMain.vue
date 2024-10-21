@@ -1,23 +1,32 @@
 <script setup lang="ts">
 
-import { computed, inject } from 'vue';
-import { useStore } from 'vuex';
-import TestModal from './ModalTest/TestModal.vue';
+import { DefineComponent, inject } from 'vue';
 import AvatarUpdater from './AvatarUpdater/AvatarUpdater.vue';
-const store = useStore();
-const modal = inject('modal');
+import { ModalInject } from '@/plugins/modal/modal.types';
+import { useModalStore } from '@/plugins/modal/modal';
 
-const components = {
-	TestModal,
+const modal = inject<ModalInject>('modal');
+
+const components: { [key: string]: DefineComponent<{}, {}, any>  } = {
+	// TestModal,
 	AvatarUpdater
 };
 
-const openModal = computed(() => store.getters.openModal);
-const modalName = computed(() => store.getters.modalName);
+const modalStore = useModalStore();
 
 
 const closeModal = () => {
-	modal.close();
+
+	if (modal) {
+
+		modal.close();
+
+	} else {
+
+		console.error( 'Modal injection failed' );
+
+	}
+	
 };
 
 </script>
@@ -26,10 +35,10 @@ const closeModal = () => {
 	<transition 
 		name="fade"
 	>
-		<div class="modal" v-show="openModal">
+		<div class="modal" v-show="modalStore.isOpen">
 			<div class="modal__overlay" @click="closeModal"></div>
 			<div class="modal__content">
-				<component :is="components[modalName]"></component>
+				<component :is="components[ modalStore.name ]"></component>
 			</div>
 		</div>
 	</transition>

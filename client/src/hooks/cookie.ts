@@ -1,5 +1,7 @@
 export const cookie = {
-	get(cookieName) {
+
+	get( cookieName: string ) {
+
 		const cookies = document.cookie;
 		let result = cookies.split(cookieName + '=')[1];
 		if (result) {
@@ -8,13 +10,19 @@ export const cookie = {
 			result = '';
 		}
 		return result;
+
 	},
 
-	set(cookieName, value) {
+	set(cookieName: string, value: string) {
+
 		document.cookie = `${encodeURIComponent(cookieName)}=${encodeURIComponent(value)}`;
+
 	},
 
-	remove(cookieName) {
+	remove( cookieName: string ) {
+
 		document.cookie = cookieName + '= ; max-age=0';
+
 	}
+	
 };
