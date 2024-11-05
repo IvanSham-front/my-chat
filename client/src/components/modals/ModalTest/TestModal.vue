@@ -1,10 +1,5 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-	<div>
-		SOME CONTENT TEST
-	</div>
-
+	<div>SOME CONTENT TEST</div>
 </template>

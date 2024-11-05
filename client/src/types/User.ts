@@ -1,4 +1,4 @@
-import { EntityDB } from "./EntityDB";
+import { EntityDB } from './EntityDB';
 
 export interface User {
 	login: string;
@@ -7,12 +7,12 @@ export interface User {
 	status?: string;
 	avatarUrl?: string;
 	color?: string;
-	id: string
-};
+	id: string;
+}
 
 export interface UserDB extends User, EntityDB {}
 
 export interface UserState {
-	list: UserDB[]
-	authUser: UserDB | null
+	list: UserDB[];
+	authUser: UserDB | null;
 }

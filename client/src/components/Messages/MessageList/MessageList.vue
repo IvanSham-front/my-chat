@@ -1,32 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import { inject, onMounted, watch } from 'vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
 import MessageItem from '../MessageItem/MessageItem.vue';
+import { MessageDB } from '@/types/Message';
 
-const props = defineProps({
-	messages: {
-		type: Array,
-		default: () => []
-	}
-});
+
+const props = defineProps<{
+	messages: MessageDB[];
+}>();
+
 
 const messageListRef = inject('messageListRef', null);
 
-function onScrollList(behavior) {
-
+function onScrollList( behavior: 'auto' | 'smooth' ) {
 	const scrollList = document.getElementById('scrollList');
-	const height = scrollList.scrollHeight;
+	if ( scrollList ) {
 
-	setTimeout(() => {
+		const height = scrollList.scrollHeight;
 
-		scrollList.scrollBy({
-			left: 0,
-			top: height,
-			behavior
+		setTimeout(() => {
+			scrollList.scrollBy({
+				left: 0,
+				top: height,
+				behavior,
+			});
 		});
 
-	});
-
+	}
 
 }
 
@@ -35,34 +35,18 @@ onMounted(() => {
 });
 
 watch(props.messages, () => {
-
 	onScrollList('smooth');
-
 });
-
 </script>
 
 <template>
-	<div
-		ref="messageListRef"
-		class="message-list"
-	>
-		<UiScroll
-			id="scrollList"
-			class="message-list__scroll"
-		>
-			<MessageItem
-				v-for="message in messages"
-				:key="message.id"
-				:message="message"
-			/>
+	<div ref="messageListRef" class="message-list">
+		<UiScroll id="scrollList" class="message-list__scroll">
+			<MessageItem v-for="message in messages" :key="message.id" :message="message" />
 		</UiScroll>
 	</div>
 </template>
 
-<style
-	scoped
-	lang="scss"
->
-@import './MessageList';
+<style scoped lang="scss">
+	@import './MessageList';
 </style>

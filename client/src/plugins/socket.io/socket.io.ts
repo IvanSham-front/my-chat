@@ -39,13 +39,9 @@ socket.on('connect_error', (error) => {
 
 // }).then(response => response.json());
 
-
-
 export default {
-	install(app: App, ) {
-		
+	install(app: App) {
 		app.config.globalProperties.$socket = {
-			
 			connect() {
 				socket = io('http://localhost:3020', {
 					// path: '/api/',

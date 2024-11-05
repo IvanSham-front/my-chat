@@ -3,7 +3,7 @@
 
 .search-input {
 	@include myTextInput($main_text-color_white, $main_background_grey);
-	padding: .4rem 1rem;
+	padding: 0.4rem 1rem;
 	fill: $main_text-color_grey;
 	height: 40px;
 	gap: 10px;

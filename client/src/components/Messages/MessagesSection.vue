@@ -1,4 +1,4 @@
-<script setup type='ts'>
+<script setup lang="ts">
 import { ref, provide, computed } from 'vue';
 import UserBlock from '../UserBlock/UserBlock.vue';
 import SearchIcon from '@/assets/images/SearchIcon.vue';
@@ -36,7 +36,6 @@ const adjustContentMessagesHeight = () => {
 const onSendMessage = (messageObject) => {
 	messagesList.push(messageObject);
 };
-
 </script>
 
 <template>
@@ -57,11 +56,7 @@ const onSendMessage = (messageObject) => {
 			</div>
 
 			<div class="messages__content">
-				<MessageList
-					:messageListRef="messageListRef"
-					class="messages__list"
-					:messages="messagesList"
-				/>
+				<MessageList :messageListRef="messageListRef" class="messages__list" :messages="messagesList" />
 
 				<MessageInput
 					:messageInputRef="messageInputRef"
@@ -72,12 +67,8 @@ const onSendMessage = (messageObject) => {
 			</div>
 		</div>
 	</section>
-
 </template>
 
-<style
-	lang="scss"
-	scoped
->
-@import './MessagesSection';
+<style lang="scss" scoped>
+	@import './MessagesSection';
 </style>

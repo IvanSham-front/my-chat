@@ -33,11 +33,10 @@
 	&_from-me {
 		background: $message_background_violet;
 		align-self: flex-end;
-		
+
 		& .message-item__date {
 			color: $main_text-color_white;
 		}
-
 	}
 }
 

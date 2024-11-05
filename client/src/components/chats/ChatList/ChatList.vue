@@ -16,93 +16,66 @@ const userStore = useUserStore();
 const searchValue = ref<string>('');
 
 const filterChatList = computed(() => {
-
 	if (!searchValue.value) {
 		return chatStore.list;
 	}
 
-	const result = chatStore.list.filter(chat => {
-
-		const companions = chat.members.map(
-			member => {
+	const result = chatStore.list.filter((chat) => {
+		const companions = chat.members
+			.map((member) => {
 				if (member !== '1') {
 					return userStore.getUserById(member);
 				}
-			}
-		).filter(item => item);
+			})
+			.filter((item) => item);
 
-		for (let companion of companions) {
-
+		for (const companion of companions) {
 			if (!companion) {
-
 				return false;
-
 			}
 
-			if ( 
-				companion.name?.toUpperCase().includes( searchValue.value.toUpperCase() )
-				|| companion.surName?.toUpperCase().includes( searchValue.value.toUpperCase() )
-				|| `${companion.name} ${companion.surName}`.toUpperCase().includes( searchValue.value.toUpperCase()) 
+			if (
+				companion.name?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
+				companion.surName?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
+				`${companion.name} ${companion.surName}`.toUpperCase().includes(searchValue.value.toUpperCase())
 			) {
 				return true;
-				}
-			
+			}
 		}
 
 		return false;
-
 	});
 
 	return result;
-
 });
 
 const openModal = () => {
-
 	if (modal) {
-
 		modal.open({
 			name: 'TestModal',
-			props: ''
+			props: '',
 		});
-
 	} else {
-
-		console.error( 'Modal injection failed' );
-
+		console.error('Modal injection failed');
 	}
-
 };
-
 </script>
 
 <template>
 	<div class="chat-list">
 		<div class="chat-list__header">
-			<SearchInput
-				class="chat-list__search-field"
-				placeholder="search here..."
-				v-model="searchValue"
-			/>
+			<SearchInput class="chat-list__search-field" placeholder="search here..." v-model="searchValue" />
 			<button class="chat-list__add-button" @click="openModal">
 				<PlusIcon />
 			</button>
 		</div>
 
-
 		<UiScroll class="chat-list__items">
-			<ChatItem
-				v-for="item in filterChatList"
-				:chat-item="item"
-				:key="item.id"
-			/>
+			<ChatItem v-for="item in filterChatList" :chat-item="item" :key="item.id" />
 		</UiScroll>
 	</div>
 </template>
 
-<style
-	lang="scss"
-	scoped
->
-@import './ChatList';
+<style lang="scss" scoped>
+	@import './ChatList';
 </style>

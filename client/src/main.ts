@@ -1,12 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 import modal from './plugins/modal/modal';
 
 import routes from './routes';
-import socketIo from './plugins/socket.io/socket.io';
-
+// import socketIo from './plugins/socket.io/socket.io';
 
 const router = createRouter({
 	routes,

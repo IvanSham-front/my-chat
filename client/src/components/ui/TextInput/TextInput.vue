@@ -1,65 +1,57 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
 	labelText: {
-		type: String
+		type: String,
+		default: () => ''
 	},
 	type: {
 		type: String,
-		default: () => 'text'
+		default: () => 'text',
 	},
 	required: {
-		type: Boolean
+		type: Boolean,
 	},
 	id: {
 		type: String,
-		required: true
+		required: true,
 	},
-	value: {
+	modelValue: {
 		type: String,
-		required: true
-	}
+		default: () => ''
+	},
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits(['update:modelValue']);
 
 const handleInputChange = (e: Event) => {
-	
 	const target = e.target as HTMLInputElement;
 
-	emit('input', target.value);
-
+	emit('update:modelValue', target.value);
 };
 
-const isActive = computed(() => !!props.value);
-
+const isActive = computed(() => !!props.modelValue);
 </script>
 
 <template>
 	<div class="ui-text">
-
 		<input
 			v-if="type !== 'number'"
-			:class="['ui-text__input', { 'active': isActive }]"
+			:class="['ui-text__input', { active: isActive }]"
 			:type="type"
 			:required="required || false"
 			:id="id"
 			:name="id"
-			:value="value"
-			@change="handleInputChange"
-		>
+			:value="modelValue"
+			@input="handleInputChange"
+		/>
 
-		<label
-			class="ui-text__label"
-			:for="id"
-		>{{ labelText }}</label>
+		<label class="ui-text__label" :for="id">{{ labelText }}</label>
 	</div>
 </template>
 
-<style
-	scoped
-	lang="scss"
->
-@import './TextInput.scss';
+<style scoped lang="scss">
+	@import './TextInput.scss';
 </style>

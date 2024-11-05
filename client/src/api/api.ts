@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { globalRouter } from "../globalRouter";
+import { globalRouter } from '../globalRouter';
 
-const HOST = String( process.env.API_URL ) + process.env.API_PREFIX;
-
+const HOST = String(process.env.API_URL) + process.env.API_PREFIX;
 
 const $axios = axios.create({
 	baseURL: HOST,
@@ -15,11 +14,8 @@ $axios.interceptors.response.use(
 	},
 	function (error) {
 		console.log(globalRouter);
-		if (!!error.response && error.
-		response.status === 401) {
-
+		if (!!error.response && error.response.status === 401) {
 			globalRouter.router?.push('/login');
-
 		}
 		return Promise.reject(error);
 	}

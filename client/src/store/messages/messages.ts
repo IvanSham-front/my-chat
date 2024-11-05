@@ -65,24 +65,17 @@
 // 	},
 // ];
 
-import { Message, MessagesState } from "@/types/Message";
-import { defineStore } from "pinia";
-
+import { Message, MessagesState } from '@/types/Message';
+import { defineStore } from 'pinia';
 
 export const useMessageStore = defineStore('messages', {
-	
 	state: (): MessagesState => ({
-	
-		list: []
+		list: [],
 	}),
 
 	actions: {
-		
-		setList( messages: Message[] ) {
-
+		setList(messages: Message[]) {
 			this.list = messages;
-
 		},
-
 	},
 });

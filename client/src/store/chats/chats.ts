@@ -2,19 +2,15 @@ import { ChatDB, ChatState } from '@/types/Chat';
 import { MessageDB } from '@/types/Message';
 import { defineStore } from 'pinia';
 
-export const useChatsStore = defineStore( 'chats', {
-
+export const useChatsStore = defineStore('chats', {
 	state: (): ChatState => ({
-
 		currentChat: null,
 		list: [],
-		chatMap: new Map()
-	
+		chatMap: new Map(),
 	}),
 
 	actions: {
-
-		selectCurrentChat( chat: ChatDB ) {
+		selectCurrentChat(chat: ChatDB) {
 			this.currentChat = chat;
 		},
 
@@ -22,34 +18,27 @@ export const useChatsStore = defineStore( 'chats', {
 			this.currentChat = null;
 		},
 
-		setChatList( chatList: ChatDB[] ) {
+		setChatList(chatList: ChatDB[]) {
 			this.list = chatList;
 		},
 
-		addToChatList( chat: ChatDB ) {
-			this.list.push( chat );
-		}
-
+		addToChatList(chat: ChatDB) {
+			this.list.push(chat);
+		},
 	},
 
 	getters: {
-
 		getMessagesCurrentChat: (state) => {
-
-			if ( state.currentChat ) {
-
+			if (state.currentChat) {
 				return state.chatMap.get(state.currentChat.id);
-
-			} 
+			}
 
 			return [];
-
 		},
 
-		getMessagesByChatId : (state) => (chatId: string): MessageDB[] | undefined => {
-			return state.chatMap.get(chatId);
-		},
-
-	}
-
-} );
+		getMessagesByChatId:
+			(state) => (chatId: string): MessageDB[] | undefined => {
+				return state.chatMap.get(chatId);
+			},
+	},
+});

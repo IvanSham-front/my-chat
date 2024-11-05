@@ -2,26 +2,16 @@
 import { MessageDB } from '@/types/Message';
 
 defineProps<{
-	message: MessageDB
-}>()
+	message: MessageDB;
+}>();
 
 const sellerId = 1;
-
 </script>
 
 <template>
-	<div
-		class="message-item"
-		:class="{ 'message-item_from-me': sellerId === 1 }"
-	>
-		<div
-			class="message-item__content"
-			:class="{ 'message-item__content_from-me': sellerId === 1 }"
-		>
-			<div
-				class="message-item__attachment"
-				v-if="message.type === 'attachment'"
-			></div>
+	<div class="message-item" :class="{ 'message-item_from-me': sellerId === 1 }">
+		<div class="message-item__content" :class="{ 'message-item__content_from-me': sellerId === 1 }">
+			<div class="message-item__attachment" v-if="message.type === 'attachment'"></div>
 
 			<p class="message-item__text">{{ message.text }}</p>
 
@@ -30,9 +20,6 @@ const sellerId = 1;
 	</div>
 </template>
 
-<style
-	lang="scss"
-	scoped
->
-@import './MessageItem.scss';
+<style lang="scss" scoped>
+	@import './MessageItem.scss';
 </style>

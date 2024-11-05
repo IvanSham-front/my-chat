@@ -20,37 +20,20 @@ const onClosePicker = () => {
 const selectEmoji = (emoji: any) => {
 	emit('input', emoji.i);
 };
-
 </script>
 
 <template>
-	<div
-		class="emoji-picker"
-		ref="emojiPickerRef"
-		@mouseleave="onClosePicker"
-	>
-		<div
-			class="emoji-picker__toggler"
-			@mouseenter="onShowPicker"
-		>
+	<div class="emoji-picker" ref="emojiPickerRef" @mouseleave="onClosePicker">
+		<div class="emoji-picker__toggler" @mouseenter="onShowPicker">
 			<EmojiIcon />
 		</div>
 
 		<div class="emoji-picker__content">
-			<EmojiPicker
-				v-show="showPicker"
-				:native="true"
-				theme="dark"
-				@select="selectEmoji"
-			/>
-
+			<EmojiPicker v-show="showPicker" :native="true" theme="dark" @select="selectEmoji" />
 		</div>
 	</div>
 </template>
 
-<style
-	lang="scss"
-	scoped
->
-@import './EmojiPicker.scss';
+<style lang="scss" scoped>
+	@import './EmojiPicker.scss';
 </style>

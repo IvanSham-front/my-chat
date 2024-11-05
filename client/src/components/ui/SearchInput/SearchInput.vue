@@ -5,7 +5,6 @@ const searchValue = defineModel();
 
 defineProps({
 	placeholder: String,
-
 });
 </script>
 
@@ -14,12 +13,10 @@ defineProps({
 		<div class="search-input__icon">
 			<SearchIcon />
 		</div>
-		<input
-			type="text"
-			:placeholder="placeholder"
-			v-model="searchValue"
-		/>
+		<input type="text" :placeholder="placeholder" v-model="searchValue" />
 	</div>
 </template>
 
-<style lang="scss" scoped>@import './SearchInput.scss';</style>
+<style lang="scss" scoped>
+	@import './SearchInput.scss';
+</style>

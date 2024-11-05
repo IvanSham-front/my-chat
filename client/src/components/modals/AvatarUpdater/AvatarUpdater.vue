@@ -8,13 +8,12 @@ const canvasRef = ref<HTMLCanvasElement | null>(null);
 const context = ref<CanvasRenderingContext2D | null>(null);
 
 type ImageRef = {
-
-	x: number; 
-	y: number; 
-	resource: null | HTMLImageElement; 
-	width: number; 
-	height: number; 
-}
+	x: number;
+	y: number;
+	resource: null | HTMLImageElement;
+	width: number;
+	height: number;
+};
 
 const image = ref<ImageRef>({
 	x: 0,
@@ -45,19 +44,13 @@ const dimensions = {
 const rotationRadian = (0 * Math.PI) / 180;
 
 onMounted(() => {
-
 	if (canvasRef.value) {
-
 		context.value = canvasRef.value.getContext('2d');
 		onPaint();
 		loadImage(modalStore.props.photo);
-
 	} else {
-
 		console.error('canvasRef is null');
-
 	}
-
 });
 
 watch(scale, () => {
@@ -65,9 +58,7 @@ watch(scale, () => {
 });
 
 const onPaint = () => {
-
 	if (context.value) {
-
 		context.value.save();
 		context.value.translate(0, 0);
 		context.value.fillStyle = 'rgba(' + borderColor.slice(0, 4).join(',') + ')';
@@ -81,24 +72,19 @@ const onPaint = () => {
 			dimensions.border,
 			width - dimensions.border * 2,
 			height - dimensions.border * 2,
-			borderRadius,
+			borderRadius
 		);
 
 		context.value.rect(width, 0, -width, height);
 		context.value.fill('evenodd');
 		context.value.restore();
-
 	} else {
-
 		console.error('contextRef is null');
-
 	}
-
 };
 
-const onPaintImage = ( context: CanvasRenderingContext2D, image: HTMLImageElement ) => {
-
-	var position = calculatePosition();
+const onPaintImage = (context: CanvasRenderingContext2D, image: HTMLImageElement) => {
+	const position = calculatePosition();
 	context.save();
 	context.globalCompositeOperation = 'destination-over';
 	context.translate(dimensions.canvas.width / 2, dimensions.canvas.height / 2);
@@ -106,16 +92,19 @@ const onPaintImage = ( context: CanvasRenderingContext2D, image: HTMLImageElemen
 	context.translate(-dimensions.canvas.width / 2, -dimensions.canvas.height / 2);
 	context.drawImage(image, position.x, position.y, position.width, position.height);
 	context.restore();
-
 };
 
-const drawRoundedRect = ( context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, borderRadius: number ) => {
-	
+const drawRoundedRect = (
+	context: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	width: number,
+	height: number,
+	borderRadius: number
+) => {
 	if (borderRadius === 0) {
 		context.rect(x, y, width, height);
-
 	} else {
-
 		const widthMinusRad = width - borderRadius;
 		const heightMinusRad = height - borderRadius;
 		context.translate(x, y);
@@ -127,52 +116,40 @@ const drawRoundedRect = ( context: CanvasRenderingContext2D, x: number, y: numbe
 		context.lineTo(borderRadius, height);
 		context.arc(borderRadius, heightMinusRad, borderRadius, Math.PI * 0.5, Math.PI);
 		context.translate(-x, -y);
-
 	}
 };
 
 const onRedraw = () => {
-
-	if ( context.value && image.value.resource) {
-
+	if (context.value && image.value.resource) {
 		context.value.clearRect(0, 0, dimensions.canvas.width, dimensions.canvas.height);
 		onPaint();
 		onPaintImage(context.value, image.value.resource);
-
 	} else {
-
-		console.error('contextRef or imageRef is null')
-
+		console.error('contextRef or imageRef is null');
 	}
 };
 
 const loadImage = (imageURL: string) => {
-
-	let imageObj = new Image();
+	const imageObj = new Image();
 
 	imageObj.onload = () => {
-		
-		let imageState = getInitialSize(imageObj.width, imageObj.height);
+		const imageState = getInitialSize(imageObj.width, imageObj.height);
 		image.value.x = 0;
 		image.value.y = 0;
 		image.value.resource = imageObj;
 		image.value.width = imageState.width;
 		image.value.height = imageState.height;
-		
-		if (context.value) {
 
+		if (context.value) {
 			onPaintImage(context.value, imageObj);
 		}
-
 	};
 	imageObj.onerror = (err) => console.error('error loading image: ', err);
 
 	imageObj.src = imageURL;
-
 };
 
 const getInitialSize = (width: number, height: number) => {
-
 	let newHeight;
 	let newWidth;
 
@@ -194,22 +171,19 @@ const getInitialSize = (width: number, height: number) => {
 };
 
 function transformDataWithRotation(x: number, y: number): number[] {
-
-	let radian = rotationRadian;
-	let rx = x * Math.cos(radian) - y * Math.sin(radian);
-	let ry = x * Math.sin(radian) + y * Math.cos(radian);
+	const radian = rotationRadian;
+	const rx = x * Math.cos(radian) - y * Math.sin(radian);
+	const ry = x * Math.sin(radian) + y * Math.cos(radian);
 	return [rx, ry];
-
 }
 
 const calculatePosition = () => {
-
-	let width = image.value.width * scale.value;
-	let height = image.value.height * scale.value;
-	var widthDiff = (width - dimensions.width) / 2;
-	var heightDiff = (height - dimensions.height) / 2;
-	var x = image.value.x * scale.value; // - widthDiff;
-	var y = image.value.y * scale.value; // - heightDiff;
+	const width = image.value.width * scale.value;
+	const height = image.value.height * scale.value;
+	const widthDiff = (width - dimensions.width) / 2;
+	const heightDiff = (height - dimensions.height) / 2;
+	let x = image.value.x * scale.value; // - widthDiff;
+	let y = image.value.y * scale.value; // - heightDiff;
 	[x, y] = transformDataWithRotation(x, y);
 	x += border - widthDiff;
 	y += border - heightDiff;
@@ -220,7 +194,6 @@ const calculatePosition = () => {
 		height,
 		width,
 	};
-
 };
 
 const state = ref({
@@ -229,9 +202,13 @@ const state = ref({
 	my: null as null | number,
 });
 
-watch(state, () => {
-	onRedraw();
-}, { deep: true });
+watch(
+	state,
+	() => {
+		onRedraw();
+	},
+	{ deep: true }
+);
 
 const onDragEnd = () => {
 	if (state.value.drag) {
@@ -247,19 +224,19 @@ const onDragStart = (e: MouseEvent | TouchEvent | Event) => {
 	state.value.drag = true;
 	state.value.mx = null;
 	state.value.my = null;
-	let eventSubject: Document = document;
+	const eventSubject: Document = document;
 	let hasMoved: boolean = false;
-	let handleMouseUp = (event: MouseEvent | TouchEvent) => {
+	const handleMouseUp = (event: MouseEvent | TouchEvent) => {
 		onDragEnd();
 		if (!hasMoved && (event as TouchEvent).targetTouches) {
-			( e.target as HTMLElement ).click();
+			(e.target as HTMLElement).click();
 		}
 		eventSubject.removeEventListener('mouseup', handleMouseUp);
 		eventSubject.removeEventListener('mousemove', handleMouseMove);
 		eventSubject.removeEventListener('touchend', handleMouseUp);
 		eventSubject.removeEventListener('touchmove', handleMouseMove);
 	};
-	let handleMouseMove = (event: MouseEvent | TouchEvent) => {
+	const handleMouseMove = (event: MouseEvent | TouchEvent) => {
 		hasMoved = true;
 		onMouseMove(event);
 	};
@@ -270,23 +247,21 @@ const onDragStart = (e: MouseEvent | TouchEvent | Event) => {
 };
 
 const onMouseMove = (e: MouseEvent | TouchEvent) => {
-
 	e = e || window.event;
 	if (state.value.drag === false) {
 		return;
 	}
 
-
-	let imageState = image.value;
+	const imageState = image.value;
 	const lastX = imageState.x;
 	const lastY = imageState.y;
 
-	const mousePositionX = (e as TouchEvent).targetTouches 
-		? (e as TouchEvent).targetTouches[0].pageX 
+	const mousePositionX = (e as TouchEvent).targetTouches
+		? (e as TouchEvent).targetTouches[0].pageX
 		: (e as MouseEvent).clientX;
-		
-	const mousePositionY = (e as TouchEvent).targetTouches 
-		? (e as TouchEvent).targetTouches[0].pageY 
+
+	const mousePositionY = (e as TouchEvent).targetTouches
+		? (e as TouchEvent).targetTouches[0].pageY
 		: (e as MouseEvent).clientY;
 
 	const newState = {
@@ -306,12 +281,10 @@ const onMouseMove = (e: MouseEvent | TouchEvent) => {
 	state.value.mx = newState.mx;
 	state.value.my = newState.my;
 	image.value = imageState;
-
 };
 
-function getBoundedX( x: number ): number {
-
-	let width =
+function getBoundedX(x: number): number {
+	const width =
 		Math.abs(image.value.width * Math.cos(rotationRadian)) +
 		Math.abs(image.value.height * Math.sin(rotationRadian));
 
@@ -319,11 +292,10 @@ function getBoundedX( x: number ): number {
 	widthDiff = Math.max(0, widthDiff);
 
 	return Math.max(-widthDiff, Math.min(x, widthDiff));
-
 }
 
-function getBoundedY( y: number ): number {
-	let height =
+function getBoundedY(y: number): number {
+	const height =
 		Math.abs(image.value.width * Math.sin(rotationRadian)) +
 		Math.abs(image.value.height * Math.cos(rotationRadian));
 	let heightDiff = Math.floor((height - dimensions.height / scale.value) / 2);
@@ -331,35 +303,27 @@ function getBoundedY( y: number ): number {
 	return Math.max(-heightDiff, Math.min(y, heightDiff));
 }
 
-
 const finishUrl = ref<string>('');
 
 const canvasToImage = () => {
-
 	const { width, height } = dimensions;
 
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
 	canvas.width = width;
 	canvas.height = height;
-	
-	if ( ctx && image.value.resource ) {
 
+	if (ctx && image.value.resource) {
 		onPaintImage(ctx, image.value.resource);
 		const dataUrl = canvas.toDataURL();
-		var link = document.createElement('a');
+		const link = document.createElement('a');
 		link.href = dataUrl;
 		link.download = 'canvas_image.png';
 		link.click();
-
 	} else {
-
 		console.error('ctx or image is not found');
-
 	}
-
 };
-
 </script>
 
 <template>
@@ -377,7 +341,7 @@ const canvasToImage = () => {
 
 		<button @click="canvasToImage">save</button>
 
-		<pre>{{finishUrl}}</pre>
+		<pre>{{ finishUrl }}</pre>
 		<img :src="finishUrl" />
 
 		<input type="range" v-model="scale" min="1" max="3" step="0.02" />
@@ -385,5 +349,5 @@ const canvasToImage = () => {
 </template>
 
 <style lang="scss" scoped>
-@import './AvatarUpdater.scss';
+	@import './AvatarUpdater.scss';
 </style>

@@ -3,26 +3,19 @@ import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
 import { UserDB } from '@/types/User';
 
 defineProps<{
-	user: UserDB
+	user: UserDB | null;
 }>();
 
-function getFullUserName(user: UserDB): string {
-
-	if ( user ) {
-
+function getFullUserName(user: UserDB | null): string {
+	if (user) {
 		return `${user.name} ${user.surName}`;
-
 	} else return '';
-
 }
 </script>
 
 <template>
 	<div class="user-block">
-		<UiAvatar
-			class="user-block__avatar"
-			:user="user"
-		/>
+		<UiAvatar class="user-block__avatar" :user="user" />
 
 		<div class="user-block__info">
 			<h4 class="user-block__name">
@@ -37,5 +30,5 @@ function getFullUserName(user: UserDB): string {
 </template>
 
 <style lang="scss" scoped>
-@import './UserBlock.scss';
+	@import './UserBlock.scss';
 </style>

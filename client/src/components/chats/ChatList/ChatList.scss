@@ -6,16 +6,14 @@
 
 .chat-list__header {
 	@include myFlex();
-	gap: .5rem;
+	gap: 0.5rem;
 	align-items: center;
 	margin-bottom: 1rem;
-
 }
 
 .chat-list__add-button {
 	@include myIconButton(20px);
 }
-
 
 .chat-list__items {
 	@include myFlex(start);

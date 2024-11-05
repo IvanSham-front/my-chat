@@ -1,7 +1,6 @@
 @import '@/assets/styles/mixins';
 @import '@/assets/styles/variables';
 
-
 .user-settings {
 	@include myFlex();
 	flex-direction: column;

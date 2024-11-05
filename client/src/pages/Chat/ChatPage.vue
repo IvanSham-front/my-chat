@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
 import MessagesSection from '@/components/Messages/MessagesSection.vue';
-
 </script>
 
 <template>
@@ -11,9 +10,6 @@ import MessagesSection from '@/components/Messages/MessagesSection.vue';
 	</main>
 </template>
 
-<style
-	lang="scss"
-	scoped
->
-@import './ChatPage.scss';
+<style lang="scss" scoped>
+	@import './ChatPage.scss';
 </style>
