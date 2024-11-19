@@ -1,14 +1,14 @@
 import { EntityDB } from './EntityDB';
-import { Message, MessageDB } from './Message';
+import { IMessage, MessageDB } from './Message';
 
-export interface Chat {
+export interface IChat {
 	type: 'private' | 'group';
 	members: Array<string>;
 	iconUrl?: string;
-	lastMessage: Message | MessageDB;
+	lastMessage: IMessage | MessageDB;
 }
 
-export interface ChatDB extends Chat, EntityDB {}
+export interface ChatDB extends IChat, EntityDB {}
 
 export interface ChatState {
 	currentChat: null | ChatDB;

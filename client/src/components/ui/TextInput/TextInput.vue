@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { defineProps, defineEmits } from 'vue';
+import EyeIcon from '@/assets/images/EyeIcon.vue';
 
 const props = defineProps({
 	labelText: {
@@ -33,14 +34,27 @@ const handleInputChange = (e: Event) => {
 };
 
 const isActive = computed(() => !!props.modelValue);
+
+const showPassword = ref<boolean>(false);
+
+const inputType = computed(() => {
+	if (props.type === 'password' && showPassword.value) {
+		return 'text';
+	}
+	return props.type;
+});
+
+const toggleShowPassword = () => {
+	showPassword.value = !showPassword.value;
+};
+
 </script>
 
 <template>
 	<div class="ui-text">
 		<input
-			v-if="type !== 'number'"
-			:class="['ui-text__input', { active: isActive }]"
-			:type="type"
+			:class="['ui-text__input', { 'active': isActive }]"
+			:type="inputType"
 			:required="required || false"
 			:id="id"
 			:name="id"
@@ -48,10 +62,19 @@ const isActive = computed(() => !!props.modelValue);
 			@input="handleInputChange"
 		/>
 
+		<button 
+			v-if="type === 'password'"
+			:class="[ 'ui-text__password-button', { 'ui-text__password-button_crossout' : showPassword } ]"
+			@click="toggleShowPassword" 
+			type="button"
+		>
+			<eye-icon />
+		</button>
+
 		<label class="ui-text__label" :for="id">{{ labelText }}</label>
 	</div>
 </template>
 
 <style scoped lang="scss">
-	@import './TextInput.scss';
+@import './TextInput.scss';
 </style>

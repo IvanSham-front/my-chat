@@ -5,12 +5,13 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
+	position: relative;
 }
 
 .ui-text__input {
 	border: 1px solid $main_text-color_grey;
 	background: $main_background_dark-grey;
-	padding: 14px 0 14px 20px;
+	padding: 14px 30px 14px 20px;
 	border-radius: 6px;
 	font-style: normal;
 	font-weight: 400;
@@ -53,4 +54,22 @@
 	display: flex;
 	align-items: center;
 	font-size: 12px;
+}
+
+.ui-text__password-button {
+	position: absolute;
+	right: 5px;
+	@include myIconButton(13px);
+}
+
+.ui-text__password-button_crossout {
+	&::after {
+		content: '/';
+		position: absolute;
+		top: -2px;
+		left: 4px;
+		font-weight: bolder;
+		font-size: 1.2rem;
+		color: $main_text-color_grey;
+	}
 }

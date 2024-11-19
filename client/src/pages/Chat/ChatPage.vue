@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
-import MessagesSection from '@/components/Messages/MessagesSection.vue';
+import MessagesSection from '@/components/messages/MessagesSection.vue';
 </script>
 
 <template>

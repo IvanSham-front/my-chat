@@ -33,10 +33,23 @@ const onLogin = async (e: Event) => {
 
 <template>
 	<section class="login-page">
-		<div>Login</div>
+		<header>
+			<h1>Welcome!</h1>
+		</header>
 
 		<form class="login-page__form" @submit="onLogin">
-			<text-input label-text="login" id="login-input" v-model="login" />
+			<text-input 
+				label-text="login" 
+				id="login-input" 
+				v-model="login" 
+			/>
+
+			<text-input 
+				label-text="password"
+				id="login-input" 
+				v-model="password" 
+				type="password"
+			/>
 
 			<input v-model="password" placeholder="password" />
 			<button>login</button>

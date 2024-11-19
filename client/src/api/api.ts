@@ -1,7 +1,17 @@
 import axios from 'axios';
 import { globalRouter } from '../globalRouter';
 
-const HOST = String(process.env.API_URL) + process.env.API_PREFIX;
+
+export interface ErrorResponse {
+	message: string;
+}
+
+export interface ApiResponse<T> {
+	data: T;
+}
+
+// @ts-expect-error
+const HOST = String(import.meta.env.VITE_API_URL) + import.meta.env.VITE_API_PREFIX;
 
 const $axios = axios.create({
 	baseURL: HOST,

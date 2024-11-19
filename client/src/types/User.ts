@@ -1,16 +1,15 @@
 import { EntityDB } from './EntityDB';
 
-export interface User {
+export interface IUser {
 	login: string;
 	name?: string;
 	surName?: string;
 	status?: string;
 	avatarUrl?: string;
 	color?: string;
-	id: string;
 }
 
-export interface UserDB extends User, EntityDB {}
+export interface UserDB extends IUser, EntityDB {}
 
 export interface UserState {
 	list: UserDB[];
