@@ -17,6 +17,8 @@ export const useAuth = () => {
 			router.push('/');
 
 			// тут следом будут подключаться сокеты и переход на другую страницу.
+		} else {
+			return false;
 		}
 	};
 
@@ -34,17 +36,16 @@ export const useAuth = () => {
 		router.push('/login');
 	};
 
-	const checkLogin = (login: string) => {
-		// проверка на логин
-
-		console.debug(login);
+	const checkExsistLogin = async (login: string) => {
+		const value = await api.checkLogin(login);
+		return value;
 	};
 
 	return {
 		authUser,
 		signin,
 		signup,
-		checkLogin,
+		checkExsistLogin,
 		logout
 	};
 };

@@ -1,9 +1,11 @@
 import ChatPage from '@/pages/Chat/ChatPage.vue';
-import LoginPage from '@/pages/Login/LoginPage.vue';
+import SignupPage from '@/pages/Signup/SignupPage.vue';
+import SigninPage from './pages/Signin/SigninPage.vue';
 
 const routes = [
 	{ path: '/', component: ChatPage },
-	{ path: '/login', component: LoginPage },
+	{ path: '/signup', component: SignupPage },
+	{ path: '/signin', component: SigninPage },
 ];
 
 export default routes;

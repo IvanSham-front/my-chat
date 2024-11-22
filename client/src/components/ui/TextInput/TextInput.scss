@@ -56,9 +56,17 @@
 	font-size: 12px;
 }
 
+.ui-text__input.invalid {
+	border-color: $error_red;
+	& ~ .ui-text__label {
+		color: $error_red;
+	}
+}
+
+
 .ui-text__password-button {
 	position: absolute;
-	right: 5px;
+	right: 10px;
 	@include myIconButton(13px);
 }
 

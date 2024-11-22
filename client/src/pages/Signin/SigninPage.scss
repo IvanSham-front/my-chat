@@ -1,0 +1,59 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.signin-page {
+	max-width: clamp(250px, 50%, 600px);
+	margin: 0 auto;
+	padding-top: 10rem;
+}
+
+.signin-page__header {
+	@include myFlex();
+	flex-direction: column;
+	gap: .5rem;
+	margin-bottom: 4rem;
+}
+
+.signin-page__title {
+	font-size: 2.5rem;
+}
+
+.signin-page__description {
+	font-size: 1.8rem;
+	& a {
+		color: $message_background_violet;
+		transition: .3s;
+		&:hover {
+			text-decoration: underline;
+
+		}
+	}
+}
+
+.signin-page__form {
+	max-width: max(360px, 50%);
+	margin: 0 auto;
+	font-size: 2rem;
+	display: flex;
+	flex-direction: column;
+	& fieldset {
+		text-align: center;
+	}
+}
+
+.signin-page__input-container {
+
+	@include myFlex();
+	flex-direction: column;
+	gap: .5rem;
+	margin-bottom: 3rem;
+}
+
+.signin-page__error-span {
+	color: $error_red;
+	font-size: 1rem;
+	letter-spacing: .05rem;
+	min-height: 1rem;
+	text-align: center;
+	margin-bottom: 2px;
+}

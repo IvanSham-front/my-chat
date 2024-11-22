@@ -1,6 +1,5 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import { globalRouter } from '../globalRouter';
-
 
 export interface ErrorResponse {
 	message: string;
@@ -30,5 +29,15 @@ $axios.interceptors.response.use(
 		return Promise.reject(error);
 	}
 );
+
+export const handleAxiosError = (error: unknown) => {
+	if (isAxiosError(error)) {
+		console.error('Error message: ', error.message);
+		return error.message;
+	} else {
+		console.error('Unexpected error: ', error);
+		return 'An unexpected error occurred';
+	}
+};
 
 export default $axios;

@@ -5,6 +5,7 @@ const api = {
 	login: auth.login,
 	registration: auth.registration,
 	logout: auth.logout,
+	checkLogin: auth.checkLogin,
 };
 
 export default api;

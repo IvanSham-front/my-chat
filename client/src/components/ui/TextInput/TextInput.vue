@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { defineProps, defineEmits } from 'vue';
 import EyeIcon from '@/assets/images/EyeIcon.vue';
 
+
 const props = defineProps({
 	labelText: {
 		type: String,
@@ -23,6 +24,10 @@ const props = defineProps({
 		type: String,
 		default: () => ''
 	},
+	invalid: {
+		type: Boolean,
+		default: () => false
+	}
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -53,7 +58,11 @@ const toggleShowPassword = () => {
 <template>
 	<div class="ui-text">
 		<input
-			:class="['ui-text__input', { 'active': isActive }]"
+			:class="[
+				'ui-text__input', 
+				{ 'active': isActive }, 
+				{ 'invalid': invalid }
+			]"
 			:type="inputType"
 			:required="required || false"
 			:id="id"

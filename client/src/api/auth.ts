@@ -1,6 +1,5 @@
 import { UserDB } from '@/types/User';
-import $axios, { ApiResponse } from './api';
-import { isAxiosError } from 'axios';
+import $axios, { ApiResponse, handleAxiosError } from './api';
 
 interface UserResponse {
 	user: UserDB;
@@ -12,13 +11,7 @@ export const auth = {
 			const { data } = await $axios.post<ApiResponse<UserResponse>>('/v1/auth/registration', { login, password });
 			return data;
 		} catch (error) {
-			if (isAxiosError(error)) {
-				console.error('error message: ', error.message);
-				return error.message;
-			} else {
-				console.log('unexpected error: ', error);
-				return 'An unexpected error occurred';
-			}
+			handleAxiosError(error);
 		}
 	},
 
@@ -27,13 +20,7 @@ export const auth = {
 			const { data } = await $axios.post<ApiResponse<UserResponse>>('/v1/auth/login', { login, password });
 			return data;
 		} catch (error) {
-			if (isAxiosError(error)) {
-				console.error('error message: ', error.message);
-				return error.message;
-			} else {
-				console.log('unexpected error: ', error);
-				return 'An unexpected error occurred';
-			}
+			handleAxiosError(error);
 		}
 	},
 
@@ -43,6 +30,15 @@ export const auth = {
 			return res;
 		} catch (error) {
 			return error;
+		}
+	},
+
+	checkLogin: async (login: string) => {
+		try {
+			const { data } = await $axios.post<ApiResponse<boolean>>('/v1/auth/checkLogin', { login });
+			return data;
+		} catch (error) {
+			handleAxiosError(error);
 		}
 	},
 };
