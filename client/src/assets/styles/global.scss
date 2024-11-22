@@ -5,8 +5,8 @@
 	font-size: 12px;
 
 	color-scheme: light dark;
-	color: $main_text-color_white;
-	background-color: $main_background_dark-grey;
+	color: var(--neutral-100);
+	background-color: var(--neutral-950);
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -37,12 +37,12 @@ fieldset {
 
 @media (prefers-color-scheme: light) {
 	:root {
-		color: #213547;
-		background-color: #ffffff;
+		color: var(--neutral-600);
+		background-color: var(--neutral-25);
 	}
 }
 
 .v3-emoji-picker,
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group h5 {
-	background-color: $emoji-picker_background_grey;
+	background-color: var(--neutral-925);
 }

@@ -21,7 +21,7 @@
 .signin-page__description {
 	font-size: 1.8rem;
 	& a {
-		color: $message_background_violet;
+		color: var(--brand-500);
 		transition: .3s;
 		&:hover {
 			text-decoration: underline;
@@ -50,7 +50,7 @@
 }
 
 .signin-page__error-span {
-	color: $error_red;
+	color: var(--danger-500);
 	font-size: 1rem;
 	letter-spacing: .05rem;
 	min-height: 1rem;

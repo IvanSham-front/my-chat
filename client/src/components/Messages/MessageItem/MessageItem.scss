@@ -22,20 +22,20 @@
 	padding: 0.5rem;
 	max-width: 60%;
 
-	border: 1px solid $message_border_grey;
+	border: 1px solid var(--neutral-900);
 	border-radius: 6px;
-	background: $main_background_dark-grey;
+	background: var(--neutral-950);
 
 	& .message-item__date {
-		color: $main_text-color_grey;
+		color: var(--neutral-500);
 	}
 
 	&_from-me {
-		background: $message_background_violet;
+		background: var(--brand-500);
 		align-self: flex-end;
 
 		& .message-item__date {
-			color: $main_text-color_white;
+			color: var(--neutral-100);
 		}
 	}
 }

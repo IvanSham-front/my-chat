@@ -4,35 +4,22 @@
 .ui-button {
 	border-radius: 8px;
 	border: none;
-	background: $message_background_violet;
+	background: var(--brand-400);
 	padding: 6px 28px;
 	cursor: pointer;
 	transition: .3s;
 	position: relative;
 	min-height: 48px;
-	font-size: 2rem;
-	
-	&::after {
-		position: absolute;
-		content: '';
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		transition: .2s;
-		border-radius: 8px;
-	}		
+	font-size: 2rem;	
+	color: var(--neutral-100);
 
 	&:hover {
-		&::after {
-			background: rgba($color: #000000, $alpha: .3);
-		}
+		background: var(--brand-500);
 	}
 
 	&:active {
-		&::after {
-			background: rgba($color: #000000, $alpha: .6);
-		}
+		color: var(--neutral-200);
+		background: var(--brand-700);
 	}
 
 }

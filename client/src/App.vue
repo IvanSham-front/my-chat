@@ -10,11 +10,6 @@ import ModalMain from './components/modals/ModalMain.vue';
 const router = useRouter();
 globalRouter.router = router;
 
-const object = {
-	name: '',
-};
-
-console.log(object);
 </script>
 
 <template>

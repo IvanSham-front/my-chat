@@ -2,9 +2,9 @@
 @import '@/assets/styles/variables';
 
 .search-input {
-	@include myTextInput($main_text-color_white, $main_background_grey);
+	@include myTextInput(var(--neutral-100), var(--neutral-800));
 	padding: 0.4rem 1rem;
-	fill: $main_text-color_grey;
+	fill: var(--neutral-500);
 	height: 40px;
 	gap: 10px;
 }

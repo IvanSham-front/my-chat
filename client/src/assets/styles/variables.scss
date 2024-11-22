@@ -1,15 +1,32 @@
 // ElementPropertyColor
 
-$main_background_dark-grey: #17181a;
-$main_background_grey: #202225;
-$main_text-color_grey: #79858f;
-$main_text-color_white: #dcdce2;
-$message_border_grey: #25262a;
-$message_background_violet: #444ef3;
-$icon_fill_grey: #85909b;
-$emoji-picker_background_grey: #2b2b2b;
+:root {
+	--brand-100: #DCDCE8;
+	--brand-200: #B7B7D1;
+	--brand-300: #8C8CB7;
+	--brand-400: #63659C;
+	--brand-500: #474972;
+	--brand-600: #3F4167;
+	--brand-700: #3B3C60;
+	--brand-800: #323452;
+	--brand-900: #282942;
+	--brand-950: #1C1C2E;
 
-$error_red:#EB5757;;
+	--neutral-0: #ffffff;
+	--neutral-25: #f5f4f5;
+	--neutral-50: #edecee;
+	--neutral-100: #d3d3d6;
+	--neutral-200: #c2c1c5;
+	--neutral-300: #acabb1;
+	--neutral-400: #95949a;
+	--neutral-500: #7c7a82;
+	--neutral-600: #63616b;
+	--neutral-700: #4c4b54;
+	--neutral-800: #39383e;
+	--neutral-900: #2a282d;
+	--neutral-925: #1c1b20;
+	--neutral-950: #111014;
+	--neutral-1000: #000000;
 
-
-$white: #ffffff;
+	--danger-500: #8a3847;
+}

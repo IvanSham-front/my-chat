@@ -12,10 +12,10 @@
 }
 
 .chat-item_active {
-	background-color: $main_background_grey;
+	background-color: var(--neutral-800);;
 }
 
 .chat-item__last-message {
-	color: $main_text-color_grey;
+	color: var(--neutral-500);
 	font-size: 1.1rem;
 }

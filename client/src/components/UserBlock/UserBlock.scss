@@ -28,8 +28,8 @@
 	border-radius: 50%;
 	width: 10px;
 	height: 10px;
-	background-color: $message_background_violet;
-	border: 1px solid $main_background_dark-grey;
+	background-color: var(--brand-500);
+	border: 1px solid var(--neutral-950);
 }
 
 .user-block__name {
@@ -37,6 +37,6 @@
 }
 
 .user-block__login {
-	color: $main_text-color_grey;
+	color: var(--neutral-500);
 	font-size: 1.1rem;
 }

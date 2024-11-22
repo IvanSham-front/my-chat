@@ -69,6 +69,6 @@
 	height: $size;
 
 	& svg {
-		fill: $main_text-color_grey;
+		fill: var(--neutral-500);
 	}
 }

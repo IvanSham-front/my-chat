@@ -9,15 +9,15 @@
 }
 
 .ui-text__input {
-	border: 1px solid $main_text-color_grey;
-	background: $main_background_dark-grey;
+	border: 1px solid var(--neutral-500);
+	background: transparent;
 	padding: 14px 30px 14px 20px;
 	border-radius: 6px;
 	font-style: normal;
 	font-weight: 400;
 	font-size: 15px;
 	line-height: 18px;
-	color: $main-text-color_grey;
+	color: var(--neutral-500);
 	width: 100%;
 	transition: all 0.3s;
 	-webkit-transition: all 0.3s;
@@ -30,16 +30,16 @@
 	transition: all 0.3s;
 	font-size: 15px;
 	line-height: 18px;
-	color: $main_text-color_grey;
+	color: var(--neutral-500);
 	pointer-events: none;
 }
 
 .ui-text__input:focus {
-	border: 1px solid $message_background_violet;
+	border: 1px solid var(--brand-400);
 }
 
 .ui-text__input:focus ~ .ui-text__label {
-	color: $message_background_violet;
+	color: var(--brand-400);
 }
 
 .ui-text__input:focus ~ .ui-text__label,
@@ -49,7 +49,7 @@
 	transform: scale(0.9);
 	margin-left: calc(20px * 0.3);
 	line-height: 14px;
-	background: $main_background_dark-grey;
+	background: var(--neutral-950);
 	height: 5px;
 	display: flex;
 	align-items: center;
@@ -57,9 +57,9 @@
 }
 
 .ui-text__input.invalid {
-	border-color: $error_red;
+	border-color: var(--danger-500);
 	& ~ .ui-text__label {
-		color: $error_red;
+		color: var(--danger-500);
 	}
 }
 
@@ -78,6 +78,6 @@
 		left: 4px;
 		font-weight: bolder;
 		font-size: 1.2rem;
-		color: $main_text-color_grey;
+		color: var(--neutral-500);
 	}
 }
