@@ -32,13 +32,8 @@ class AccountServices {
 
 		const account = await Account.create( { login, password: hashPassword } );
 		const user = await User.create( { login } );
-		const accountDto = new AccountDto(account);
-		
-		const tokens = TokenServices.generateTokens( { ...accountDto } );
-		await TokenServices.saveToken(accountDto.id, tokens.refreshToken);
 
 		return {
-			...tokens,
 			user
 		}
 	}
@@ -203,6 +198,14 @@ class AccountServices {
 		await Account.findByIdAndDelete(account.id);
 
 		return user;
+
+	}
+
+	async checkLogin(login) {
+
+		const account = await Account.findOne( { login } );
+
+		return account;
 
 	}
 

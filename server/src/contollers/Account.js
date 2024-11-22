@@ -14,12 +14,6 @@ module.exports = {
 				password,
 			});
 
-			res.cookie('refreshToken', account.refreshToken, {
-				maxAge: 30 * 24 * 60 * 60 * 1000,
-				httpOnly: true,
-				secure: true,
-			});
-
 			return res.json({
 				data: {
 					account,
@@ -31,6 +25,35 @@ module.exports = {
 			next(error);
 
 		}
+	},
+
+	checkLogin: async (req, res, next) => {
+
+		try {
+
+			const { login } = req.body;
+
+			if ( !login ) {
+
+				throw ApiError.BadRequest('No login or password');
+
+			}
+
+			
+			const account = await AccountServices.checkLogin(login);
+
+			return res.json({
+				data: {
+					exists: !!account
+				},
+			});
+			
+		} catch (error) {
+
+			next(error);
+
+		}
+
 	},
 
 	login: async (req, res, next) => {
