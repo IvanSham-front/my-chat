@@ -11,7 +11,7 @@ export default class CredentialsValidator {
 		if (this.login.length < 3) {
 			return { valid: false, error: 'Login must be at least 3 characters long.' };
 		}
-		if (!/^[a-zA-Z0-9]+$/.test(this.login)) {
+		if (/[^a-zA-Z0-9_@.-]/.test(this.login)) {
 			return { valid: false, error: 'Login can only contain letters and numbers.' };
 		}
 		return { valid: true, error: '' };

@@ -3,7 +3,13 @@ import SignupPage from '@/pages/Signup/SignupPage.vue';
 import SigninPage from './pages/Signin/SigninPage.vue';
 
 const routes = [
-	{ path: '/', component: ChatPage },
+	{
+		path: '/',
+		component: ChatPage,
+		meta: {
+			requiresAuth: true,
+		},
+	},
 	{ path: '/signup', component: SignupPage },
 	{ path: '/signin', component: SigninPage },
 ];

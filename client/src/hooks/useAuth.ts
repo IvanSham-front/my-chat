@@ -2,6 +2,7 @@ import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/store/users/users';
 import api from '@/api';
+import { SocketService } from '@/plugins/socket.io/socket.io';
 
 export const useAuth = () => {
 	const userStore = useUserStore();
@@ -10,35 +11,37 @@ export const useAuth = () => {
 	const { authUser } = storeToRefs(userStore);
 
 	const signin = async ({ login, password }: { login: string; password: string }) => {
-		const res = await api.login(login, password);
+		const res = await api.auth.login(login, password);
 
-		if (typeof res === 'object') {
+		if ( res?.data ) {
 			userStore.setAuthUser(res.data.user);
 			router.push('/');
-
-			// тут следом будут подключаться сокеты и переход на другую страницу.
 		} else {
 			return false;
 		}
 	};
 
 	const signup = async ({ login, password }: { login: string; password: string }) => {
-		const res = await api.registration(login, password);
+		const res = await api.auth.registration(login, password);
 
-		if (typeof res === 'object') {
+		if (res?.data) {
 			await signin({ login, password });
-
 		}
 	};
 
 	const logout = async () => {
-		await api.logout();
+		await api.auth.logout();
 		router.push('/login');
 	};
 
 	const checkExsistLogin = async (login: string) => {
-		const value = await api.checkLogin(login);
+		const value = await api.auth.checkLogin(login);
 		return value;
+	};
+
+	const connectSocket = () => {
+		const socketService = SocketService.getInstance();
+		socketService.initSocket();
 	};
 
 	return {
@@ -46,6 +49,7 @@ export const useAuth = () => {
 		signin,
 		signup,
 		checkExsistLogin,
-		logout
+		logout,
+		connectSocket
 	};
 };

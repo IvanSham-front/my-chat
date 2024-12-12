@@ -5,19 +5,20 @@ import { createPinia } from 'pinia';
 import modal from './plugins/modal/modal';
 
 import routes from './routes';
-// import socketIo from './plugins/socket.io/socket.io';
+import authMiddleware from './middleware/auth';
 
 const router = createRouter({
 	routes,
 	history: createWebHistory(),
 });
 
+router.beforeEach(authMiddleware);
+
 const pinia = createPinia();
 
 const app = createApp(App);
-app.use(router);
 app.use(pinia);
+app.use(router);
 app.use(modal);
-// app.use(socketIo);
 
 app.mount('#app');

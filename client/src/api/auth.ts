@@ -8,7 +8,7 @@ interface UserResponse {
 export const auth = {
 	registration: async (login: string, password: string) => {
 		try {
-			const { data } = await $axios.post<ApiResponse<UserResponse>>('/v1/auth/registration', { login, password });
+			const { data } = await $axios.post<ApiResponse<UserResponse>>('/auth/registration', { login, password });
 			return data;
 		} catch (error) {
 			handleAxiosError(error);
@@ -17,7 +17,7 @@ export const auth = {
 
 	login: async (login: string, password: string) => {
 		try {
-			const { data } = await $axios.post<ApiResponse<UserResponse>>('/v1/auth/login', { login, password });
+			const { data } = await $axios.post<ApiResponse<UserResponse>>('/auth/login', { login, password });
 			return data;
 		} catch (error) {
 			handleAxiosError(error);
@@ -26,7 +26,7 @@ export const auth = {
 
 	logout: async () => {
 		try {
-			const res = await $axios.post('/v1/auth/logout');
+			const res = await $axios.post('/auth/logout');
 			return res;
 		} catch (error) {
 			return error;
@@ -35,10 +35,19 @@ export const auth = {
 
 	checkLogin: async (login: string) => {
 		try {
-			const { data } = await $axios.post<ApiResponse<boolean>>('/v1/auth/checkLogin', { login });
+			const { data } = await $axios.post<ApiResponse<boolean>>('/auth/checkLogin', { login });
 			return data;
 		} catch (error) {
 			handleAxiosError(error);
 		}
 	},
+
+	getAuthUser: async () => {
+		try {
+			const { data } = await $axios.get<ApiResponse<UserResponse>>('/auth/user');
+			return data;
+		} catch (error) {
+			handleAxiosError(error);
+		}
+	}
 };
