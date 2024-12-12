@@ -1,20 +1,31 @@
 :root {
+
 	font-family: 'SF Pro Display', 'Roboto', sans-serif;
 	line-height: 1;
 	font-weight: 400;
 	font-size: 12px;
 
-	color-scheme: light dark;
+	color-scheme: dark;
 	color: var(--neutral-100);
 	background-color: var(--neutral-950);
-
+	
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
 	--v3-picker-bg: #2b2b2b !important;
+
 }
+
+.dark {
+
+	color: var(--neutral-600);
+	background-color: var(--neutral-25) ;
+
+
+}
+
 
 body {
 	min-width: 320px;
