@@ -6,10 +6,8 @@ module.exports = async function (req, res, next) {
 
 	try {
 
-
 		const accessToken = req.headers.cookie?.split('; ').find(row => row.startsWith('accessToken='))?.split('=')[1];
 		const refreshToken = req.headers.cookie?.split('; ').find(row => row.startsWith('refreshToken='))?.split('=')[1];
-
 
 		if (!accessToken) {
 			throw ApiError.UnauthorizedError();

@@ -43,9 +43,7 @@ app.use( '/api', router );
 app.use( errorMidleware );
 
 server.listen( PORT, () => {
-	
 	console.log( `App listening on adress: http://localhost:${ PORT }` );
-
 } );
 
 

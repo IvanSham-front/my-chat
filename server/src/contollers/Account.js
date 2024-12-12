@@ -149,13 +149,38 @@ module.exports = {
 
 			res.json(`User ${ userData?.id } was successfully deleted`);
 
-			
 		} catch (error) {
 			
 			next(error);
 
 		}
 
-	}
+	},
+	
+	getAuthUser: async (req, res, next) => {
+
+		try {
+
+			const account  = req.account;
+
+			if (!account) {
+				throw ApiError.BadRequest('User are not found');
+			}
+
+			const user = await AccountServices.getUserByAccount(account);
+
+			res.json({
+				data: {
+					user
+				}
+			});
+
+		} catch (error) {
+
+			next(error);
+			
+		}
+
+	},
 
 };
