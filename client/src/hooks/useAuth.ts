@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/store/users/users';
 import api from '@/api';
-import { SocketService } from '@/plugins/socket.io/socket.io';
+import { SocketService } from '@/api/socket.io/socket.io';
 
 export const useAuth = () => {
 	const userStore = useUserStore();

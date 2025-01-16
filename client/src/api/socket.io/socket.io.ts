@@ -1,10 +1,14 @@
 import { io, Socket } from 'socket.io-client';
 import { ChatDB, IChat } from '@/types/Chat';
 import { IMessage, MessageDB } from '@/types/Message';
+import { reactive } from 'vue';
 
+export const state = reactive({
+	connected: false
+});
 
 interface EventMapFromClient {
-	'clent:chats:list': ChatDB[],
+	'client:chats:list': {},
 	'client:chats:create': { chat: IChat; message: IMessage },
 	'client:chats:delete': { chatId: string },
 	'client:messages:get-list': { chatId: string }
@@ -27,6 +31,7 @@ export class SocketService {
 	private constructor() {}
 
 	public static getInstance(): SocketService {
+		console.log(this.instance);
 		if (!this.instance) {
 			this.instance = new SocketService();
 		}
@@ -34,6 +39,7 @@ export class SocketService {
 	}
 
 	public initSocket(): void {
+		
 		try {
 			this.socket = io('http://localhost:3020', {
 				path: '/api/socket/',
@@ -72,14 +78,16 @@ export class SocketService {
 		data: DataTypeEmit<K>,
 		callback?: (response: any) => void
 	): void {
-		if (this.socket.connected) {
-			try {
-				this.socket.emit(event, data, callback);
-			} catch (err) {
-				console.error(`Error sending event ${event}:`, err);
-			}
-		} else {
+		if (!this.socket || !this.socket.connected) {
 			console.error('Socket is not connected.');
+			return;
 		}
+		
+		try {
+			this.socket.emit(event, data, callback);
+		} catch (err) {
+			console.error(`Error sending event ${event}:`, err);
+		}
+		
 	}
 }

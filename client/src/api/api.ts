@@ -22,7 +22,6 @@ $axios.interceptors.response.use(
 		return response;
 	},
 	function (error) {
-		console.log(globalRouter);
 		if (!!error.response && error.response.status === 401) {
 			globalRouter.router?.push('/login');
 		}

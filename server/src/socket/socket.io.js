@@ -26,15 +26,28 @@ function initializeSocket (server) {
 
 	io.on('connection', async (socket) => {
 
-		await accountServices.saveSocketId( socket );
+		try {
+			
+			await accountServices.saveSocketId( socket );
 
-		onConnection(socket);
+			onConnection(socket);
+
+		} catch( error ) {
+
+			console.error( 'Error saving socket ID:', error );
+
+		}
 
 		socket.on('disconnect', () => {
 
-			accountServices.removeSocketId( socket );
+			console.log('Client disconnected:', socket.id);
 
-			console.log('Client disconnected');
+            try {
+                accountServices.removeSocketId(socket);
+            } catch (err) {
+                console.error('Error removing socket ID:', err);
+            }
+
 		});
 
 	});

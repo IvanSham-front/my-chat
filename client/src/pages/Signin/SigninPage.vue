@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useAuth } from '@/hooks/useAuth';
 import TextInput from '@/components/ui/TextInput/TextInput.vue';
 import UiButton from '@/components/ui/button/UiButton.vue';
-import CredentialsValidator from '@/classes/CredentialsValidator';
+import CredentialsValidator from '@/tools/CredentialsValidator';
 
 const { signin } = useAuth();
 
@@ -78,7 +78,7 @@ const onSubmitForm = async () => {
 
 				<text-input
 					label-text="password"
-					id="login-input" 
+					id="password-input" 
 					v-model="password" 
 					type="password"
 					:invalid="!!validErrors.password"

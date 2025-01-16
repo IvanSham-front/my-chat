@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
 import MessagesSection from '@/components/messages/MessagesSection.vue';
+import { useAuth } from '@/hooks/useAuth';
+import { onBeforeMount } from 'vue';
+
+const { connectSocket } = useAuth();
+
+onBeforeMount( () => {
+	console.debug('chatPage');
+	connectSocket();
+});
 
 </script>
 
