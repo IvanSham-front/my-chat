@@ -65,8 +65,10 @@
 // 	},
 // ];
 
-import { Message, MessagesState } from '@/types/Message';
+import { SocketService } from '@/api/socket.io/socket.io';
+import { IMessage, MessageDB, MessagesState } from '@/types/Message';
 import { defineStore } from 'pinia';
+import { useChatsStore } from '../chats/chats';
 
 export const useMessageStore = defineStore('messages', {
 	state: (): MessagesState => ({
@@ -74,8 +76,26 @@ export const useMessageStore = defineStore('messages', {
 	}),
 
 	actions: {
-		setList(messages: Message[]) {
+		setList(messages: MessageDB[]) {
 			this.list = messages;
 		},
+
+		send(message: IMessage, chatId: string) {
+			const { chatMap } = useChatsStore();
+			const socketService = SocketService.getInstance();
+			if (socketService.isConnected()) {
+				socketService.emit('client:messages:send', { message, chatId }, ( response ) => {
+					if (response?.data?.message) {
+						const message = response?.data?.message;
+						this.list.push( message );
+						
+						if (chatMap.has(chatId)) {
+							chatMap.get(chatId)?.push(message );
+						}
+					}
+				});
+			}
+
+		}
 	},
 });

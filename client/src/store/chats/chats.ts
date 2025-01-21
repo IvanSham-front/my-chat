@@ -1,6 +1,8 @@
+import { defineStore } from 'pinia';
 import { ChatDB, ChatState } from '@/types/Chat';
 import { MessageDB } from '@/types/Message';
-import { defineStore } from 'pinia';
+import api from '@/api';
+import { SocketService } from '@/api/socket.io/socket.io';
 
 export const useChatsStore = defineStore('chats', {
 	state: (): ChatState => ({
@@ -25,10 +27,34 @@ export const useChatsStore = defineStore('chats', {
 		addToChatList(chat: ChatDB) {
 			this.list.push(chat);
 		},
+
+		async getChatList() {
+			const saveData = (chats: ChatDB[]) => {
+				this.setChatList(chats);
+				chats.forEach((chat) => {
+					this.chatMap.set(chat.id, []);
+				});
+			};
+
+			const socket = SocketService.getInstance();
+
+			if (socket.isConnected()) {
+				socket.emit('client:chats:list', {}, (response) => {
+					if (response?.data?.chats) {
+						saveData(response.data.chats);
+					}
+				});
+			} else {
+				const chats = await api.chats.getList();
+				if (chats) {
+					saveData(chats);
+				}
+			}
+		},
 	},
 
 	getters: {
-		getMessagesCurrentChat: (state) => {
+		messagesCurrentChat: (state) => {
 			if (state.currentChat) {
 				return state.chatMap.get(state.currentChat.id);
 			}
@@ -36,9 +62,8 @@ export const useChatsStore = defineStore('chats', {
 			return [];
 		},
 
-		getMessagesByChatId:
-			(state) => (chatId: string): MessageDB[] | undefined => {
-				return state.chatMap.get(chatId);
-			},
+		messagesByChatId: (state) => (chatId: string): MessageDB[]=> {
+			return state.chatMap.get(chatId) || [];
+		},
 	},
 });

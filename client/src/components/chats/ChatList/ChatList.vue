@@ -8,14 +8,15 @@ import { ModalInject } from '@/plugins/modal/modal.types';
 import { useChatsStore } from '@/store/chats/chats';
 import { useUserStore } from '@/store/users/users';
 
-onMounted(() => {
-	console.debug('chatList');
-});
-
-const modal = inject<ModalInject>('modal');
 
 const chatStore = useChatsStore();
 const userStore = useUserStore();
+
+onMounted(() => {
+	chatStore.getChatList();
+});
+
+const modal = inject<ModalInject>('modal');
 
 const searchValue = ref<string>('');
 

@@ -6,24 +6,38 @@ import OptionIcon from '@/assets/images/OptionIcon.vue';
 import MessageList from './MessageList/MessageList.vue';
 import MessageInput from '../ui/MessageInput/MessageInput.vue';
 import { useChatsStore } from '@/store/chats/chats';
+import { useUserStore } from '@/store/users/users';
+import { IMessage } from '@/types/Message';
+import { useMessageStore } from '@/store/messages/messages';
 
 
 const chatStore = useChatsStore();
+const currentChat = computed(() => chatStore.currentChat);
 
-const messagesList = chatStore.getMessagesCurrentChat;
+const messagesList = chatStore.messagesCurrentChat;
+
+const { authUser, getUserById } = useUserStore();
 
 const companion = computed(() => {
-	const companionId = currentChat.value.members.find((item) => item !== 1);
-	return store.getters.getUserById(companionId);
+	if (!currentChat.value) return null;
+
+	const companionId = currentChat.value.members.find((item) => item !== authUser?.id);
+
+	if (!companionId) return null;
+
+	return getUserById(companionId);
 });
 
-const messageListRef = ref(null);
-const messageInputRef = ref(null);
+const messageListRef = ref<HTMLDivElement | null>(null);
+const messageInputRef = ref<HTMLInputElement | null>(null);
 
 provide('messageListRef', messageListRef);
 provide('messageInputRef', messageInputRef);
 
 const adjustContentMessagesHeight = () => {
+	if (!messageInputRef.value || !messageListRef.value) {
+		return;
+	}
 	const newHeight = messageInputRef.value.scrollHeight - 45;
 
 	if (newHeight > 3) {
@@ -33,9 +47,11 @@ const adjustContentMessagesHeight = () => {
 	}
 };
 
-const onSendMessage = (messageObject) => {
-	messagesList.push(messageObject);
+const onSendMessage = (message: IMessage) => {
+	if (!currentChat.value) return;
+	useMessageStore().send(message, currentChat.value.id);
 };
+
 </script>
 
 <template>
@@ -56,10 +72,10 @@ const onSendMessage = (messageObject) => {
 			</div>
 
 			<div class="messages__content">
-				<MessageList :messageListRef="messageListRef" class="messages__list" :messages="messagesList" />
+				<MessageList :message-list-ref="messageListRef" class="messages__list" :messages="messagesList || []" />
 
 				<MessageInput
-					:messageInputRef="messageInputRef"
+					:message-input-ref="messageInputRef"
 					class="messages__new-text"
 					@input="adjustContentMessagesHeight"
 					@on-send-message="onSendMessage"

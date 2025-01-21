@@ -4,6 +4,7 @@ export interface IMessage {
 	type: 'text' | 'audio' | 'attachment';
 	text?: string;
 	file?: File
+	chatId: string;
 }
 
 export interface MessageDB extends IMessage, EntityDB {

@@ -88,9 +88,9 @@ class AccountServices {
 
 			user.socketIds.splice( socketIdIndex, 1);
 
-		}
+			await user.save();
 
-		await user.save();
+		}
 
 	}
 

@@ -39,9 +39,9 @@ export const useAuth = () => {
 		return value;
 	};
 
-	const connectSocket = () => {
+	const connectSocket = async () => {
 		const socketService = SocketService.getInstance();
-		socketService.initSocket();
+		await socketService.initSocket();
 	};
 
 	return {
