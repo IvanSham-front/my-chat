@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue';
-import EmojiPicker from '../EmojiPickerInput/EmojiPicker.vue';
+import EmojiPicker from '../emoji-picker-input/EmojiPicker.vue';
 import { useCursor } from '@/hooks/useCursor';
 import UiScroll from '../scroll/UiScroll.vue';
 import SendMessageIcon from '@/assets/images/SendMessageIcon.vue';

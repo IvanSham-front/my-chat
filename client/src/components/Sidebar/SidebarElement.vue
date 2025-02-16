@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import UserBlock from '@/components/UserBlock/UserBlock.vue';
-import ChatList from '@/components/chats/ChatList/ChatList.vue';
+import UserBlock from '@/components/user-block/UserBlock.vue';
+import ChatList from '@/components/chats/chat-list/ChatList.vue';
 import SettingsIcon from '@/assets/images/SettingsIcon.vue';
 import ArrowLeftIcon from '@/assets/images/ArrowLeftIcon.vue';
-import UserSettings from '../UseSettings/UserSettings.vue';
+import UserSettings from '../user-settings/UserSettings.vue';
 import { useAuth } from '@/hooks/useAuth';
 import { useSidebarStore } from '@/store/sidebar/sidebar';
 

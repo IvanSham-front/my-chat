@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TextInput from '@/components/ui/TextInput/TextInput.vue';
-import AvatarUploader from '@/components/ui/AvatarUploader/AvatarUploader.vue';
+import TextInput from '@/components/ui/text-input/TextInput.vue';
+import AvatarUploader from '@/components/ui/avatar-uploader/AvatarUploader.vue';
 import { useAuth } from '@/hooks/useAuth';
 
 const { authUser } = useAuth();

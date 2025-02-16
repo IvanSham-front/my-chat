@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia';
 import { ChatDB, ChatState } from '@/types/Chat';
 import { MessageDB } from '@/types/Message';
-import api from '@/api';
-import { SocketService } from '@/api/socket.io/socket.io';
+import ApiManager from '@/api/ApiManager';
 
 export const useChatsStore = defineStore('chats', {
 	state: (): ChatState => ({
@@ -29,27 +28,12 @@ export const useChatsStore = defineStore('chats', {
 		},
 
 		async getChatList() {
-			const saveData = (chats: ChatDB[]) => {
-				this.setChatList(chats);
-				chats.forEach((chat) => {
-					this.chatMap.set(chat.id, []);
-				});
-			};
-
-			const socket = SocketService.getInstance();
-
-			if (socket.isConnected()) {
-				socket.emit('client:chats:list', {}, (response) => {
-					if (response?.data?.chats) {
-						saveData(response.data.chats);
-					}
-				});
-			} else {
-				const chats = await api.chats.getList();
-				if (chats) {
-					saveData(chats);
-				}
-			}
+			const chats = await ApiManager.getChatList();
+			this.setChatList(chats);
+			
+			chats.forEach((chat) => {
+				this.chatMap.set(chat.id, []);
+			});
 		},
 	},
 

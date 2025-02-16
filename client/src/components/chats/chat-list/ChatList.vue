@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, inject, onMounted } from 'vue';
-import SearchInput from '@/components/ui/SearchInput/SearchInput.vue';
-import ChatItem from '../ChatItem/ChatItem.vue';
+
+import SearchInput from '@/components/ui/search-input/SearchInput.vue';
+import ChatItem from '../chat-item/ChatItem.vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
 import PlusIcon from '@/assets/images/PlusIcon.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useChatsStore } from '@/store/chats/chats';
 import { useUserStore } from '@/store/users/users';
-
 
 const chatStore = useChatsStore();
 const userStore = useUserStore();

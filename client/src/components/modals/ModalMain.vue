@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { DefineComponent, inject } from 'vue';
-import AvatarUpdater from './AvatarUpdater/AvatarUpdater.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useModalStore } from '@/plugins/modal/modal';
+import AvatarUpdater from './avatar-updater/AvatarUpdater.vue';
 
 const modal = inject<ModalInject>('modal');
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, provide, computed } from 'vue';
-import UserBlock from '../UserBlock/UserBlock.vue';
+import UserBlock from '../user-block/UserBlock.vue';
 import SearchIcon from '@/assets/images/SearchIcon.vue';
 import OptionIcon from '@/assets/images/OptionIcon.vue';
-import MessageList from './MessageList/MessageList.vue';
-import MessageInput from '../ui/MessageInput/MessageInput.vue';
+import MessageList from './message-list/MessageList.vue';
+import MessageInput from '../ui/message-input/MessageInput.vue';
 import { useChatsStore } from '@/store/chats/chats';
 import { useUserStore } from '@/store/users/users';
 import { IMessage } from '@/types/Message';
