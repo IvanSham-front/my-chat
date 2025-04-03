@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SidebarElement from '@/components/Sidebar/SidebarElement.vue';
+import SidebarElement from '@/components/sidebar/SidebarElement.vue';
 import MessagesSection from '@/components/messages/MessagesSection.vue';
 import { useAuth } from '@/hooks/useAuth';
 import { useChatsStore } from '@/store/chats/chats';

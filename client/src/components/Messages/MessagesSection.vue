@@ -7,9 +7,7 @@ import MessageList from './message-list/MessageList.vue';
 import MessageInput from '../ui/message-input/MessageInput.vue';
 import { useChatsStore } from '@/store/chats/chats';
 import { useUserStore } from '@/store/users/users';
-import { IMessage } from '@/types/Message';
-import { useMessageStore } from '@/store/messages/messages';
-
+// import { IMessage } from '@/types/Message';
 
 const chatStore = useChatsStore();
 const currentChat = computed(() => chatStore.currentChat);
@@ -47,9 +45,10 @@ const adjustContentMessagesHeight = () => {
 	}
 };
 
-const onSendMessage = (message: IMessage) => {
-	if (!currentChat.value) return;
-	useMessageStore().send(message, currentChat.value.id);
+const onSendMessage = () => {
+	if (!currentChat.value) {
+		return;
+	}
 };
 
 </script>

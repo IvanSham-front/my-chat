@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuth } from '@/hooks/useAuth';
-import TextInput from '@/components/ui/TextInput/TextInput.vue';
+import TextInput from '@/components/ui/text-input/TextInput.vue';
 import UiButton from '@/components/ui/button/UiButton.vue';
 import CredentialsValidator from '@/tools/CredentialsValidator';
 

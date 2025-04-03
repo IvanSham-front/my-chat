@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, watch } from 'vue';
 import UiScroll from '@/components/ui/scroll/UiScroll.vue';
-import MessageItem from '../MessageItem/MessageItem.vue';
+import MessageItem from '../message-item/MessageItem.vue';
 import { MessageDB } from '@/types/Message';
 
 
