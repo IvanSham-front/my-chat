@@ -1,6 +1,6 @@
-import ChatPage from '@/pages/Chat/ChatPage.vue';
-import SignupPage from '@/pages/Signup/SignupPage.vue';
-import SigninPage from './pages/Signin/SigninPage.vue';
+import ChatPage from '@/pages/chat/ChatPage.vue';
+import SignupPage from '@/pages/signup/SignupPage.vue';
+import SigninPage from '@/pages/signin/SigninPage.vue';
 
 const routes = [
 	{

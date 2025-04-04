@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia';
-import { ChatDB, ChatState } from '@/types/Chat';
-import { MessageDB } from '@/types/Message';
-import ApiManager from '@/api/ApiManager';
+import { ChatDB, ChatState, IChat } from '@/types/Chat';
+import { IMessage, MessageDB } from '@/types/Message';
+import ApiChatManager from '@/api/ApiChatManager';
 
 export const useChatsStore = defineStore('chats', {
 	state: (): ChatState => ({
 		currentChat: null,
-		list: [],
 		chatMap: new Map(),
 	}),
 
 	actions: {
+
 		selectCurrentChat(chat: ChatDB) {
 			this.currentChat = chat;
 		},
@@ -19,35 +19,60 @@ export const useChatsStore = defineStore('chats', {
 			this.currentChat = null;
 		},
 
-		setChatList(chatList: ChatDB[]) {
-			this.list = chatList;
+		addChatItem(chat: ChatDB) {
+			this.chatMap.set(chat.id, { chat, messages: [] });
 		},
 
-		addToChatList(chat: ChatDB) {
-			this.list.push(chat);
+		addMessageOnChat(chatId: string, message: MessageDB) {
+
+			const chat = this.chatMap.get(chatId);
+			if (chat) {
+				chat.messages.push(message);
+			}
+
 		},
 
 		async getChatList() {
-			const chats = await ApiManager.getChatList();
-			this.setChatList(chats);
+			const chats = await ApiChatManager.getChatList();
 			
 			chats.forEach((chat) => {
-				this.chatMap.set(chat.id, []);
+				this.addChatItem( chat );
 			});
 		},
+
+		async createChat(chat: IChat, message: IMessage) {
+			const response = await ApiChatManager.createChat(chat, message);
+			this.addChatItem(response);
+		},
+
+		async sendMessage (chatId: string, message: IMessage ) {
+
+			const responseMessage = await ApiChatManager.sendMessage(chatId, message);
+			this.addMessageOnChat(chatId, responseMessage);
+
+		},
+
+		async getMessagesByChatId (chatId: string) {
+			
+			const messages = await ApiChatManager.getMessagesByChatId( chatId );
+			
+			messages.forEach(message => {
+				this.sendMessage(chatId, message);
+			});
+
+		}
+
 	},
 
 	getters: {
-		messagesCurrentChat: (state) => {
-			if (state.currentChat) {
-				return state.chatMap.get(state.currentChat.id);
-			}
 
-			return [];
+		chatList: (state): ChatDB[] => {
+			return Array.from( state.chatMap.values() ).map( item => item.chat );
 		},
 
 		messagesByChatId: (state) => (chatId: string): MessageDB[]=> {
-			return state.chatMap.get(chatId) || [];
+			return state.chatMap.get(chatId)?.messages || [];
 		},
+
 	},
 });

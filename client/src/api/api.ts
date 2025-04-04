@@ -10,7 +10,7 @@ export interface ApiResponse<T> {
 }
 
 // @ts-expect-error
-const HOST = String(import.meta.env.VITE_API_URL) + import.meta.env.VITE_API_PREFIX;
+const HOST = String( import.meta.env.VITE_API_URL ) + import.meta.env.VITE_API_PREFIX;
 
 const $axios = axios.create({
 	baseURL: HOST,

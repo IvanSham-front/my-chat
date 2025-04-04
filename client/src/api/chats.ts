@@ -8,16 +8,16 @@ export const chatsApi = {
 	getList: async () => {
 		try {
 			const { data } = await $axios.get<{ chats: ChatDB[] }>('/chats');
-			return data.chats;			
+			return data?.chats;
 		} catch( error ) {
 			handleAxiosError(error);
 		}
 	},
 
-	create: async (chat: IChat) => {
+	create: async (chat: IChat, message: IMessage) => {
 		try {
-			const { data } = await $axios.post<{ chats: ChatDB }>('/chats', chat);
-			return data;
+			const { data } = await $axios.post<{ chat: ChatDB }>('/chats', { chat, message });
+			return data?.chat;
 		} catch (error) {
 			handleAxiosError(error);
 		}
@@ -25,8 +25,8 @@ export const chatsApi = {
 
 	remove: async (chatId: string) => {
 		try {
-			const { data } = await $axios.delete<{ chat: ChatDB }>(`/chats/${chatId}`);
-			return data;
+			const { data } = await $axios.delete<{ chat: ChatDB }>(`/chats/${ chatId }`);
+			return data.chat;
 		} catch (error) {
 			handleAxiosError(error);
 		}
@@ -35,7 +35,7 @@ export const chatsApi = {
 	getMessages: async (chatId: string) => {
 		try {
 			const { data } = await $axios.get<{ messages: MessageDB[] }>(`/chats/${chatId}/messages`);
-			return data;
+			return data.messages;
 		} catch (error) {
 			handleAxiosError(error);
 		}
@@ -44,7 +44,7 @@ export const chatsApi = {
 	sendMessage: async (chatId: string, message: IMessage) => {
 		try {
 			const { data } = await $axios.post<{ message: MessageDB }>(`/chats/${chatId}/messages`, message);
-			return data;
+			return data.message;
 		} catch (error) {
 			handleAxiosError(error);
 		}
@@ -53,7 +53,7 @@ export const chatsApi = {
 	removeMessage: async (chatId: string, messageId: string) => {
 		try {
 			const { data } = await $axios.delete<{ message: MessageDB }>(`/chats/${chatId}/messages/${messageId}`);
-			return data;
+			return data.message;
 		} catch (error) {
 			handleAxiosError(error);
 		}

@@ -129,7 +129,9 @@ module.exports = {
 				httpOnly: true,
 			});
 			
-			res.json(tokens);
+			res.json({
+				message: 'Ok'
+			});
 			
 		} catch (error) {
 			

@@ -62,11 +62,7 @@ module.exports = {
 			res.json({
 				message: 'Chat created successfully',
 				data: {
-					chats: [
-						{
-							...chatData
-						}
-					]
+					chats: chatData
 				}
 			});
 
@@ -89,9 +85,7 @@ module.exports = {
 			res.json({
 				message: 'Chat deleted successfully',
 				data: {
-					chats: [
-						{ ...chatData }
-					]
+					сhat: chatData
 				}
 			})
 
