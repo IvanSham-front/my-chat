@@ -4,6 +4,7 @@ import api from '.';
 import { IMessage, MessageDB } from '@/types/Message';
 
 class ApiChatManager {
+
 	getChatList(): Promise<ChatDB[]> {
 
 		return new Promise((resolve, reject) => {
@@ -112,7 +113,6 @@ class ApiChatManager {
 
 	}
 
-	
 }
 
 export default new ApiChatManager();

@@ -30,7 +30,7 @@ $axios.interceptors.response.use(
 	}
 );
 
-export const handleAxiosError = (error: unknown) => {
+export function handleAxiosError (error: unknown) {
 	if (isAxiosError(error)) {
 		console.error('Error message: ', error.message);
 		return error.message;
@@ -38,6 +38,13 @@ export const handleAxiosError = (error: unknown) => {
 		console.error('Unexpected error: ', error);
 		return 'An unexpected error occurred';
 	}
+};
+
+$axios.getQuery = ( url: string = '', params: { [ key: string ]: string } = {} ) => {
+
+	const query = new URLSearchParams( params );
+	return [ url, query.toString() ].join( '?' );
+
 };
 
 export default $axios;
