@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload');
 const errorMidleware = require('./middleware/error-middleware');
 const initializeSocket = require('./socket/socket.io');
 const cors = require('cors');
+const logger = require('./logger');
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use( errorMidleware );
 server.listen( PORT, () => {
 	console.log( `App listening on adress: http://localhost:${ PORT }` );
 } );
+
 
 
 module.exports = app;

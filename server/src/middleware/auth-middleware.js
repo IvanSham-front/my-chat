@@ -1,6 +1,7 @@
 const ApiError = require('../exceptions/api-error');
 const TokenServices = require('../services/token-services');
 const AccountService = require('../services/account-services');
+const logger = require('../logger');
 
 module.exports = async function (req, res, next) {
 

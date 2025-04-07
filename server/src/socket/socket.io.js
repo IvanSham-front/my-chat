@@ -3,7 +3,7 @@ const authMiddleware = require('./middleware/auth-middleware');
 const registerChatsHandlers = require('./handlers/Chats');
 const registerMessagesHandlers = require('./handlers/Messages');
 const accountServices = require('../services/account-services');
-
+const logger = require('../logger');
 
 function initializeSocket (server) {
 
@@ -30,22 +30,24 @@ function initializeSocket (server) {
 			
 			await accountServices.saveSocketId( socket );
 
+			logger.info( `Client is connected: ${ socket.id }` );
+
 			onConnection(socket);
 
 		} catch( error ) {
-
 			console.error( 'Error saving socket ID:', error );
-
+			logger.error(error);
 		}
 
 		socket.on('disconnect', () => {
 
-			console.log('Client disconnected:', socket.id);
+			logger.info(`Client disconnected: ${ socket.id }`);
 
             try {
                 accountServices.removeSocketId(socket);
-            } catch (err) {
-                console.error('Error removing socket ID:', err);
+            } catch (error) {
+                console.error('Error removing socket ID:', error);
+				logger.error(error);
             }
 
 		});
