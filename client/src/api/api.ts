@@ -6,7 +6,7 @@ export interface ErrorResponse {
 }
 
 export interface ApiResponse<T> {
-	data: T;
+	data: T
 }
 
 // @ts-expect-error

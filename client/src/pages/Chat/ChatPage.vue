@@ -9,9 +9,10 @@ const { connectSocket } = useAuth();
 const chatStore = useChatsStore();
 
 onBeforeMount( async  () => {
-	console.debug('chatPage');
+
 	await connectSocket();
 	chatStore.getChatList();
+	
 });
 
 </script>

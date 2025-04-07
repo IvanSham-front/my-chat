@@ -33,16 +33,19 @@ export const useChatsStore = defineStore('chats', {
 		},
 
 		async getChatList() {
-			const chats = await ApiChatManager.getChatList();
 			
+			const chats = await ApiChatManager.getChatList();
 			chats.forEach((chat) => {
 				this.addChatItem( chat );
 			});
+
 		},
 
 		async createChat(chat: IChat, message: IMessage) {
+
 			const response = await ApiChatManager.createChat(chat, message);
 			this.addChatItem(response);
+			
 		},
 
 		async sendMessage (chatId: string, message: IMessage ) {

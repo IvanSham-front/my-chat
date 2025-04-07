@@ -36,9 +36,7 @@ module.exports = {
 			}
 
 			res.json({
-				data: {
-					users,
-				},
+				users,
 			});
 
 		} catch (error) {
@@ -65,9 +63,7 @@ module.exports = {
 			}
 
 			res.status( 200 ).json({
-				data: {
-					user,
-				},
+				user,
 			});
 
 		} catch (error) {
@@ -139,9 +135,7 @@ module.exports = {
 
 			res.status( 200 ).json({
 				message: 'User updated successfully',
-				data: {
-					user,
-				},
+				user,
 			});
 
 		} catch (error) {

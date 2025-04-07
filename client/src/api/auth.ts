@@ -11,7 +11,7 @@ export const auth = {
 
 		try {
 
-			const { data } = await $axios.post<ApiResponse<UserResponse>>('/auth/registration', { login, password });
+			const { data } = await $axios.post<{ user: UserDB }>('/auth/registration', { login, password });
 			return data;
 
 		} catch (error) {
@@ -26,7 +26,8 @@ export const auth = {
 
 		try {
 
-			const { data } = await $axios.post<ApiResponse<UserResponse>>('/auth/login', { login, password });
+			const { data } = await $axios.post< { user: UserDB } >('/auth/login', { login, password });
+
 			return data;
 
 		} catch (error) {

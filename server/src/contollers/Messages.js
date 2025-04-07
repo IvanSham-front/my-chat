@@ -34,10 +34,7 @@ module.exports = {
 			})
 
 			res.json({
-				message: 'Message send successfully',
-				data: {
-					message,
-				},
+				message,
 			});
 
 		} catch (error) {
@@ -56,10 +53,7 @@ module.exports = {
 			const message = await MessageServices.remove(messageId);
 
 			res.json({
-				message: 'Message deleted successfully',
-				data: {
-					message
-				}
+				message
 			})
 			
 		} catch (error) {
@@ -83,9 +77,7 @@ module.exports = {
 			const messages = await MessageServices.getMessagesByChatId( { chatId, userId: user.id} );
 
 			res.json({
-				data: {
-					messages
-				}
+				messages
 			})
 
 		} catch(error) {

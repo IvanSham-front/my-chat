@@ -11,10 +11,10 @@ export const useAuth = () => {
 	const { authUser } = storeToRefs(userStore);
 
 	const signin = async ({ login, password }: { login: string; password: string }) => {
-		const res = await api.auth.login(login, password);
+		const data = await api.auth.login(login, password);
 
-		if ( res?.data ) {
-			userStore.setAuthUser(res.data.user);
+		if ( data ) {
+			userStore.setAuthUser( data.user );
 			router.push('/');
 		} else {
 			return false;
@@ -22,9 +22,9 @@ export const useAuth = () => {
 	};
 
 	const signup = async ({ login, password }: { login: string; password: string }) => {
-		const res = await api.auth.registration(login, password);
+		const data = await api.auth.registration(login, password);
 
-		if (res?.data) {
+		if (data?.user) {
 			await signin({ login, password });
 		}
 	};

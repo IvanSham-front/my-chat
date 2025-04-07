@@ -15,9 +15,7 @@ module.exports = {
 			const chats = await ChatServices.findChatsByUserId(user.id);
 
 			res.json({
-				data: {
-					chats
-				}
+				chats
 			});
 			
 		} catch ( error ) {
@@ -60,10 +58,8 @@ module.exports = {
 			const chatData = await ChatServices.create({ chat, message, userId: user.id });
 
 			res.json({
-				message: 'Chat created successfully',
-				data: {
-					chats: chatData
-				}
+				message: 'Chat created successfully',				
+				chats: chatData
 			});
 
 			await ChatServices.notifyChatMembers(req.io, {
@@ -90,9 +86,7 @@ module.exports = {
 
 			res.json({
 				message: 'Chat deleted successfully',
-				data: {
-					сhat: chatData
-				}
+				сhat: chatData
 			})
 
 		} catch (error) {

@@ -15,9 +15,7 @@ module.exports = {
 			});
 
 			return res.json({
-				data: {
-					account,
-				},
+				account,
 			});
 
 		} catch (error) {
@@ -43,9 +41,7 @@ module.exports = {
 			const account = await AccountServices.checkLogin(login);
 
 			return res.json({
-				data: {
-					exists: !!account
-				},
+				exists: !!account
 			});
 			
 		} catch (error) {
@@ -83,9 +79,7 @@ module.exports = {
 			});
 
 			return res.json({
-				data: {
-					user,
-				},
+				user,
 			});
 
 		} catch (error) {
@@ -172,9 +166,7 @@ module.exports = {
 			const user = await AccountServices.getUserByAccount(account);
 
 			res.json({
-				data: {
-					user
-				}
+				user
 			});
 
 		} catch (error) {
