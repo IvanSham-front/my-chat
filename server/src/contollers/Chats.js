@@ -66,6 +66,12 @@ module.exports = {
 				}
 			});
 
+			await ChatServices.notifyChatMembers(req.io, {
+				chat: chatData,
+				emitName: 'server:chats:create',
+				userId: user.id
+			});
+
 		} catch (error) {
 			
 			next(error);

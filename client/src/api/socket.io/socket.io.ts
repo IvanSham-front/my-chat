@@ -2,6 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { ChatDB, IChat } from '@/types/Chat';
 import { IMessage, MessageDB } from '@/types/Message';
 import { reactive } from 'vue';
+import { useChatsStore } from '@/store/chats/chats';
 
 export const state = reactive({
 	connected: false
@@ -30,7 +31,7 @@ type DataTypeEmit<K extends keyof EventMapFromClient> = EventMapFromClient[K];
 
 interface EventMapFromServer {
 	'server:chats:create': ChatDB;
-	'servert:chats:delete': ChatDB;
+	'server:chats:delete': ChatDB;
 	'server:messages:send': MessageDB;
 }
 
@@ -53,6 +54,34 @@ export class SocketService {
 		return this.socket?.connected;
 	}
 
+	private registerSocketListeners() {
+
+		this.on('server:chats:create', (data) => {
+
+			console.log(data);
+
+			const chatsStore = useChatsStore();	
+			chatsStore.addChatItem(data);
+
+		});
+
+
+		// TODO добавить данный модуль в стор
+		// this.on('server:chats:delete', (data) => {
+
+		// 	const chatsStore = useChatsStore();	
+		// });
+
+		this.on( 'server:messages:send', ( message ) => {
+
+			const chatsStore = useChatsStore();	
+			chatsStore.addMessageOnChat( message.chatId , message);
+
+		} );
+
+	
+	}
+
 	public initSocket(): Promise<void> {
 
 		return new Promise(( resolve, reject ) => {
@@ -65,6 +94,8 @@ export class SocketService {
 
 				this.socket.on('connect', () => {
 					console.log('connected to the server');
+
+					this.registerSocketListeners();
 					resolve();
 				});
 

@@ -92,26 +92,25 @@ class ChatServices {
 		};
 	};
 
-	async notifyChatMembers(io, { chatId, emitName, data }) {
+	async notifyChatMembers(io, { chat, emitName, userId }) {
 
-		const chat = await Chat.findById(chatId);
-
-		const chatUsers = chat.members.filter( memberId => memberId === user.id )
-			.map( async (memberId) => {
-
-				const user = await User.findById( memberId );
-
-				return user;
-
-			} );
+		const chatUsers = await Promise.all(
+			chat.members
+				.filter(memberId => memberId.toString() !== userId.toString())
+				.map(async (memberId) => {
+					const user = await User.findById(memberId);
+					return user;
+				})
+		);
 
 		chatUsers.forEach( user => {
+
 
 			user.socketIds && user.socketIds.forEach(socketId => {
 
 				io.to( socketId ).emit( emitName , {
 					status: 'ok',
-					data
+					data: chat
 				});
 									
 			});
