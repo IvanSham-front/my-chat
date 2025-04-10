@@ -6,7 +6,7 @@ const props = defineProps<{
 	user?: UserDB | null;
 }>();
 
-const fullName = computed<string>(() => `${props.user?.name} ${props.user?.surName}`);
+const fullName = computed<string>(() => `${props.user?.name || ''} ${props.user?.surName || ''}`);
 
 const initials = computed<string>(() => {
 	if (!props.user) {
@@ -35,7 +35,7 @@ const initials = computed<string>(() => {
 	<div class="ui-avatar">
 		<div class="ui-avatar__img" v-if="!user"></div>
 
-		<img class="ui-avatar__img" v-else-if="user.avatarUrl" :src="user.avatarUrl" :alt="fullName" />
+		<img class="ui-avatar__img" v-else-if="user.avatarUrl" :src="`http://localhost:3020/api${ user.avatarUrl }`" :alt="fullName" />
 
 		<div v-else class="ui-avatar__no-img" :style="{ backgroundColor: user.color }">{{ initials }}</div>
 

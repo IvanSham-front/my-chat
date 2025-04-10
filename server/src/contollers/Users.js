@@ -1,4 +1,5 @@
 const ApiError = require('../exceptions/api-error');
+const logger = require('../logger');
 const FileServices = require('../services/file-services');
 
 module.exports = {

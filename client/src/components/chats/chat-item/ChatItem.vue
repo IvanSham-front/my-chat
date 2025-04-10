@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
 import { useChatsStore } from '@/store/chats/chats';
 import { storeToRefs } from 'pinia';
 import { ChatDB } from '@/types/Chat';
 import { useUserStore } from '@/store/users/users';
 import { UserDB } from '@/types/User';
+import { useAuth } from '@/hooks/useAuth';
 
 const props = defineProps<{
 	chatItem: ChatDB;
@@ -15,6 +16,8 @@ const chatStore = useChatsStore();
 const { currentChat } = storeToRefs(chatStore);
 
 const usersStore = useUserStore();
+
+const { authUser } = useAuth();
 
 function lastMessageSmall(string: string) {
 	if (string.length > 30) {
@@ -31,7 +34,12 @@ const isActive = computed<boolean>(() => {
 });
 
 const companion = computed<UserDB | null>(() => {
-	const companionId = props.chatItem.members.find((item) => item !== '1');
+
+	if (!authUser.value) {
+		return null;
+	}
+
+	const companionId = props.chatItem.members.find((item) => item !== authUser.value?.id);
 
 	if (companionId) {
 		return usersStore.getUserById(companionId);
@@ -41,12 +49,29 @@ const companion = computed<UserDB | null>(() => {
 });
 
 const companionFullName = computed<string>(() => {
-	return companion.value ? `${companion.value.name} ${companion.value.surName}` : '';
+
+	return companion.value 
+		? usersStore.fullNameById( companion.value?.id  ) 
+		: '';
+
 });
 
 const selectCurrentChat = (chat: ChatDB) => {
 	chatStore.selectCurrentChat(chat);
 };
+
+onMounted(async () => {
+	
+	const membersToFetch = props.chatItem.members.filter(
+		( member ) => !usersStore.getUserById(member)
+	);
+
+	await Promise.all(
+		membersToFetch.map((member) => usersStore.findUserById(member))
+	);
+
+});
+
 </script>
 
 <template>

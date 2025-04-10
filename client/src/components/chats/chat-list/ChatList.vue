@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, inject, onMounted } from 'vue';
+import { computed, ref, inject } from 'vue';
 
 import SearchInput from '@/components/ui/search-input/SearchInput.vue';
 import ChatItem from '../chat-item/ChatItem.vue';
@@ -7,51 +7,50 @@ import UiScroll from '@/components/ui/scroll/UiScroll.vue';
 import PlusIcon from '@/assets/images/PlusIcon.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useChatsStore } from '@/store/chats/chats';
-import { useUserStore } from '@/store/users/users';
+// import { useUserStore } from '@/store/users/users';
 
 const chatStore = useChatsStore();
-const userStore = useUserStore();
+// const userStore = useUserStore();
 
-onMounted(() => {
-	chatStore.getChatList();
-});
 
 const modal = inject<ModalInject>('modal');
 
 const searchValue = ref<string>('');
 
 const filterChatList = computed(() => {
-	if (!searchValue.value) {
-		return chatStore.list;
-	}
 
-	const result = chatStore.list.filter((chat) => {
-		const companions = chat.members
-			.map((member) => {
-				if (member !== '1') {
-					return userStore.getUserById(member);
-				}
-			})
-			.filter((item) => item);
+	return chatStore.chatList;
+	// if (!searchValue.value) {
+	// 	return chatStore.list;
+	// }
 
-		for (const companion of companions) {
-			if (!companion) {
-				return false;
-			}
+	// const result = chatStore.list.filter((chat) => {
+	// 	const companions = chat.members
+	// 		.map((member) => {
+	// 			if (member !== '1') {
+	// 				return userStore.getUserById(member);
+	// 			}
+	// 		})
+	// 		.filter((item) => item);
 
-			if (
-				companion.name?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
-				companion.surName?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
-				`${companion.name} ${companion.surName}`.toUpperCase().includes(searchValue.value.toUpperCase())
-			) {
-				return true;
-			}
-		}
+	// 	for (const companion of companions) {
+	// 		if (!companion) {
+	// 			return false;
+	// 		}
 
-		return false;
-	});
+	// 		if (
+	// 			companion.name?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
+	// 			companion.surName?.toUpperCase().includes(searchValue.value.toUpperCase()) ||
+	// 			`${companion.name} ${companion.surName}`.toUpperCase().includes(searchValue.value.toUpperCase())
+	// 		) {
+	// 			return true;
+	// 		}
+	// 	}
 
-	return result;
+	// 	return false;
+	// });
+
+	// return result;
 });
 
 const openModal = () => {
@@ -75,7 +74,7 @@ const openModal = () => {
 			</button>
 		</div>
 
-		<UiScroll class="chat-list__items">
+		<UiScroll class="chat-list__items">	
 			<ChatItem v-for="item in filterChatList" :chat-item="item" :key="item.id" />
 		</UiScroll>
 	</div>

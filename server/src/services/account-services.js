@@ -197,7 +197,7 @@ class AccountServices {
 		
 		await Account.findByIdAndDelete(account.id);
 
-		return user;
+		return user.toObject();
 
 	}
 

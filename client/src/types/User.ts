@@ -12,6 +12,6 @@ export interface IUser {
 export interface UserDB extends IUser, EntityDB {}
 
 export interface UserState {
-	list: UserDB[];
+	usersMap: Map<string, UserDB>;
 	authUser: UserDB | null;
 }
