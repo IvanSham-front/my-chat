@@ -18,6 +18,7 @@ const validErrors = ref({
 const unknowCredentials = ref<boolean>(false);
 
 const IsValidForm = () => {
+
 	const validator = new CredentialsValidator(login.value, password.value);
 	const validData = validator.validate();
 
@@ -31,6 +32,7 @@ const IsValidForm = () => {
 	}
 	
 	return validFlag;
+
 };
 
 const onSubmitForm = async () => {
@@ -38,7 +40,7 @@ const onSubmitForm = async () => {
 		return;
 	}
 
-	unknowCredentials.value = true;
+	unknowCredentials.value = false;
 
 	try {
 
@@ -49,7 +51,7 @@ const onSubmitForm = async () => {
 
 	} catch {
 
-		unknowCredentials.value = false;
+		unknowCredentials.value = true;
 
 	}
 

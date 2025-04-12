@@ -23,8 +23,7 @@ $axios.interceptors.response.use(
 	},
 	function (error) {
 		if (!!error.response && error.response.status === 401) {
-			console.error('Unauthorized');
-			globalRouter.router?.push('/login');
+			globalRouter.router?.push('/signin');
 		}
 		return Promise.reject(error);
 	}

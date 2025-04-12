@@ -58,7 +58,7 @@ export const useAuth = () => {
 		try {
 
 			await api.auth.logout();
-			router.push('/login');
+			router.push('/signin');
 
 		} catch(error) {
 
