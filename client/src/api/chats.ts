@@ -9,12 +9,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.get<{ chats: ChatDB[] }>('/chats');
-			return data?.chats;
+			
+			if (!data?.chats) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			};
+
+			return data.chats;
 
 		} catch( error ) {
 
 			handleAxiosError(error);
-
+			throw error;
 		}
 
 	},
@@ -24,11 +29,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.post<{ chat: ChatDB }>('/chats', { chat, message });
+
+			if (!data.chat) {
+				throw new TypeError( `Invalid response format, ${ data }` );
+			}
+
 			return data?.chat;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 
@@ -39,11 +50,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.delete<{ chat: ChatDB }>(`/chats/${ chatId }`);
+
+			if (!data.chat) {
+				throw new TypeError( `Invalid response format, ${ data }` );
+			}
+
 			return data.chat;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 
@@ -54,11 +71,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.get<{ messages: MessageDB[] }>(`/chats/${chatId}/messages`);
-			return data.messages;
+
+			if (!data.messages) {
+				throw new TypeError( `Invalid response format, ${ data }` );
+			}
+
+			return data?.messages;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 
@@ -69,11 +92,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.post<{ message: MessageDB }>(`/chats/${chatId}/messages`, message);
+
+			if (!data.message) {
+				throw new TypeError( `Invalid response format, ${ data }` );
+			}
+
 			return data.message;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 	},
@@ -83,11 +112,17 @@ export const chatsApi = {
 		try {
 
 			const { data } = await $axios.delete<{ message: MessageDB }>(`/chats/${chatId}/messages/${messageId}`);
+
+			if (!data.message) {
+				throw new TypeError( `Invalid response format, ${ data }` );
+			}
+
 			return data.message;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 

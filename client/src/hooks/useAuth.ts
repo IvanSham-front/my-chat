@@ -11,32 +11,76 @@ export const useAuth = () => {
 	const { authUser } = storeToRefs(userStore);
 
 	const signin = async ({ login, password }: { login: string; password: string }) => {
-		const data = await api.auth.login(login, password);
 
-		if ( data ) {
-			userStore.setAuthUser( data.user );
-			router.push('/');
-		} else {
-			return false;
+		try {
+
+			const user = await api.auth.login(login, password);
+
+			if ( user ) {
+
+				userStore.setAuthUser( user );
+				router.push('/');
+
+			} else {
+
+				throw new Error('User are not defined');
+
+			}
+
+		} catch {
+
+			throw false;
+
 		}
+
 	};
 
 	const signup = async ({ login, password }: { login: string; password: string }) => {
-		const data = await api.auth.registration(login, password);
 
-		if (data?.user) {
-			await signin({ login, password });
+		try {
+
+			const user = await api.auth.registration(login, password);
+
+			if (user) {
+				await signin({ login, password });
+			}
+
+		} catch(error) {
+
+			throw (error);
+
 		}
+		
 	};
 
 	const logout = async () => {
-		await api.auth.logout();
-		router.push('/login');
+
+		try {
+
+			await api.auth.logout();
+			router.push('/login');
+
+		} catch(error) {
+
+			throw error;
+
+		}
+
 	};
 
 	const checkExsistLogin = async (login: string) => {
-		const value = await api.auth.checkLogin(login);
-		return value;
+
+		try {
+
+			const value = await api.auth.checkLogin(login);
+			return value;
+
+		} catch(error) {
+
+			throw error;
+
+		}
+
 	};
 
 	const connectSocket = async () => {

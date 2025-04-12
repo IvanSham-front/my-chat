@@ -3,141 +3,208 @@ import { SocketService } from './socket.io/socket.io';
 import api from '.';
 import { IMessage, MessageDB } from '@/types/Message';
 
+// Здесь будем логировать ошибки на уровне сервера или выбора 
+// Все методы АПИ возвращают только объект с ответом. Без data и тд 
+
 class ApiChatManager {
 
-	getChatList(): Promise<ChatDB[]> {
+	private retryCount = 0;
+	private readonly maxRetries = 3;
+
+	async getChatList(): Promise<ChatDB[]> {
+
+		try {
+
+			return await api.chats.getList();
+
+		} catch(error) {
+
+			throw error;
+
+		}
+
+	}
+
+	async createChat( chat: IChat, message: IMessage ): Promise<ChatDB> {
+
+		const socket = SocketService.getInstance();
+
+		if (socket.isConnected()) {
+
+			try {
+
+				return await this.createChatViaSocket(socket, chat, message);
+
+			} catch (error) {
+
+				console.error('WebSocket failed, falling back to HTTP', error);
+
+				return await this.createChatViaHttp(chat, message);
+			}
+
+		}
+
+		return await this.createChatViaHttp(chat, message);
+		
+	}
+
+	private createChatViaSocket(socket: SocketService, chat: IChat, message: IMessage): Promise<ChatDB> {
 
 		return new Promise((resolve, reject) => {
-			const socket = SocketService.getInstance();
-			
-			if (socket.isConnected()) {
 
-				socket.emit('client:chats:list', {}, (response) => {
+			socket.emit('client:chats:create', { chat, message }, (response) => {
 
-					if (response?.status === 'ok' && response?.data?.chats) {
-						resolve(response.data.chats);
-					} else {
-						reject(new Error( 'Failed to fetch chat list from socket'));
+				if (response?.status === 'ok' && response.data) {
+					
+					if (!response.data.chat) {
+						reject( new Error(`Invalid response format, ${ response.data }`) );
 					}
 
-				});
+					this.retryCount = 0;
 
-			} else {
+					resolve(response.data.chat);
 
-				api.chats.getList()
-					.then((responseChats) => {
-						if (responseChats) {
-							resolve(responseChats);
-						} else {
-							reject(new Error('Failed to fetch chat list from API'));
-						}
-
-					})
-					.catch(error => reject(error));
-			} 
-			
-		});
-
-	}
-
-	createChat( chat: IChat, message: IMessage ): Promise<ChatDB> {
-
-		return new Promise(( resolve, reject ) => {
-			const socket = SocketService.getInstance();
-
-			if ( socket.isConnected() ) {
-				socket.emit( 'client:chats:create' , { chat, message }, (response) => {
-
-					if (response.status === 'ok' && response?.data) {
-						resolve(response?.data);
-					} else {
-						reject(new Error('Failed to create chat on socket'));
-					}
-
-				});
-
-			} else {
-
-				api.chats.create( chat, message )
-					.then((responseChat) => {
-						if (responseChat) {
-							resolve(responseChat);
-						} else {
-							reject(new Error('Failed to create chat from API'));
-						}
-					})
-					.catch(error => reject(error));
-
-			} 
-			
-		});
-
-	}
-
-	sendMessage ( chatId: string, message: IMessage ): Promise<MessageDB> {
-
-		return new Promise((resolve, reject) => {
-
-			const socket = SocketService.getInstance();
-
-			if (socket.isConnected()) {
-				socket.emit( 'client:messages:send' , { chatId, message }, (response) => {
-					if (response.status === 'ok') {
-						resolve(response?.data.message);
-					} else {
-						reject(new Error('Failed to fetch chat list from API'));
-					}
-				});
-			} else {
-				api.chats.sendMessage( chatId, message )
-					.then((responseMessage) => {
-						if (responseMessage) {
-							resolve(responseMessage);
-						} else {
-							reject(new Error('Failed to fetch chat list from API'));
-						}
-					})
-					.catch(error => reject(error));
-			} 
-
-			reject(new Error ('Not connected'));
-
-		});
-
-	}
-
-	getMessagesByChatId( chatId:string ): Promise<MessageDB[]> {
-
-		return new Promise((resolve, reject) => {
-
-			api.chats.getMessages(chatId).then((responseMessage) => {
-				if (responseMessage) {
-					resolve(responseMessage);
-				} else { 
-					reject( new Error('Failed to get messages') );
-				}
-			});
-
-
-		});
-
-	}
-
-	removeMessage ( chatId: string, messageId: string ) {
-
-		return new Promise((resolve, reject) => {
-
-			api.chats.removeMessage(chatId, messageId ).then((responseMessage) => {
-				if (responseMessage) {
-					resolve(responseMessage);
 				} else {
-					reject( new Error( 'Failed to remove message' ) );
+
+					this.retryCount++;
+
+					if (this.retryCount <= this.maxRetries) {
+
+						console.log(`Retry attempt ${this.retryCount}`);
+						resolve(this.createChatViaSocket(socket, chat, message));
+
+					} else {
+
+						this.retryCount = 0;
+						reject(new Error('Max retry attempts reached'));
+
+					}
 				}
+				
 			});
 
-			reject(new Error ('Not connected'));
+		});
+
+	}
+
+	private async createChatViaHttp (chat: IChat, message: IMessage): Promise<ChatDB> {
+
+		try {
+
+			return await api.chats.create(chat, message);
+
+		} catch(error) {
+
+			throw error;
+
+		}
+
+	}
+
+	async sendMessage ( chatId: string, message: IMessage ): Promise<MessageDB> {
+
+		const socket = SocketService.getInstance();
+
+		if (socket.isConnected()) {
+
+			try {
+
+				return await this.sendMessageViaSocket(socket, chatId, message);
+
+			} catch (error) {
+
+				console.error('WebSocket failed, falling back to HTTP', error);
+
+				return await this.sendMessageViaHttp(chatId, message);
+			}
+
+		}
+
+		return await this.sendMessageViaHttp(chatId, message);
+
+	}
+
+	private sendMessageViaSocket ( socket: SocketService, chatId: string, message: IMessage ): Promise<MessageDB> {
+
+		return new Promise((resolve, reject) => {
+
+			socket.emit('client:messages:send', { chatId, message }, (response) => {
+
+				if (response?.status === 'ok' && response.data) {
+
+					if (!response.data.message) {
+						reject( new Error(`Invalid response format, ${ response.data }`) );
+					};
+
+					this.retryCount = 0;
+
+					resolve(response.data.message);
+
+				} else {
+
+					this.retryCount++;
+
+					if (this.retryCount <= this.maxRetries) {
+
+						console.log(`Retry attempt ${this.retryCount}`);
+						resolve(this.sendMessageViaSocket(socket, chatId, message));
+
+					} else {
+
+						this.retryCount = 0;
+						reject(new Error('Max retry attempts reached'));
+
+					}
+
+					reject(new Error('Failed to send message via WebSocket'));
+
+				}
+
+			});
+
 
 		});
+
+
+	}
+
+	private async sendMessageViaHttp (chatId: string, message: IMessage) {
+
+		try {
+
+			return await api.chats.sendMessage(chatId, message);
+
+		} catch(error) {
+
+			throw error;
+
+		}
+
+	}
+
+	async getMessagesByChatId( chatId:string ): Promise<MessageDB[]> {
+
+		try {
+			return await api.chats.getMessages(chatId);
+
+		} catch (error) {
+
+			throw error;
+
+		}
+
+	}
+
+	async removeMessage ( chatId: string, messageId: string ) {
+
+		try {
+			return await api.chats.removeMessage(chatId, messageId);
+
+		} catch (error) {
+
+			throw error;
+
+		}
 
 	}
 

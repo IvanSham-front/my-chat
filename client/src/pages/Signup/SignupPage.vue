@@ -36,17 +36,29 @@ const onSubmitForm = async () => {
 		return;
 	}
 	
-	const resultExsist = await checkExsistLogin(login.value);
-	
-	if (resultExsist) {
-		validErrors.value.login = 'User with that login already exists';
-		return;
-	} else {
-		await signup({
-			login: login.value,
-			password: password.value
-		});
+	try {
+
+		const resultExsist = await checkExsistLogin(login.value);
+
+		if (resultExsist && typeof resultExsist === 'boolean') {
+			validErrors.value.login = 'User with that login already exists';
+			return;
+
+		} else {
+
+			await signup({
+				login: login.value,
+				password: password.value
+			});
+
+		}
+
+	} catch (error) {
+
+		throw error;
+
 	}
+	
 };
 
 </script>

@@ -31,13 +31,24 @@ $axios.interceptors.response.use(
 );
 
 export function handleAxiosError (error: unknown) {
+
 	if (isAxiosError(error)) {
+
 		console.error('Error message: ', error.message);
 		return error.message;
-	} else {
+
+	} else if (error instanceof Error) {
+
+		console.error('Custom error:', error.message);
+		return error.message;
+
+ 	 } else {
+
 		console.error('Unexpected error: ', error);
 		return 'An unexpected error occurred';
+
 	}
+
 };
 
 $axios.getQuery = ( url: string = '', params: { [ key: string ]: string } = {} ) => {

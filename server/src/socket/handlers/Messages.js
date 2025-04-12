@@ -30,17 +30,13 @@ module.exports = (io, socket) => {
 
 			await ChatServices.notifyChatMembers( io, { 
 				chatId, 
-				data: {
-					message,
-				},
+				data: { message },
 				emitName: 'server:message:send'
 			});
 
 			callback({
 				status: 'ok',
-				data: {
-					message
-				}
+				data: { message }
 			})
 			
 		} catch (error) {

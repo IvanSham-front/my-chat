@@ -33,11 +33,12 @@ export const useChatsStore = defineStore('chats', {
 		},
 
 		async getChatList() {
-			
+
 			const chats = await ApiChatManager.getChatList();
 			chats.forEach((chat) => {
 				this.addChatItem( chat );
 			});
+
 
 		},
 
@@ -63,7 +64,7 @@ export const useChatsStore = defineStore('chats', {
 				this.sendMessage(chatId, message);
 			});
 
-		}
+		},
 
 	},
 

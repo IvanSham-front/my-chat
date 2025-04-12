@@ -19,9 +19,9 @@ interface EventMapFromClient {
 interface ResponsesMap {
 
 	'client:chats:list': { chats: ChatDB[] },
-	'client:chats:create': ChatDB
-	'client:chats:delete': ChatDB
-	'client:messages:get-list': MessageDB[]
+	'client:chats:create': { chat: ChatDB },
+	'client:chats:delete': { chat: ChatDB },
+	'client:messages:get-list': { messages: MessageDB[] },
 	'client:messages:send': { message: MessageDB }
 }
 
@@ -30,10 +30,11 @@ type ResponseTypeEmit<K extends keyof ResponsesMap> = ResponsesMap[K];
 type DataTypeEmit<K extends keyof EventMapFromClient> = EventMapFromClient[K];
 
 interface EventMapFromServer {
-	'server:chats:create': ChatDB;
-	'server:chats:delete': ChatDB;
-	'server:messages:send': MessageDB;
+	'server:chats:create': { chat: ChatDB };
+	'server:chats:delete': { chat: ChatDB };
+	'server:messages:send': { message: MessageDB };
 }
+
 
 type DataTypeOn<K extends keyof EventMapFromServer> = EventMapFromServer[K];
 
@@ -56,12 +57,13 @@ export class SocketService {
 
 	private registerSocketListeners() {
 
-		this.on('server:chats:create', (data) => {
+		this.on('server:chats:create', ( payload ) => {
 
-			console.log(data);
+			const chatsStore = useChatsStore();
 
-			const chatsStore = useChatsStore();	
-			chatsStore.addChatItem(data);
+			if ( payload.chat ) {
+				chatsStore.addChatItem(payload.chat);
+			}
 
 		});
 
@@ -72,10 +74,13 @@ export class SocketService {
 		// 	const chatsStore = useChatsStore();	
 		// });
 
-		this.on( 'server:messages:send', ( message ) => {
+		this.on( 'server:messages:send', ( payload ) => {
 
-			const chatsStore = useChatsStore();	
-			chatsStore.addMessageOnChat( message.chatId , message);
+			const chatsStore = useChatsStore();
+
+			if (payload.message) {
+				chatsStore.addMessageOnChat( payload.message.id , payload.message);
+			}
 
 		} );
 

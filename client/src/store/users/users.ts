@@ -30,13 +30,13 @@ export const useUserStore = defineStore('users', {
 
 			if ( !this.authUser ) {
 
-				const res = await api.auth.getAuthUser();
+				const user = await api.auth.getAuthUser();
 
-				if (res) {
+				if (user) {
 
-					this.setAuthUser(res.user);
-					this.addUserItem(res.user);
-					return res.user;
+					this.setAuthUser(user);
+					this.addUserItem(user);
+					return user;
 
 				}
 

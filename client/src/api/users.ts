@@ -10,11 +10,17 @@ export const usersApi = {
 		try {
 
 			const { data } = await $axios.get<{ users: UserDB[] }>( url );
+
+			if (!data.users) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
 			return data.users;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw(error);
 
 		}
 
@@ -25,11 +31,17 @@ export const usersApi = {
 		try {
 
 			const { data } = await $axios.get<{ user: UserDB}>(`/users/${ userId }`);
+
+			if (!data.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
 			return data.user;
 			
 		} catch (error) {
 			
 			handleAxiosError(error);
+			throw(error);
 
 		}
 
@@ -40,11 +52,17 @@ export const usersApi = {
 		try {
 
 			const { data } = await $axios.put<{ user: UserDB}>(`/users/${ user.id }`);
+
+			if (!data.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
 			return data.user;
 			
 		} catch (error) {
 			
 			handleAxiosError(error);
+			throw(error);
 
 		}
 
@@ -55,11 +73,17 @@ export const usersApi = {
 		try {
 
 			const { data } = await $axios.delete<{ user: UserDB }> ( `users/${ userId }`);
+
+			if (!data.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
 			return data.user;
 			
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw(error);
 
 		}
 

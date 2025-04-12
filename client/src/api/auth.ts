@@ -11,12 +11,18 @@ export const auth = {
 
 		try {
 
-			const { data } = await $axios.post<{ user: UserDB }>('/auth/registration', { login, password });
-			return data;
+			const { data } = await $axios.post<UserResponse>('/auth/registration', { login, password });
+			
+			if (!data?.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			};
+
+			return data.user;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 
@@ -26,13 +32,18 @@ export const auth = {
 
 		try {
 
-			const { data } = await $axios.post< { user: UserDB } >('/auth/login', { login, password });
+			const { data } = await $axios.post<UserResponse>('/auth/login', { login, password });
+			
+			if (!data?.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			};
 
-			return data;
+			return data.user;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 			
 		}
 
@@ -46,8 +57,9 @@ export const auth = {
 
 		} catch (error) {
 
-			return error;
-
+			handleAxiosError(error);
+			throw error;
+			
 		}
 
 	},
@@ -57,11 +69,17 @@ export const auth = {
 		try {
 
 			const { data } = await $axios.post<ApiResponse<boolean>>('/auth/checkLogin', { login });
+
+			if (typeof data !== 'boolean') {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
 			return data;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 
@@ -71,12 +89,18 @@ export const auth = {
 
 		try {
 
-			const { data } = await $axios.get<ApiResponse<UserResponse>>('/auth/user');
-			return data;
+			const { data } = await $axios.get<{ user: UserDB }>('/auth/user');
+			
+			if (!data?.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			};
+
+			return data.user;
 
 		} catch (error) {
 
 			handleAxiosError(error);
+			throw error;
 
 		}
 

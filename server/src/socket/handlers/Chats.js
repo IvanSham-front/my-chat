@@ -77,14 +77,14 @@ module.exports = (io, socket) => {
 			await ChatServices.notifyChatMembers(io, {
 				
 				chatId: chat.id,
-				data: { chatData },
+				data: { chat: chatData },
 				emitName: 'server:chat:create'
 
 			})
 			
 			callback({
 				status: 'ok',
-				data: { chatData }
+				data: { chat: chatData }
 			});
 
 		} catch (error) {

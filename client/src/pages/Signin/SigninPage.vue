@@ -38,15 +38,19 @@ const onSubmitForm = async () => {
 		return;
 	}
 
-	const res = await signin({
-		login: login.value,
-		password: password.value
-	});
+	unknowCredentials.value = true;
 
-	if (!res) {
-		unknowCredentials.value = true;
-	} else {
+	try {
+
+		await signin({
+			login: login.value,
+			password: password.value
+		});
+
+	} catch {
+
 		unknowCredentials.value = false;
+
 	}
 
 };

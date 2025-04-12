@@ -36,7 +36,7 @@ class MessageServices {
 
 		const resultMessage = await Message.create({ ...message, sellerId });
 
-		return resultMessage;
+		return { message: resultMessage };
 
 	}
 
@@ -44,7 +44,7 @@ class MessageServices {
 
 		const message = await Message.findByIdAndDelete(messageId);
 
-		return message
+		return { message }
 
 	}
 
@@ -60,7 +60,7 @@ class MessageServices {
 
 		const messages = await Message.find({ chatId });
 
-		return messages
+		return { messages }
 
 	}
 
