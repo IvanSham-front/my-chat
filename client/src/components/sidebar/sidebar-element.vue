@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import UserBlock from '@/components/user-block/UserBlock.vue';
-import ChatList from '@/components/chats/chat-list/ChatList.vue';
-import SettingsIcon from '@/assets/images/SettingsIcon.vue';
-import ArrowLeftIcon from '@/assets/images/ArrowLeftIcon.vue';
-import UserSettings from '../user-settings/UserSettings.vue';
+import UserBlock from '@/components/user-block/user-block.vue';
+import ChatList from '@/components/chats/chat-list/chat-list.vue';
+import SettingsIcon from '@/assets/images/settings-icon.vue';
+import ArrowLeftIcon from '@/assets/images/arrow-left-icon.vue';
+import UserSettings from '../user-settings/user-settings.vue';
 import { useAuth } from '@/hooks/useAuth';
 import { useSidebarStore } from '@/store/sidebar/sidebar';
 
@@ -54,5 +54,5 @@ const toggleShowSettings = () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './SidebarElement.scss';
+	@import './sidebar-element.scss';
 </style>

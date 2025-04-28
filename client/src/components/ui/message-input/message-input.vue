@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue';
-import EmojiPicker from '../emoji-picker-input/EmojiPicker.vue';
+import EmojiPicker from '../emoji-picker-input/emoji-picker.vue';
 import { useCursor } from '@/hooks/useCursor';
-import UiScroll from '../scroll/UiScroll.vue';
-import SendMessageIcon from '@/assets/images/SendMessageIcon.vue';
+import UiScroll from '../scroll/ui-scroll.vue';
+import SendMessageIcon from '@/assets/images/send-message-icon.vue';
 import moment from 'moment';
 
 const messageInputRef = inject('messageInputRef', null);
@@ -87,5 +87,5 @@ const onSendMessage = () => {
 </template>
 
 <style scoped lang="scss">
-	@import './MessageInput.scss';
+	@import './message-input.scss';
 </style>

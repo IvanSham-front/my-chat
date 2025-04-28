@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SidebarElement from '@/components/sidebar/SidebarElement.vue';
-import MessagesSection from '@/components/messages/MessagesSection.vue';
+import SidebarElement from '@/components/sidebar/sidebar-element.vue';
+import MessagesSection from '@/components/messages/messages-section.vue';
 import { useAuth } from '@/hooks/useAuth';
 import { useChatsStore } from '@/store/chats/chats';
 import { onBeforeMount } from 'vue';
@@ -25,5 +25,5 @@ onBeforeMount( async  () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './ChatPage.scss';
+	@import './chat-page.scss';
 </style>

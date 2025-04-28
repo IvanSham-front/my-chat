@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TextInput from '@/components/ui/text-input/TextInput.vue';
-import AvatarUploader from '@/components/ui/avatar-uploader/AvatarUploader.vue';
+import TextInput from '@/components/ui/text-input/text-input.vue';
+import AvatarUploader from '@/components/ui/avatar-uploader/avatar-uploader.vue';
 import { useAuth } from '@/hooks/useAuth';
 
 const { authUser } = useAuth();
@@ -21,5 +21,5 @@ const { authUser } = useAuth();
 </template>
 
 <style scoped lang="scss">
-	@import './UserSettings.scss';
+@import './user-settings.scss';
 </style>

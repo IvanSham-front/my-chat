@@ -21,5 +21,5 @@ const sellerId = 1;
 </template>
 
 <style lang="scss" scoped>
-	@import './MessageItem.scss';
+	@import './message-item.scss';
 </style>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuth } from '@/hooks/useAuth';
-import TextInput from '@/components/ui/text-input/TextInput.vue';
-import UiButton from '@/components/ui/button/UiButton.vue';
+import TextInput from '@/components/ui/text-input/text-input.vue';
+import UiButton from '@/components/ui/button/ui-button.vue';
 import CredentialsValidator from '@/tools/CredentialsValidator';
 
-const { signin } = useAuth();
+const { checkExsistLogin, signup } = useAuth();
 
 const login = ref<string>('');
 const password = ref<string>('');
@@ -15,10 +15,7 @@ const validErrors = ref({
 	password: ''
 });
 
-const unknowCredentials = ref<boolean>(false);
-
 const IsValidForm = () => {
-
 	const validator = new CredentialsValidator(login.value, password.value);
 	const validData = validator.validate();
 
@@ -32,81 +29,84 @@ const IsValidForm = () => {
 	}
 	
 	return validFlag;
-
 };
 
 const onSubmitForm = async () => {
 	if (!IsValidForm()) {
 		return;
 	}
-
-	unknowCredentials.value = false;
-
+	
 	try {
 
-		await signin({
-			login: login.value,
-			password: password.value
-		});
+		const resultExsist = await checkExsistLogin(login.value);
 
-	} catch {
+		if (resultExsist && typeof resultExsist === 'boolean') {
+			validErrors.value.login = 'User with that login already exists';
+			return;
 
-		unknowCredentials.value = true;
+		} else {
+
+			await signup({
+				login: login.value,
+				password: password.value
+			});
+
+		}
+
+	} catch (error) {
+
+		throw error;
 
 	}
-
+	
 };
 
 </script>
 
 <template>
-	<section class="signin-page">
-		<header class="signin-page__header">
-			<h1 class="signin-page__title">Welcome to chat!</h1>
-			<span class="signin-page__description">
-				Don't have an account? 
-				<router-link  to="/signup">Sign Up</router-link>
+	<section class="signup-page">
+		<header class="signup-page__header">
+			<h1 class="signup-page__title">Welcome to chat!</h1>
+			<span class="signup-page__description">Already have an account?
+				<router-link to="/signin">Sign In</router-link>
 			</span>
 		</header>
 
-		<form class="signin-page__form" @submit.prevent="onSubmitForm">
+		<form class="signup-page__form" @submit.prevent="onSubmitForm">
 
-			<div class="signin-page__input-container">
+			<div class="signup-page__input-container">
 				<text-input 
 					label-text="login" 
 					id="login-input" 
 					v-model="login"
 					:invalid="!!validErrors.login"
 				/>
-				<span class="signin-page__error-span">
+				<span class="signup-page__error-span">
 					{{ validErrors.login }}
 				</span>
 
 				<text-input
 					label-text="password"
-					id="password-input" 
+					id="login-input" 
 					v-model="password" 
 					type="password"
 					:invalid="!!validErrors.password"
 				/>
 
-				<span class="signin-page__error-span">
+				<span class="signup-page__error-span">
 					{{ validErrors.password }}
 				</span>
 			</div>
 
-			<span class="signin-page__error-span" v-if="unknowCredentials">
-				Incorrect login or password
-			</span>
 			<ui-button
 				type="submit"
 			>
-				Sign In
+				Sign Up
 			</ui-button>
 		</form>
 	</section>
 </template>
 
 <style lang="scss" scoped>
-@import './SigninPage.scss';
+@import './signup-page.scss';
 </style>

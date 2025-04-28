@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, provide, computed } from 'vue';
-import UserBlock from '../user-block/UserBlock.vue';
-import SearchIcon from '@/assets/images/SearchIcon.vue';
-import OptionIcon from '@/assets/images/OptionIcon.vue';
-import MessageList from './message-list/MessageList.vue';
-import MessageInput from '../ui/message-input/MessageInput.vue';
+import UserBlock from '../user-block/user-block.vue';
+import SearchIcon from '@/assets/images/search-icon.vue';
+import OptionIcon from '@/assets/images/option-icon.vue';
+import MessageList from './message-list/message-list.vue';
+import MessageInput from '../ui/message-input/message-input.vue';
 import { useChatsStore } from '@/store/chats/chats';
 import { useUserStore } from '@/store/users/users';
 // import { IMessage } from '@/types/Message';
@@ -85,5 +85,5 @@ const onSendMessage = () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './MessagesSection';
+	@import './messages-section.scss';
 </style>

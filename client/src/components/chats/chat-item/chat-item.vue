@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
+import UiAvatar from '@/components/ui/avatar/ui-avatar.vue';
 import { useChatsStore } from '@/store/chats/chats';
 import { storeToRefs } from 'pinia';
 import { ChatDB } from '@/types/Chat';
@@ -91,5 +91,5 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './ChatItem';
+	@import './chat-item.scss';
 </style>

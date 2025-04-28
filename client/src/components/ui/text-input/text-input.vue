@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { defineProps, defineEmits } from 'vue';
-import EyeIcon from '@/assets/images/EyeIcon.vue';
+import EyeIcon from '@/assets/images/eye-icon.vue';
 
 
 const props = defineProps({
@@ -85,5 +85,5 @@ const toggleShowPassword = () => {
 </template>
 
 <style scoped lang="scss">
-@import './TextInput.scss';
+@import './text-input.scss';
 </style>

@@ -349,5 +349,5 @@ const canvasToImage = () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './AvatarUpdater.scss';
+	@import './avatar-updater.scss';
 </style>

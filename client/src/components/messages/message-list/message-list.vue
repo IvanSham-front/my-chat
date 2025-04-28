@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, watch } from 'vue';
-import UiScroll from '@/components/ui/scroll/UiScroll.vue';
-import MessageItem from '../message-item/MessageItem.vue';
+import UiScroll from '@/components/ui/scroll/ui-scroll.vue';
+import MessageItem from '../message-item/message-item.vue';
 import { MessageDB } from '@/types/Message';
 
 
@@ -48,5 +48,5 @@ watch(props.messages, () => {
 </template>
 
 <style scoped lang="scss">
-	@import './MessageList';
+	@import './message-list.scss';
 </style>

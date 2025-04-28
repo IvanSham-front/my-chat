@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue';
-import CameraIcon from '@/assets/images/CameraIcon.vue';
+import CameraIcon from '@/assets/images/camera-icon.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -53,5 +53,5 @@ const onChangeFile = (e: Event) => {
 </template>
 
 <style scoped lang="scss">
-	@import './AvatarUploader.scss';
+	@import './avatar-uploader.scss';
 </style>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, inject } from 'vue';
 
-import SearchInput from '@/components/ui/search-input/SearchInput.vue';
-import ChatItem from '../chat-item/ChatItem.vue';
-import UiScroll from '@/components/ui/scroll/UiScroll.vue';
-import PlusIcon from '@/assets/images/PlusIcon.vue';
+import SearchInput from '@/components/ui/search-input/search-input.vue';
+import ChatItem from '../chat-item/chat-item.vue';
+import UiScroll from '@/components/ui/scroll/ui-scroll.vue';
+import PlusIcon from '@/assets/images/plus-icon.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useChatsStore } from '@/store/chats/chats';
 // import { useUserStore } from '@/store/users/users';
@@ -81,5 +81,5 @@ const openModal = () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './ChatList';
+	@import './chat-list.scss';
 </style>

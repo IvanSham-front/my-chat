@@ -44,5 +44,5 @@ const initials = computed<string>(() => {
 </template>
 
 <style lang="scss" scoped>
-	@import './UiAvatar.scss';
+	@import './ui-avatar.scss';
 </style>

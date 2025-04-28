@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SearchIcon from '@/assets/images/SearchIcon.vue';
+import SearchIcon from '@/assets/images/search-icon.vue';
 
 const searchValue = defineModel();
 
@@ -18,5 +18,5 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-	@import './SearchInput.scss';
+	@import './search-input.scss';
 </style>

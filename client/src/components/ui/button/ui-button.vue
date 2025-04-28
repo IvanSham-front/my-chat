@@ -20,5 +20,5 @@ const onClick = () => {
 </template>
 
 <style lang="scss" scoped>
-@import './UiButton.scss';
+@import './ui-button.scss';
 </style>

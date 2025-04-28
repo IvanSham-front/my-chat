@@ -7,5 +7,5 @@
 </template>
 
 <style lang="scss">
-	@import './UiScroll.scss';
+	@import './ui-scroll.scss';
 </style>

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import EmojiPicker from 'vue3-emoji-picker';
-import EmojiIcon from '@/assets/images/EmojiIcon.vue';
+import EmojiIcon from '@/assets/images/emoji-icon.vue';
 
 const emit = defineEmits(['input']);
 
@@ -35,5 +35,5 @@ const selectEmoji = (emoji: any) => {
 </template>
 
 <style lang="scss" scoped>
-	@import './EmojiPicker.scss';
+	@import './emoji-picker.scss';
 </style>

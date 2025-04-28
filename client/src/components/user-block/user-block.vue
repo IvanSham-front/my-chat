@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UiAvatar from '@/components/ui/avatar/UiAvatar.vue';
+import UiAvatar from '@/components/ui/avatar/ui-avatar.vue';
 import { UserDB } from '@/types/User';
 
 defineProps<{
@@ -30,5 +30,5 @@ function getFullUserName(user: UserDB | null): string {
 </template>
 
 <style lang="scss" scoped>
-	@import './UserBlock.scss';
+	@import './user-block.scss';
 </style>

@@ -2,7 +2,7 @@
 import { DefineComponent, inject } from 'vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useModalStore } from '@/plugins/modal/modal';
-import AvatarUpdater from './avatar-updater/AvatarUpdater.vue';
+import AvatarUpdater from './avatar-updater/avatar-updater.vue';
 
 const modal = inject<ModalInject>('modal');
 
@@ -34,5 +34,5 @@ const closeModal = () => {
 </template>
 
 <style lang="scss" scoped>
-	@import './ModalMain.scss';
+	@import './modal-main.scss';
 </style>
