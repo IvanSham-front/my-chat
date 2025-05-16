@@ -2,9 +2,12 @@
 import { UserDB } from '@/types/User';
 import { computed } from 'vue';
 
-const props = defineProps<{
-	user?: UserDB | null;
-}>();
+const props = withDefaults(defineProps<{
+	user: UserDB | null;
+	size: number | string;
+}>(), {
+	size: 50
+});
 
 const fullName = computed<string>(() => `${props.user?.name || ''} ${props.user?.surName || ''}`);
 
@@ -32,7 +35,7 @@ const initials = computed<string>(() => {
 </script>
 
 <template>
-	<div class="ui-avatar">
+	<div class="ui-avatar" :style="{ '--size': props.size + 'px' }" >
 		<div class="ui-avatar__img" v-if="!user"></div>
 
 		<img class="ui-avatar__img" v-else-if="user.avatarUrl" :src="`http://localhost:3020/api${ user.avatarUrl }`" :alt="fullName" />
@@ -44,5 +47,5 @@ const initials = computed<string>(() => {
 </template>
 
 <style lang="scss" scoped>
-	@import './ui-avatar.scss';
+@import './ui-avatar.scss';
 </style>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import UiButton from '@/components/ui/button/ui-button.vue';
+import { useAuth } from '@/hooks/useAuth';
 import { useModalStore } from '@/plugins/modal/modal';
+import { useUserStore } from '@/store/users/users';
 import { onMounted, ref, watch } from 'vue';
 
 const modalStore = useModalStore();
@@ -314,16 +317,40 @@ const canvasToImage = () => {
 	canvas.height = height;
 
 	if (ctx && image.value.resource) {
+
 		onPaintImage(ctx, image.value.resource);
-		const dataUrl = canvas.toDataURL();
-		const link = document.createElement('a');
-		link.href = dataUrl;
-		link.download = 'canvas_image.png';
-		link.click();
+
+		canvas.toBlob(async (blob) => {
+
+			if ( blob ) {
+
+				await saveUserAvatar(blob);
+
+			}
+
+		});
+
 	} else {
 		console.error('ctx or image is not found');
 	}
 };
+
+const { updateUserAvatar } = useUserStore();
+
+const { authUser } = useAuth();
+
+async function saveUserAvatar(blobFile: Blob) {
+
+	const formData = new FormData();
+	formData.append('avatar', blobFile, 'avatar.jpg');
+
+	if (authUser.value) {
+		await updateUserAvatar( authUser.value?.id, formData );
+		modalStore.closeModal();
+	}
+
+}
+
 </script>
 
 <template>
@@ -339,12 +366,17 @@ const canvasToImage = () => {
 		>
 		</canvas>
 
-		<button @click="canvasToImage">save</button>
+		<div class="avatar-updater__zoom-range">
 
-		<pre>{{ finishUrl }}</pre>
+			<label>Zoom</label>
+			<input type="range" v-model="scale" min="1" max="3" step="0.02" />
+		
+		</div>
+
+		<UiButton @click="canvasToImage">Save</UiButton>
+
 		<img :src="finishUrl" />
 
-		<input type="range" v-model="scale" min="1" max="3" step="0.02" />
 	</div>
 </template>
 

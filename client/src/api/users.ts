@@ -30,7 +30,28 @@ export const usersApi = {
 
 		try {
 
-			const { data } = await $axios.get<{ user: UserDB}>(`/users/${ userId }`);
+			const { data } = await $axios.get<{ user: UserDB }>(`/users/${ userId }`);
+
+			if (!data.user) {
+				throw new TypeError(`Invalid response format, ${ data }`);
+			}
+
+			return data.user;
+			
+		} catch (error) {
+			
+			handleAxiosError(error);
+			throw(error);
+
+		}
+
+	},
+
+	updateUserAvatar: async (userId: string, form: FormData) => {
+
+		try {
+
+			const { data } = await $axios.put<{ user: UserDB }>(`/users/${ userId }`, form);
 
 			if (!data.user) {
 				throw new TypeError(`Invalid response format, ${ data }`);
@@ -51,7 +72,7 @@ export const usersApi = {
 
 		try {
 
-			const { data } = await $axios.put<{ user: UserDB}>(`/users/${ user.id }`);
+			const { data } = await $axios.put<{ user: UserDB}>(`/users/${ user.id }`, user);
 
 			if (!data.user) {
 				throw new TypeError(`Invalid response format, ${ data }`);

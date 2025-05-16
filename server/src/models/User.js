@@ -64,6 +64,7 @@ schema.set( 'toJSON', {
 	ret.id = ret._id;
     delete ret._id;
     delete ret.socketIds;
+	delete ret.__v;
     return ret;
 
   }

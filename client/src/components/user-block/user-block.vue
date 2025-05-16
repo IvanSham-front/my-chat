@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import UiAvatar from '@/components/ui/avatar/ui-avatar.vue';
+import { useUserStore } from '@/store/users/users';
 import { UserDB } from '@/types/User';
+import { computed } from 'vue';
 
-defineProps<{
-	user: UserDB | null;
+const props = defineProps<{
+	user: UserDB;
 }>();
 
-function getFullUserName(user: UserDB | null): string {
-	if (user) {
-		return `${user.name} ${user.surName}`;
-	} else return '';
-}
+const { fullNameById } = useUserStore();
+const userFullName = computed(() => { console.log(props.user);
+	return fullNameById(props.user.id);});
+
 </script>
 
 <template>
@@ -19,7 +20,7 @@ function getFullUserName(user: UserDB | null): string {
 
 		<div class="user-block__info">
 			<h4 class="user-block__name">
-				{{ getFullUserName(user) }}
+				{{ userFullName }}
 			</h4>
 
 			<span class="user-block__login">

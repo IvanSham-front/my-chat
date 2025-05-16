@@ -3,6 +3,7 @@ import { inject, ref } from 'vue';
 import CameraIcon from '@/assets/images/camera-icon.vue';
 import { ModalInject } from '@/plugins/modal/modal.types';
 import { useAuth } from '@/hooks/useAuth';
+import UiAvatar from '../avatar/ui-avatar.vue';
 
 const modal = inject<ModalInject>('modal');
 
@@ -44,6 +45,8 @@ const onChangeFile = (e: Event) => {
 		<input type="file" class="avatar-uploader__input" accept="image/*" ref="fileInputRef" @change="onChangeFile" />
 
 		<button class="avatar-uploader__controller" @click.prevent="openUploader">
+
+			<UiAvatar class="avatar-uploader__current-avatar" :user="authUser" size="125" />
 			<div class="avatar-uploader__controller-layout">
 				<CameraIcon />
 			</div>

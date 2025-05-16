@@ -1,3 +1,17 @@
-.avatar-updater__canvas {
-	cursor: move;
+.avatar-updater {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .7rem;
+
+	&__canvas {
+		cursor: move;
+		margin-bottom: 1rem;
+	}
+
+	&__zoom-range {
+		display: flex;
+		align-items: center;
+		gap: .4rem;
+	}
 }

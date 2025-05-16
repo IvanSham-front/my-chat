@@ -28,7 +28,7 @@ const toggleShowSettings = () => {
 				<ChatList class="sidebar__chat-list"></ChatList>
 
 				<div class="sidebar__footer">
-					<UserBlock class="sidebar__user-block" :user="authUser" />
+					<UserBlock class="sidebar__user-block" :user="authUser" v-if="authUser" />
 
 					<button class="sidebar__settings-button" @click="toggleShowSettings">
 						<SettingsIcon />

@@ -75,6 +75,32 @@ export const useUserStore = defineStore('users', {
 				
 			}
 
+		},
+
+		async updateAuthUser (user: UserDB) {
+
+			const responseUser = await api.users.updateUser(user);
+
+			if (responseUser) {
+
+				this.setAuthUser(responseUser);
+				this.usersMap.set(user.id, responseUser);
+
+			}
+
+		},
+
+		async updateUserAvatar (userId: string, formData: FormData) {
+
+			const responseUser = await api.users.updateUserAvatar(userId, formData);
+
+			if (responseUser) {
+
+				this.setAuthUser(responseUser);
+				this.usersMap.set(userId, responseUser);
+
+			}
+
 		}
 
 	},
@@ -90,6 +116,7 @@ export const useUserStore = defineStore('users', {
 			return (id: string): string => {
 
 				const user = this.getUserById(id); 
+
 				return user ? `${user.name || ''} ${user.surName || ''}` : '';
 
 			};

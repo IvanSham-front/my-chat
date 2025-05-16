@@ -20,10 +20,9 @@ const props = defineProps({
 		type: String,
 		required: true,
 	},
-	modelValue: {
-		type: String,
-		default: () => ''
-	},
+	
+	modelValue: [ String, Number ],
+
 	invalid: {
 		type: Boolean,
 		default: () => false
@@ -57,10 +56,11 @@ const toggleShowPassword = () => {
 
 <template>
 	<div class="ui-text">
+
 		<input
 			:class="[
 				'ui-text__input', 
-				{ 'active': isActive }, 
+				{ 'active': isActive },
 				{ 'invalid': invalid }
 			]"
 			:type="inputType"

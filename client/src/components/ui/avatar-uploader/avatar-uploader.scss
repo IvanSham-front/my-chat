@@ -12,6 +12,7 @@
 	background: none;
 	position: relative;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .avatar-uploader__controller-layout {
@@ -29,6 +30,11 @@
 	& svg {
 		width: 80px;
 	}
+}
+
+.avatar-uploader__current-avatar {
+	position: absolute;
+	inset: 0;
 }
 
 .avatar-uploader__controller:hover {
